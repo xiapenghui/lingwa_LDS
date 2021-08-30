@@ -927,11 +927,13 @@ const regionDataComponent = ({
       <ProTable
         tableExtraRender={(_, data) => (
           <>
+		  <Card>
               <Table
                 title={() => <span style={{fontSize:'17px'}}>列表求和</span>}
                 scroll={{ x: 2500, y: 400 }}
                 rowSelection={{
                 }} columns={columns} dataSource={dataSum} pagination={false} />
+	   	</Card>
           </>
         )}
         headerTitle={

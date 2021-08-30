@@ -1,5 +1,5 @@
 import { PlusOutlined } from '@ant-design/icons';
-import { Button, message, DatePicker, Select } from 'antd';
+import { Button, message, DatePicker, Select ,Table , Row, Col, Card ,Tag  } from 'antd';
 import React, { useState, useRef, useEffect } from 'react';
 import { Link, connect } from 'umi';
 import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
@@ -39,6 +39,48 @@ const redOptionComponent = ({
     */
   const [IsUpdate, setIsUpdate] = useState(false);
   const [UpdateDate, setUpdateDate] = useState({});
+  const [dataSum, setDataSum] = useState([])
+
+
+
+
+  const columns = [
+ 
+  {
+    title: '红色类型',
+    dataIndex: 'type',
+    valueType: 'text',
+    align: 'center',
+  },
+
+  {
+    title: '红色项',
+    dataIndex: 'downtime',
+    valueType: 'text',
+    align: 'center',
+    hideInSearch: true,
+  },
+  
+  {
+    title: '红色项描述',
+    dataIndex: 'downtimedec',
+    valueType: 'text',
+    align: 'center',
+    hideInSearch: true,
+  },
+  
+
+  {
+    title: '用时',
+    dataIndex: 'usetime',
+    valueType: 'text',
+    align: 'center',
+    hideInSearch: true,
+  },
+
+  ];
+
+
 
 
   const getColumns = () => [
@@ -250,8 +292,9 @@ const redOptionComponent = ({
       PageSize: params.pageSize
     })
     return TableList.then(function (value) {
+	setDataSum(value.list.sum)
       return {
-        data: value.list,
+       data: value.list.detail,
         current: value.pageNum,
         pageSize: value.pageSize,
         success: true,
@@ -372,6 +415,17 @@ const redOptionComponent = ({
   return (
     <PageContainer>
       <ProTable
+	  tableExtraRender={(_, data) => (
+	    <>
+		<Card>
+	        <Table
+	          title={() => <span style={{fontSize:'17px'}}>列表求和</span>}
+	          rowSelection={{
+	          }} columns={columns} dataSource={dataSum} pagination={false} />
+		</Card>
+	    </>
+	  )}
+	  
         headerTitle="查询表格"
         actionRef={actionRef}
         pagination={false}
