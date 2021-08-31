@@ -42,7 +42,7 @@ const Login = (props) => {
   return (
     <div className={styles.main}>
       <div className="sysName">Lean Digitization System </div>
-      <div className="sysName sysNameCn">精益化数字系统</div>
+      <div className="sysName sysNameCn">SSPA 生产数字平台</div>
       <div id='backgroundBox' style={styles2.backgroundBox} />
 
       <LoginForm activeKey={type} onTabChange={setType} onSubmit={handleSubmit}>

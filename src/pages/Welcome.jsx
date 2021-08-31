@@ -3,7 +3,7 @@
 
 
 // export default () => (
-//   <Card>欢迎使用Lean Digitization System（精益化数字系统）</Card>
+//   <Card>欢迎使用Lean Digitization System（SSPA 生产数字平台）</Card>
 // );
 
 
