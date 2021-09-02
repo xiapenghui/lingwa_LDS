@@ -60,7 +60,7 @@ const redOptionComponent = ({
     align: 'center',
     hideInSearch: true,
   },
-  
+
   {
     title: '红色项描述',
     dataIndex: 'downtimedec',
@@ -73,6 +73,14 @@ const redOptionComponent = ({
   {
     title: '用时',
     dataIndex: 'usetime',
+    valueType: 'text',
+    align: 'center',
+    hideInSearch: true,
+  },
+
+  {
+    title: '占比',
+    dataIndex: 'pct',
     valueType: 'text',
     align: 'center',
     hideInSearch: true,

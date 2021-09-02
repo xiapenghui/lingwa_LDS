@@ -1,5 +1,5 @@
 import { CheckCircleOutlined, CloseCircleOutlined } from '@ant-design/icons';
-import { Button, message, Row, Col, Card, Select, Table, Tag, Space } from 'antd';
+import { Button, message, Row, Col, Card, Select, Table, Tag, Space, DatePicker } from 'antd';
 import React, { useState, useRef, useEffect } from 'react';
 import { Link, connect } from 'umi';
 import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
@@ -8,6 +8,7 @@ import ProDescriptions from '@ant-design/pro-descriptions';
 import CreateForm from './components/CreateForm';
 import UpdateForm from './components/UpdateForm';
 import ExportJsonExcel from 'js-export-excel';
+import moment from 'moment'
 import {
   postListInit,
   Agree,
@@ -15,6 +16,8 @@ import {
   ConfirmationDetail
 } from '@/services/organization/personnelOk';
 import Item from 'antd/lib/list/Item';
+import index from '@/pages/authorityManagement/roleInfo/components/MenuForm';
+import './components/index.css';
 
 const personnelOkComponent = ({
   infoList,
@@ -29,6 +32,7 @@ const personnelOkComponent = ({
 
   const [info, SetInfo] = useState([]);
   const [dataList, SetDataList] = useState([]);
+
 
 
 
@@ -71,16 +75,59 @@ const personnelOkComponent = ({
 
   //获取当前人员信息
   const infoData = async () => {
-    let data = await postListInit({ user: currentUser.name });
+    let data = await postListInit(
+      {
+        user: currentUser.name,
+        yearth: (moment().year()).toString(),
+        month: (moment().month() + 1).toString()
+      }
+    );
     if (data.status == '200') {
       SetInfo(data.list[0])
     }
   };
 
 
+  // 日期选择
+  const onChange = async (date, dateString) => {
+    //初始化信息
+    let data = await postListInit(
+      {
+        user: currentUser.name,
+        yearth: dateString.substring(0, 4),
+        month: dateString.substring(dateString.length - 2, dateString.length)
+      }
+    );
+    if (data.status == '200') {
+      SetInfo(data.list[0])
+    }  
+
+
+
+    //明细
+    let data2 = await ConfirmationDetail({
+      user: currentUser.name,
+      yearth: dateString.substring(0, 4),
+      month: dateString.substring(dateString.length - 2, dateString.length)
+    });
+    if (data2.status == '200') {
+      data2.list.map((item) => {
+        item.tsdate = item.tsdate.substring(0, 10)
+      })
+      SetDataList(data2.list)
+    }
+ 
+  };
+
+
   //获取当前人员信息明细
   const Confirmation = async () => {
-    let data = await ConfirmationDetail({ user: currentUser.name });
+    let data = await ConfirmationDetail(
+      {
+        user: currentUser.name,
+        yearth: (moment().year()).toString(),
+        month: (moment().month() + 1).toString()
+      });
     if (data.status == '200') {
       data.list.map((item) => {
         item.tsdate = item.tsdate.substring(0, 10)
@@ -88,6 +135,11 @@ const personnelOkComponent = ({
       SetDataList(data.list)
     }
   };
+
+
+
+
+
 
 
   //确认
@@ -133,7 +185,8 @@ const personnelOkComponent = ({
       <Card style={{ width: '100%' }}>
         <Row gutter={50} justify="center">
           <Col className="gutter-row" span={6}>
-            <div style={style}>当前时间 : <b style={{ fontSize: '15px', marginLeft: '10px' }}>{info.yearth}-{info.month}</b></div>
+            {/* <div style={style}>当前时间 : <b style={{ fontSize: '15px', marginLeft: '10px' }}>{info.yearth}-{info.month}</b></div> */}
+            <div style={style}>当前时间:<DatePicker picker="month" onChange={onChange} className="pickrStyle" defaultValue={moment()} /></div>
           </Col>
           <Col className="gutter-row" span={6}>
             <div style={style}>员工编号 :  <b style={{ fontSize: '15px', marginLeft: '10px' }}>{info.employeeno} </b></div>
