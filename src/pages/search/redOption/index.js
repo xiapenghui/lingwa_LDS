@@ -236,6 +236,40 @@ const redOptionComponent = ({
     },
 
 
+    {
+      title: '产品族',
+      dataIndex: 'productareaid',
+      valueType: 'text',
+      align: 'center',
+      width: 120,
+      hideInTable: true,
+      valueEnum: areaList.length == 0 ? {} : areaList,
+      // initialValue: IsUpdate ? UpdateDate.productareaid.toString() : '',
+      initialValue: !IsUpdate ? '' : (UpdateDate.productareaid ? UpdateDate.productareaid.toString() : ''),
+      renderFormItem: (_, { type, defaultRender, ...rest }, form) => {
+        if (type === 'form' || type === 'table') {
+          // 返回新的组件
+          let newList = []
+          for (let [key, value] of Object.entries(areaList)) {
+            newList.push({ key: key, label: value.text })
+          }
+          return <Select
+            allowClear
+            showSearch
+            optionFilterProp='children'
+          >
+            {newList.map(function (item, index) {
+              return <Select.Option key={index} value={item.key}>
+                {item.label}
+              </Select.Option>
+            })}
+          </Select>
+        }
+        return defaultRender(_);
+      },
+
+    },
+
 
 
     {
