@@ -81,4 +81,15 @@ export async function postListInit(params) {
   });
 }
 
- 
+
+
+
+/**
+ * 删除
+ */
+ export async function deleted(params) {
+  return request(`${ip}/WebAPI/api/TimeT0T3/Delete`, {
+    method: 'POST',
+    data: { ...params },
+  });
+}

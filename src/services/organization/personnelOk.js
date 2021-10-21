@@ -8,6 +8,15 @@ const ip = `${globalConfig.ip}:${globalConfig.port.yshyerp_sspa}`
 /**
  * 查询
  */
+
+export async function getDepartement() {
+  return request(`${ip}/WebAPI/api/Common/GetDepartmentIdText`, {
+    method: 'POST'
+  });
+}
+
+
+
 export async function postListInit(params) {
   return request(`${ip}/WebAPI/api/TimeManHours/Confirmation`, {
     method: 'POST',
