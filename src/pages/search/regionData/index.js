@@ -18,10 +18,10 @@ import {
   getDepartement,
   postListInit,
   getArea,
-  deleted,
+  // deleted,
   getAddDropDownInit,
-  addPost,
-  updatePut,
+  // addPost,
+  // updatePut,
 } from '@/services/search/regionData';
 import { BackgroundColor } from 'chalk';
 
@@ -766,7 +766,7 @@ const regionDataComponent = ({
   ];
 
 
-  
+
   const query = async (params, sorter, filter) => {
 
     const TableList = postListInit({
@@ -927,13 +927,13 @@ const regionDataComponent = ({
       <ProTable
         tableExtraRender={(_, data) => (
           <>
-		  <Card>
+            <Card>
               <Table
-                title={() => <span style={{fontSize:'17px'}}>列表求和</span>}
+                title={() => <span style={{ fontSize: '17px' }}>列表求和：<span style={{ color: 'red', fontSize: '15px', marginLeft: '10px' }}> *OT=考勤工时 - 休息时间 - LDS的T4, 工作时间=考勤工时 + T5</span></span>}
                 scroll={{ x: 2500, y: 400 }}
                 rowSelection={{
                 }} columns={columns} dataSource={dataSum} pagination={false} />
-	   	</Card>
+            </Card>
           </>
         )}
         headerTitle={

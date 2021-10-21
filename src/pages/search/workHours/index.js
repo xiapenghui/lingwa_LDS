@@ -143,40 +143,40 @@ const workHoursComponent = ({
       align: 'center',
       hideInSearch: true,
       fixed: 'left',
-      width:150
+      width: 150
     },
 
- 
-      {
-        title: '员工',
-        dataIndex: 'employeeid',
-        valueType: 'text',
-        align: 'center',
-        width: 150,
-        fixed:'left',
-        valueEnum: personList.length == 0 ? {} : personList,
-        initialValue: !IsUpdate ? '' : (UpdateDate.employeeid ? UpdateDate.employeeid.toString() : ''),
-        renderFormItem: (_, { type, defaultRender, ...rest }, form) => {
-          if (type === 'form' || type === 'table') {
-            // 返回新的组件
-            let newList = []
-            for (let [key, value] of Object.entries(personList)) {
-              newList.push({ key: key, label: value.text })
-            }
-            return <Select
-              allowClear
-              showSearch
-              optionFilterProp='children'
-            >
-              {newList.map(function (item, index) {
-                return <Select.Option key={index} value={item.key}>
-                  {item.label}
-                </Select.Option>
-              })}
-            </Select>
+
+    {
+      title: '员工',
+      dataIndex: 'employeeid',
+      valueType: 'text',
+      align: 'center',
+      width: 150,
+      fixed: 'left',
+      valueEnum: personList.length == 0 ? {} : personList,
+      initialValue: !IsUpdate ? '' : (UpdateDate.employeeid ? UpdateDate.employeeid.toString() : ''),
+      renderFormItem: (_, { type, defaultRender, ...rest }, form) => {
+        if (type === 'form' || type === 'table') {
+          // 返回新的组件
+          let newList = []
+          for (let [key, value] of Object.entries(personList)) {
+            newList.push({ key: key, label: value.text })
           }
-          return defaultRender(_);
-        },
+          return <Select
+            allowClear
+            showSearch
+            optionFilterProp='children'
+          >
+            {newList.map(function (item, index) {
+              return <Select.Option key={index} value={item.key}>
+                {item.label}
+              </Select.Option>
+            })}
+          </Select>
+        }
+        return defaultRender(_);
+      },
     },
 
 
@@ -202,17 +202,17 @@ const workHoursComponent = ({
     },
 
 
-    // {
-    //   title: '员工属性',
-    //   hideInTable: true,
-    //   dataIndex: 'employeepattributes',
-    //   valueType: 'text',
-    //   align: 'center',
-    //   valueEnum: ['正式工', '小时工', '领班'],
-    // },
+    {
+      title: '员工属性',
+      dataIndex: 'pattributes',
+      valueType: 'text',
+      align: 'center',
+      hideInTable: true,
+      initialValue: IsUpdate ? UpdateDate.pattributes : '',
+      valueEnum: ['正式工', '小时工', '领班', '全部'],
+    },
 
-   
-  
+
 
 
     {
@@ -222,7 +222,7 @@ const workHoursComponent = ({
       align: 'center',
       hideInSearch: true,
       fixed: 'left',
-      width:100
+      width: 100
     },
 
     {
@@ -232,7 +232,7 @@ const workHoursComponent = ({
       align: 'center',
       hideInSearch: true,
       fixed: 'left',
-      width:100
+      width: 100
     },
 
     {
@@ -242,7 +242,7 @@ const workHoursComponent = ({
       align: 'center',
       hideInSearch: true,
       fixed: 'left',
-      width:100
+      width: 100
     },
 
 
@@ -253,7 +253,7 @@ const workHoursComponent = ({
       align: 'center',
       hideInSearch: true,
     },
-    
+
     {
       title: '2',
       dataIndex: 'd02',
@@ -261,7 +261,7 @@ const workHoursComponent = ({
       align: 'center',
       hideInSearch: true,
     },
-    
+
     {
       title: '3',
       dataIndex: 'd03',
@@ -280,7 +280,7 @@ const workHoursComponent = ({
       hideInSearch: true,
     },
 
-    
+
     {
       title: '5',
       dataIndex: 'd05',
@@ -289,7 +289,7 @@ const workHoursComponent = ({
       hideInSearch: true,
     },
 
-    
+
     {
       title: '6',
       dataIndex: 'd06',
@@ -298,7 +298,7 @@ const workHoursComponent = ({
       hideInSearch: true,
     },
 
-    
+
     {
       title: '7',
       dataIndex: 'd07',
@@ -306,7 +306,7 @@ const workHoursComponent = ({
       align: 'center',
       hideInSearch: true,
     },
-    
+
     {
       title: '8',
       dataIndex: 'd08',
@@ -332,7 +332,7 @@ const workHoursComponent = ({
       align: 'center',
       hideInSearch: true,
     },
-    
+
     {
       title: '11',
       dataIndex: 'd11',
@@ -341,8 +341,8 @@ const workHoursComponent = ({
       hideInSearch: true,
     },
 
-    
-    
+
+
     {
       title: '12',
       dataIndex: 'd12',
@@ -351,7 +351,7 @@ const workHoursComponent = ({
       hideInSearch: true,
     },
 
-    
+
     {
       title: '13',
       dataIndex: 'd13',
@@ -360,7 +360,7 @@ const workHoursComponent = ({
       hideInSearch: true,
     },
 
-    
+
     {
       title: '14',
       dataIndex: 'd14',
@@ -369,7 +369,7 @@ const workHoursComponent = ({
       hideInSearch: true,
     },
 
-    
+
     {
       title: '15',
       dataIndex: 'd15',
@@ -378,7 +378,7 @@ const workHoursComponent = ({
       hideInSearch: true,
     },
 
-    
+
     {
       title: '16',
       dataIndex: 'd16',
@@ -387,7 +387,7 @@ const workHoursComponent = ({
       hideInSearch: true,
     },
 
-    
+
     {
       title: '17',
       dataIndex: 'd17',
@@ -396,7 +396,7 @@ const workHoursComponent = ({
       hideInSearch: true,
     },
 
-    
+
     {
       title: '18',
       dataIndex: 'd18',
@@ -405,7 +405,7 @@ const workHoursComponent = ({
       hideInSearch: true,
     },
 
-    
+
     {
       title: '19',
       dataIndex: 'd19',
@@ -421,7 +421,7 @@ const workHoursComponent = ({
       hideInSearch: true,
     },
 
-    
+
     {
       title: '21',
       dataIndex: 'd21',
@@ -430,7 +430,7 @@ const workHoursComponent = ({
       hideInSearch: true,
     },
 
-    
+
     {
       title: '22',
       dataIndex: 'd22',
@@ -439,7 +439,7 @@ const workHoursComponent = ({
       hideInSearch: true,
     },
 
-    
+
     {
       title: '23',
       dataIndex: 'd23',
@@ -448,7 +448,7 @@ const workHoursComponent = ({
       hideInSearch: true,
     },
 
-    
+
     {
       title: '24',
       dataIndex: 'd24',
@@ -457,7 +457,7 @@ const workHoursComponent = ({
       hideInSearch: true,
     },
 
-    
+
     {
       title: '25',
       dataIndex: 'd25',
@@ -466,7 +466,7 @@ const workHoursComponent = ({
       hideInSearch: true,
     },
 
-    
+
     {
       title: '26',
       dataIndex: 'd26',
@@ -475,7 +475,7 @@ const workHoursComponent = ({
       hideInSearch: true,
     },
 
-    
+
     {
       title: '27',
       dataIndex: 'd27',
@@ -484,7 +484,7 @@ const workHoursComponent = ({
       hideInSearch: true,
     },
 
-    
+
     {
       title: '28',
       dataIndex: 'd28',
@@ -493,7 +493,7 @@ const workHoursComponent = ({
       hideInSearch: true,
     },
 
-    
+
     {
       title: '29',
       dataIndex: 'd29',
@@ -502,7 +502,7 @@ const workHoursComponent = ({
       hideInSearch: true,
     },
 
-    
+
     {
       title: '30',
       dataIndex: 'd30',
@@ -511,7 +511,7 @@ const workHoursComponent = ({
       hideInSearch: true,
     },
 
-    
+
     {
       title: '31',
       dataIndex: 'd31',
@@ -530,13 +530,27 @@ const workHoursComponent = ({
       align: 'center',
       hideInSearch: true,
       fixed: 'right',
-      width:120
+      width: 120
     },
 
 
   ];
 
   const query = async (params, sorter, filter) => {
+    let newPattributes
+
+    if (params.pattributes == '0') {
+      newPattributes = '正式工'
+    } else if (params.pattributes == '1') {
+      newPattributes = '小时工'
+    } else if (params.pattributes == '2') {
+      newPattributes = '领班'
+    } else if (params.pattributes == '3') {
+      newPattributes = '全部'
+    } else {
+      newPattributes = ''
+    }
+
     const TableList = postListInit({
       yearth: params.yearth.substring(0, 4),
       month: params.month.substring(5, 7),
@@ -545,6 +559,7 @@ const workHoursComponent = ({
       areaid: Number(params.areaid),
       defalutshifttypeid: Number(params.defalutshifttypeid),
       employeepattributes: params.employeepattributes,
+      pattributes: newPattributes,
       PageIndex: params.current,
       PageSize: params.pageSize
 
@@ -562,72 +577,72 @@ const workHoursComponent = ({
   };
 
 
-    // 导出
-    const downloadExcel = async (selectedRows) => {
-      var option = {};
-      var dataTable = [];
-      if (selectedRows.length > 0) {
-        for (let i in selectedRows) {
-          let obj = {
-            'emploeeno': selectedRows[i].emploeeno,
-            'employeename': selectedRows[i].employeename,
-            'hour': selectedRows[i].hour,
-            'periodtime': selectedRows[i].periodtime,
-            'relax': selectedRows[i].relax,
-            'd01': selectedRows[i].d01,
-            'd02': selectedRows[i].d02,
-            'd03': selectedRows[i].d03,
-            'd04': selectedRows[i].d04,
-            'd05': selectedRows[i].d05,
-            'd06': selectedRows[i].d06,
-            'd07': selectedRows[i].d07,
-            'd08': selectedRows[i].d08,
-            'd09': selectedRows[i].d09,
-            'd10': selectedRows[i].d10,
-            'd11': selectedRows[i].d11,
-            'd12': selectedRows[i].d12,
-            'd13': selectedRows[i].d13,
-            'd14': selectedRows[i].d14,
-            'd15': selectedRows[i].d15,
-            'd16': selectedRows[i].d16,
-            'd17': selectedRows[i].d17,
-            'd18': selectedRows[i].d18,
-            'd19': selectedRows[i].d19,
-            'd20': selectedRows[i].d20,
-            'd21': selectedRows[i].d21,
-            'd22': selectedRows[i].d22,
-            'd23': selectedRows[i].d23,
-            'd24': selectedRows[i].d24,
-            'd25': selectedRows[i].d25,
-            'd26': selectedRows[i].d26,
-            'd27': selectedRows[i].d27,
-            'd28': selectedRows[i].d28,
-            'd29': selectedRows[i].d29,
-            'd30': selectedRows[i].d30,
-            'd31': selectedRows[i].d31
-      
-          }
-          dataTable.push(obj);
+  // 导出
+  const downloadExcel = async (selectedRows) => {
+    var option = {};
+    var dataTable = [];
+    if (selectedRows.length > 0) {
+      for (let i in selectedRows) {
+        let obj = {
+          'emploeeno': selectedRows[i].emploeeno,
+          'employeename': selectedRows[i].employeename,
+          'hour': selectedRows[i].hour,
+          'periodtime': selectedRows[i].periodtime,
+          'relax': selectedRows[i].relax,
+          'd01': selectedRows[i].d01,
+          'd02': selectedRows[i].d02,
+          'd03': selectedRows[i].d03,
+          'd04': selectedRows[i].d04,
+          'd05': selectedRows[i].d05,
+          'd06': selectedRows[i].d06,
+          'd07': selectedRows[i].d07,
+          'd08': selectedRows[i].d08,
+          'd09': selectedRows[i].d09,
+          'd10': selectedRows[i].d10,
+          'd11': selectedRows[i].d11,
+          'd12': selectedRows[i].d12,
+          'd13': selectedRows[i].d13,
+          'd14': selectedRows[i].d14,
+          'd15': selectedRows[i].d15,
+          'd16': selectedRows[i].d16,
+          'd17': selectedRows[i].d17,
+          'd18': selectedRows[i].d18,
+          'd19': selectedRows[i].d19,
+          'd20': selectedRows[i].d20,
+          'd21': selectedRows[i].d21,
+          'd22': selectedRows[i].d22,
+          'd23': selectedRows[i].d23,
+          'd24': selectedRows[i].d24,
+          'd25': selectedRows[i].d25,
+          'd26': selectedRows[i].d26,
+          'd27': selectedRows[i].d27,
+          'd28': selectedRows[i].d28,
+          'd29': selectedRows[i].d29,
+          'd30': selectedRows[i].d30,
+          'd31': selectedRows[i].d31
+
         }
+        dataTable.push(obj);
       }
-      option.fileName = '工时查询'
-      option.datas = [
-        {
-          sheetData: dataTable,
-          sheetName: 'sheet',
-          sheetFilter: ['emploeeno', 'employeename', 'hour', 'periodtime', 'relax', 'd01',  'd02', 'd03', 'd04', 'd05', 'd06',
+    }
+    option.fileName = '工时查询'
+    option.datas = [
+      {
+        sheetData: dataTable,
+        sheetName: 'sheet',
+        sheetFilter: ['emploeeno', 'employeename', 'hour', 'periodtime', 'relax', 'd01', 'd02', 'd03', 'd04', 'd05', 'd06',
           'd07', 'd08', 'd09', 'd10', 'd11', 'd12', 'd13', 'd14', 'd5', 'd16', 'd17', 'd18', 'd19', 'd20',
           'd21', 'd22', 'd23', 'd24', 'd25', 'd26', 'd27', 'd28', 'd29', 'd30', 'd31'],
-          sheetHeader: [ '员工编号','员工', '排班', '工时', '休假', '1', '2', '3', '4', '5', '6','7','8','9','10','11','12','13','14','15',
-          '16','17','18','19','20','21','22','23','24','25','26','27','28','29','30','31' ],
-        }
-      ];
-  
-      var toExcel = new ExportJsonExcel(option);
-      toExcel.saveExcel();
-    }
+        sheetHeader: ['员工编号', '员工', '排班', '工时', '休假', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15',
+          '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31'],
+      }
+    ];
 
-    
+    var toExcel = new ExportJsonExcel(option);
+    toExcel.saveExcel();
+  }
+
+
 
 
   return (
@@ -636,7 +651,7 @@ const workHoursComponent = ({
         headerTitle="查询表格"
         actionRef={actionRef}
         scroll={{ x: 2500, y: 500 }}
-        // pagination={false}
+        pagination={false}
         rowKey="emploeeno"
         search={{
           labelWidth: 120,
@@ -669,7 +684,7 @@ const workHoursComponent = ({
             </div>
           }
         >
-            <Button
+          <Button
             onClick={async () => {
               await downloadExcel(selectedRowsState);
               setSelectedRows([]);

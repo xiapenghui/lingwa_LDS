@@ -1,5 +1,5 @@
 import { PlusOutlined } from '@ant-design/icons';
-import { Button, message, DatePicker, Select ,Table , Row, Col, Card ,Tag  } from 'antd';
+import { Button, message, DatePicker, Select, Table, Row, Col, Card, Tag } from 'antd';
 import React, { useState, useRef, useEffect } from 'react';
 import { Link, connect } from 'umi';
 import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
@@ -13,10 +13,10 @@ import ExportJsonExcel from 'js-export-excel';
 import {
   getDropDownInit,
   postListInit,
-  deleted,
+  // deleted,
   getAddDropDownInit,
-  addPost,
-  updatePut,
+  // addPost,
+  // updatePut,
 } from '@/services/search/redOption';
 
 const redOptionComponent = ({
@@ -45,46 +45,46 @@ const redOptionComponent = ({
 
 
   const columns = [
- 
-  {
-    title: '红色类型',
-    dataIndex: 'type',
-    valueType: 'text',
-    align: 'center',
-  },
 
-  {
-    title: '红色项',
-    dataIndex: 'downtime',
-    valueType: 'text',
-    align: 'center',
-    hideInSearch: true,
-  },
+    {
+      title: '红色类型',
+      dataIndex: 'type',
+      valueType: 'text',
+      align: 'center',
+    },
 
-  {
-    title: '红色项描述',
-    dataIndex: 'downtimedec',
-    valueType: 'text',
-    align: 'center',
-    hideInSearch: true,
-  },
-  
+    {
+      title: '红色项',
+      dataIndex: 'downtime',
+      valueType: 'text',
+      align: 'center',
+      hideInSearch: true,
+    },
 
-  {
-    title: '用时',
-    dataIndex: 'usetime',
-    valueType: 'text',
-    align: 'center',
-    hideInSearch: true,
-  },
+    {
+      title: '红色项描述',
+      dataIndex: 'downtimedec',
+      valueType: 'text',
+      align: 'center',
+      hideInSearch: true,
+    },
 
-  {
-    title: '占比',
-    dataIndex: 'pct',
-    valueType: 'text',
-    align: 'center',
-    hideInSearch: true,
-  },
+
+    {
+      title: '用时',
+      dataIndex: 'usetime',
+      valueType: 'text',
+      align: 'center',
+      hideInSearch: true,
+    },
+
+    {
+      title: '占比',
+      dataIndex: 'pct',
+      valueType: 'text',
+      align: 'center',
+      hideInSearch: true,
+    },
 
   ];
 
@@ -291,6 +291,21 @@ const redOptionComponent = ({
     },
 
 
+    {
+      title: '数据来源',
+      dataIndex: 'source',
+      valueType: 'text',
+      align: 'center',
+      hideInSearch: true,
+      render: (text) => {
+        if (text == 'lds抓取') {
+         return  text = 'lds抓取'
+         } else {
+          return text = '手填'
+        }
+      }
+    },
+
 
     {
       title: '用时',
@@ -327,16 +342,16 @@ const redOptionComponent = ({
       shiftid: Number(params.shiftid),
       familyid: Number(params.familyid),
       productareaid: Number(params.productareaid),
-      type: params.type == "" || params.type == undefined  ? "" : 'T' + params.type,
+      type: params.type == "" || params.type == undefined ? "" : 'T' + params.type,
       dateStart: params.dateStart,
       dateEnd: params.dateEnd,
       PageIndex: params.current,
       PageSize: params.pageSize
     })
     return TableList.then(function (value) {
-	setDataSum(value.list.sum)
+      setDataSum(value.list.sum)
       return {
-       data: value.list.detail,
+        data: value.list.detail,
         current: value.pageNum,
         pageSize: value.pageSize,
         success: true,
@@ -457,17 +472,17 @@ const redOptionComponent = ({
   return (
     <PageContainer>
       <ProTable
-	  tableExtraRender={(_, data) => (
-	    <>
-		<Card>
-	        <Table
-	          title={() => <span style={{fontSize:'17px'}}>列表求和</span>}
-	          rowSelection={{
-	          }} columns={columns} dataSource={dataSum} pagination={false} />
-		</Card>
-	    </>
-	  )}
-	  
+        tableExtraRender={(_, data) => (
+          <>
+            <Card>
+              <Table
+                title={() => <span style={{ fontSize: '17px' }}>列表求和</span>}
+                rowSelection={{
+                }} columns={columns} dataSource={dataSum} pagination={false} />
+            </Card>
+          </>
+        )}
+
         headerTitle="查询表格"
         actionRef={actionRef}
         pagination={false}

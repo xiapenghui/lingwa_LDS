@@ -16,10 +16,10 @@ import {
   getDepartement,
   postListInit,
   getArea,
-  deleted,
+  // deleted,
   getAddDropDownInit,
-  addPost,
-  updatePut,
+  // addPost,
+  // updatePut,
 } from '@/services/search/tsSearch';
 import { BackgroundColor } from 'chalk';
 

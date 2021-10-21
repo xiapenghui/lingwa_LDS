@@ -15,10 +15,10 @@ import {
   getDepartement,
   postListInit,
   getArea,
-  deleted,
+  // deleted,
   getAddDropDownInit,
-  addPost,
-  updatePut,
+  // addPost,
+  // updatePut,
 } from '@/services/time/unscheduled';
 
 const unscheduledComponent = ({

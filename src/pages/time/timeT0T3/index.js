@@ -17,8 +17,8 @@ import {
   getArea,
   deleted,
   getAddDropDownInit,
-  addPost,
-  updatePut,
+  // addPost,
+  // updatePut,
 } from '@/services/time/timeT0T3';
 
 const timeT0T3Component = ({
@@ -472,7 +472,7 @@ const timeT0T3Component = ({
             </div>
           }
         >
-          {/* <Button
+          <Button
             onClick={async () => {
               await handleRemove(selectedRowsState);
               setSelectedRows([]);
@@ -480,9 +480,9 @@ const timeT0T3Component = ({
             }}
           >
             批量删除
-          </Button> */}
+          </Button>
 
-          <Button
+          {/* <Button
             onClick={async () => {
               await downloadExcel(selectedRowsState);
               setSelectedRows([]);
@@ -490,7 +490,7 @@ const timeT0T3Component = ({
             }}
           >
             批量导出
-          </Button>
+          </Button> */}
 
         </FooterToolbar>
       )}

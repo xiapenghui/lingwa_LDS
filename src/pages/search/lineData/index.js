@@ -13,10 +13,10 @@ import ExportJsonExcel from 'js-export-excel';
 import {
   getDropDownInit,
   postListInit,
-  deleted,
+  // deleted,
   getAddDropDownInit,
-  addPost,
-  updatePut,
+  // addPost,
+  // updatePut,
 } from '@/services/search/lineData';
 
 const lineDataComponent = ({

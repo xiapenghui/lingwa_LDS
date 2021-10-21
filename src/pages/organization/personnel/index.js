@@ -254,7 +254,7 @@ const personnelComponent = ({
       valueType: 'text',
       align: 'center',
       initialValue: IsUpdate ? UpdateDate.pattributes : '',
-      valueEnum: ['正式工', '小时工', '领班'],
+      valueEnum: ['正式工', '小时工', '领班','全部'],
       formItemProps: {
         rules: [
           {
@@ -333,7 +333,9 @@ const personnelComponent = ({
       newPattributes = '小时工'
     } else if (params.pattributes == '2') {
       newPattributes = '领班'
-    } else {
+    } else if (params.pattributes == '3'){
+      newPattributes = '全部'
+    }else {
       newPattributes = ''
     }
 
@@ -384,7 +386,9 @@ const personnelComponent = ({
         newPattributes = '小时工'
       } else if (fields.pattributes == '2') {
         newPattributes = '领班'
-      } else {
+      } else if(fields.pattributes == '3'){
+        newPattributes = '全部'
+      }else {
         newPattributes = ''
       }
 
@@ -441,6 +445,8 @@ const personnelComponent = ({
         newPattributes = '小时工'
       } else if (fields.pattributes == '领班' || fields.pattributes == '2') {
         newPattributes = '领班'
+      } else if(fields.pattributes == '全部' || fields.pattributes == '3'){
+
       } else {
         newPattributes = ''
       }
