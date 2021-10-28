@@ -39,6 +39,14 @@ export async function getShiftType() {
     method: 'POST',
   });
 }
+
+
+//员工属性接口
+export async function getListConfig() { 
+  return request(`${ip}/WebAPI/api/OrgEmployee/ListConfigPattributes`, {
+    method: 'POST',
+  });
+}
  
 
  
