@@ -240,21 +240,13 @@ const personnelComponent = ({
     // },
 
 
-
-
-
-
-
-
-
-
     {
       title: '员工属性',
       dataIndex: 'pattributes',
       valueType: 'text',
       align: 'center',
       initialValue: IsUpdate ? UpdateDate.pattributes : '',
-      valueEnum: ['正式工', '小时工', '领班','全部'],
+      valueEnum: ['正式工', '小时工', '领班','劳务工'],
       formItemProps: {
         rules: [
           {
@@ -327,15 +319,15 @@ const personnelComponent = ({
       newState = ''
     }
 
-    if (params.pattributes == '0') {
+     if (params.pattributes == '1') {
       newPattributes = '正式工'
-    } else if (params.pattributes == '1') {
-      newPattributes = '小时工'
     } else if (params.pattributes == '2') {
-      newPattributes = '领班'
+      newPattributes = '小时工'
     } else if (params.pattributes == '3'){
-      newPattributes = '全部'
-    }else {
+      newPattributes = '领班'
+    }else if (params.pattributes == '4') {
+      newPattributes = '劳务工'
+    }else{
       newPattributes = ''
     }
 
@@ -380,15 +372,15 @@ const personnelComponent = ({
         newState = ''
       }
 
-      if (fields.pattributes == '0') {
+       if (fields.pattributes == '1') {
         newPattributes = '正式工'
-      } else if (fields.pattributes == '1') {
-        newPattributes = '小时工'
       } else if (fields.pattributes == '2') {
-        newPattributes = '领班'
+        newPattributes = '小时工'
       } else if(fields.pattributes == '3'){
-        newPattributes = '全部'
-      }else {
+        newPattributes = '领班'
+      }else if(fields.pattributes == '4') {
+        newPattributes = '劳务工'
+      }else{
         newPattributes = ''
       }
 
@@ -445,8 +437,8 @@ const personnelComponent = ({
         newPattributes = '小时工'
       } else if (fields.pattributes == '领班' || fields.pattributes == '2') {
         newPattributes = '领班'
-      } else if(fields.pattributes == '全部' || fields.pattributes == '3'){
-
+      } else if(fields.pattributes == '劳务工' || fields.pattributes == '3'){
+        newPattributes = '劳务工'
       } else {
         newPattributes = ''
       }

@@ -203,19 +203,6 @@ const workHoursComponent = ({
 
 
     {
-      title: '员工属性',
-      dataIndex: 'pattributes',
-      valueType: 'text',
-      align: 'center',
-      hideInTable: true,
-      initialValue: IsUpdate ? UpdateDate.pattributes : '',
-      valueEnum: ['正式工', '小时工', '领班', '全部'],
-    },
-
-
-
-
-    {
       title: '排班',
       dataIndex: 'hour',
       valueType: 'text',
@@ -245,6 +232,15 @@ const workHoursComponent = ({
       width: 100
     },
 
+    {
+      title: '员工属性',
+      dataIndex: 'employeepattributes',
+      valueType: 'text',
+      align: 'center',
+      hideInTable: true,
+      // initialValue: IsUpdate ? UpdateDate.employeepattributes : '',
+      valueEnum: ['全部','正式工', '小时工', '领班', '劳务工' ],
+    },
 
     {
       title: '1',
@@ -520,9 +516,6 @@ const workHoursComponent = ({
       hideInSearch: true,
     },
 
-
-
-
     {
       title: '确认状态',
       dataIndex: 'state',
@@ -537,18 +530,20 @@ const workHoursComponent = ({
   ];
 
   const query = async (params, sorter, filter) => {
-    let newPattributes
-
-    if (params.pattributes == '0') {
-      newPattributes = '正式工'
-    } else if (params.pattributes == '1') {
-      newPattributes = '小时工'
-    } else if (params.pattributes == '2') {
-      newPattributes = '领班'
-    } else if (params.pattributes == '3') {
-      newPattributes = '全部'
-    } else {
-      newPattributes = ''
+    debugger
+    let newEmployeepattributes
+    if (params.employeepattributes == '0') {
+      newEmployeepattributes = '全部'
+    } else if (params.employeepattributes == '1') {
+      newEmployeepattributes = '正式工'
+    } else if (params.employeepattributes == '2') {
+      newEmployeepattributes = '小时工'
+    } else if (params.employeepattributes == '3') {
+      newEmployeepattributes = '领班'
+    } else if(params.employeepattributes == '4') {
+       newEmployeepattributes = '劳务工'
+    }else{
+      newEmployeepattributes = ''
     }
 
     const TableList = postListInit({
@@ -558,8 +553,7 @@ const workHoursComponent = ({
       employeeid: Number(params.employeeid),
       areaid: Number(params.areaid),
       defalutshifttypeid: Number(params.defalutshifttypeid),
-      employeepattributes: params.employeepattributes,
-      pattributes: newPattributes,
+      employeepattributes: newEmployeepattributes,
       PageIndex: params.current,
       PageSize: params.pageSize
 
