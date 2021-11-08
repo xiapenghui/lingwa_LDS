@@ -72,7 +72,7 @@ const personnelNumComponent = ({
 
     {
       title: '日期',
-      dataIndex: 'date',
+      dataIndex: 'tsdate',
       valueType: 'text',
       align: 'center',
       width: 120,
@@ -115,15 +115,7 @@ const personnelNumComponent = ({
 
     
 
-    {
-      title: '班别',
-      dataIndex: 'shifttypename',
-      valueType: 'text',
-      hideInSearch: true,
-      align: 'center',
-      width: 120,
-    },
-
+     
 
     {
       title: '计划人数',
@@ -247,11 +239,11 @@ const personnelNumComponent = ({
 
 
   const query = async (params, sorter, filter) => {
-    console.log(params)
+     debugger
     const TableList = postListInit({
       tsdateStart: params.tsdateStart,
       tsdateEnd: params.tsdateEnd,
-      shifttypekeyword: word,
+      shifttypekeyword: word == undefined ? '' : word  ,
       PageIndex: params.current,
       PageSize: params.pageSize
     })
@@ -352,8 +344,8 @@ const personnelNumComponent = ({
     if (selectedRows.length > 0) {
       for (let i in selectedRows) {
         let obj = {
-          'date': selectedRows[i].date,
-          'shifttypename': selectedRows[i].shifttypename,
+          'tsdate': selectedRows[i].tsdate,
+          'shifttypekeyword': selectedRows[i].shifttypekeyword,
           'plannum': selectedRows[i].plannum,
           'schedulingnum': selectedRows[i].schedulingnum,
           'cardnum': selectedRows[i].cardnum,
@@ -373,7 +365,7 @@ const personnelNumComponent = ({
       {
         sheetData: dataTable,
         sheetName: 'sheet',
-        sheetFilter: ['date', 'shifttypename', 'plannum', 'schedulingnum', 'cardnum', 'leavenum', 
+        sheetFilter: ['tsdate', 'shifttypekeyword', 'plannum', 'schedulingnum', 'cardnum', 'leavenum', 
         'annualleavenum', 'sickleavenum', 'publicleavenum', 'casualleavenum', 'hourlynum', 'fulltimenum'],
         sheetHeader: ['日期', '班别', '计划人员', '排班人员', '刷卡人员', '请假人数',
           '年假人数', '病假人数', '公假人数', '事假人数', '小时工人数', '正式工人数'],

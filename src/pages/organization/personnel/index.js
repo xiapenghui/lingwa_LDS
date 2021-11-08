@@ -509,7 +509,7 @@ const personnelComponent = ({
       <ProTable
         headerTitle="查询表格"
         actionRef={actionRef}
-scroll={{ y: 500 }}
+        scroll={{ y: 500 }}
         rowKey="employeeid"
         search={{
           labelWidth: 120,

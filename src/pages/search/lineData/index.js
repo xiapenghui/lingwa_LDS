@@ -329,11 +329,11 @@ const lineDataComponent = ({
         if (parseInt(record.ie * 100) < record.targetie) {
           return (
             <Tag color={color}>
-              {parseInt(record.ie * 100) + '%'}
+              {parseFloat((record.ie * 100).toFixed(1)) + "%"}
             </Tag>
           )
         } else {
-          return <span> {parseInt(text * 100) + '%'}</span>
+          return <span> {parseFloat((record.ie * 100).toFixed(1)) + "%"}</span>
         }
       }
     },
@@ -350,11 +350,11 @@ const lineDataComponent = ({
         if (parseInt(record.ke * 100) < record.targetke) {
           return (
             <Tag color={color}>
-              {parseInt(record.ke * 100) + '%'}
+              {parseFloat((record.ke * 100).toFixed(1)) + "%"}
             </Tag>
           )
         } else {
-          return <span> {parseInt(record.ke * 100) + '%'}</span>
+          return <span>  {parseFloat((record.ke * 100).toFixed(1)) + "%"}</span>
         }
       }
     },
@@ -367,7 +367,7 @@ const lineDataComponent = ({
       align: 'center',
       width: 120,
       render: (text) => {
-        return parseInt(text * 100) + '%';
+        return parseFloat((text* 100).toFixed(1)) + "%";
       }
     },
 
