@@ -43,13 +43,13 @@ export async function getShif() {
  * 查询
  */
 export async function postListInit(params) {
-  return request(`${ip}/WebAPI/api/KpiAreasShift/ListArea`, {
+  return request(`${ip}/WebAPI/api/KpiAreaShiftOEE/ListArea`, {
     method: 'POST',
     data: { ...params },
   });
 }
 
-
+ 
 
  
  
