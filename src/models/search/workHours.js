@@ -11,7 +11,7 @@ import {
   getArea,
   getLine,
   getRed,
-  getListConfig,
+  getPersonnel,
   deleted,
   getAddDropDownInit,
   addPost,
@@ -34,7 +34,7 @@ const Model = {
     shiftTypeList: {},
     areaList: {},
     lineList: {},
-    attributeList:{}
+    personnelList:{}
   },
 
   subscriptions: {
@@ -82,7 +82,7 @@ const Model = {
 
           
           dispatch({
-            type: 'getListConfig',
+            type: 'getPersonnel',
             payload: {}
           })
 
@@ -187,10 +187,10 @@ const Model = {
 
 
        //员工属性
-       * getListConfig({
+       * getPersonnel({
        payload,
      }, { call, put, select }) {
-       const data = yield call(getListConfig)
+       const data = yield call(getPersonnel)
        if (data.status !== '200') {
          return message.error(data.message);
        } else if (data.status == '200') {
@@ -198,7 +198,7 @@ const Model = {
          yield put({
            type: 'querySuccessed',
            payload: {
-             type: 'getListConfig',
+             type: 'getPersonnel',
              data: data.list,
            }
          })
@@ -347,10 +347,11 @@ const Model = {
           lineList: payload.data
         }
       }
-      else if (payload.type === "getListConfig") {
+       
+      else if (payload.type === "getPersonnel") {
         return {
           ...state, ...payload,
-          attributeList: payload.data
+          personnelList: payload.data
         }
       }
       else if (payload.type === 'postListInit') {
