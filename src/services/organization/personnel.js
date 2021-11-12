@@ -41,6 +41,22 @@ export async function getShiftType() {
 }
 
 
+//员工属性接口
+export async function  getPersonnel() {
+  return request(`${ip}/WebAPI/api/Common/GetEmployeePattributesIdText`, {
+    method: 'POST',
+  });
+}
+ 
+
+//员工状态接口
+export async function  getState() {
+  return request(`${ip}/WebAPI/api/Common/GetEmployeeStateIdText`, {
+    method: 'POST',
+  });
+}
+ 
+
 /**
  * 查询
  */
@@ -51,8 +67,7 @@ export async function postListInit(params) {
   });
 }
 
-
-
+ 
 /**
  * 新建保存
  */

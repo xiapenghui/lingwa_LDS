@@ -42,11 +42,12 @@ export async function getShiftType() {
 
 
 //员工属性接口
-export async function getListConfig() { 
-  return request(`${ip}/WebAPI/api/OrgEmployee/ListConfigPattributes`, {
+export async function  getPersonnel() {
+  return request(`${ip}/WebAPI/api/Common/GetEmployeePattributesIdText`, {
     method: 'POST',
   });
 }
+
  
 
  
