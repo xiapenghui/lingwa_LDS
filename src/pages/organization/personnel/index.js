@@ -25,7 +25,9 @@ const personnelComponent = ({
     departmentList,
     areaList,
     lineList,
-    shiftTypeList
+    shiftTypeList,
+    personnelList,
+    stateList
   } = personnel
   const [createModalVisible, handleModalVisible] = useState(false);
   const [updateModalVisible, handleUpdateModalVisible] = useState(false);
@@ -222,31 +224,35 @@ const personnelComponent = ({
     },
 
 
-
-    // {
-    //   title: '班别',
-    //   dataIndex: 'defaultshiftclass',
-    //   valueType: 'digit',
-    //   align: 'center',
-    //   initialValue: IsUpdate ? UpdateDate.defaultshiftclass : '',
-    //   formItemProps: {
-    //     rules: [
-    //       {
-    //         required: true,
-    //         message: '班别不能为空!',
-    //       },
-    //     ],
-    //   },
-    // },
-
-
     {
       title: '员工属性',
       dataIndex: 'pattributes',
       valueType: 'text',
       align: 'center',
-      initialValue: IsUpdate ? UpdateDate.pattributes : '',
-      valueEnum: ['正式工', '小时工', '领班','劳务工'],
+      valueEnum: personnelList.length == 0 ? {} : personnelList,
+      // initialValue: IsUpdate ? UpdateDate.defaultlineid.toString() : '',
+      initialValue: !IsUpdate ? '' : (UpdateDate.pattributes ? UpdateDate.pattributes.toString() : ''),
+      renderFormItem: (_, { type, defaultRender, ...rest }, form) => {
+        if (type === 'form' || type === 'table') {
+          // 返回新的组件
+          let newList = []
+          for (let [key, value] of Object.entries(personnelList)) {
+            newList.push({ key: key, label: value.text })
+          }
+          return <Select
+            allowClear
+            showSearch
+            optionFilterProp='children'
+          >
+            {newList.map(function (item, index) {
+              return <Select.Option key={index} value={item.key}>
+                {item.label}
+              </Select.Option>
+            })}
+          </Select>
+        }
+        return defaultRender(_);
+      },
       formItemProps: {
         rules: [
           {
@@ -257,13 +263,36 @@ const personnelComponent = ({
       },
     },
 
+ 
     {
       title: '员工状态',
       dataIndex: 'state',
       valueType: 'text',
       align: 'center',
-      initialValue: IsUpdate ? UpdateDate.state : '',
-      valueEnum: ['长病假', '离职', '在职'],
+      valueEnum: stateList.length == 0 ? {} : stateList,
+      // initialValue: IsUpdate ? UpdateDate.defaultlineid.toString() : '',
+      initialValue: !IsUpdate ? '' : (UpdateDate.state ? UpdateDate.state.toString() : ''),
+      renderFormItem: (_, { type, defaultRender, ...rest }, form) => {
+        if (type === 'form' || type === 'table') {
+          // 返回新的组件
+          let newList = []
+          for (let [key, value] of Object.entries(stateList)) {
+            newList.push({ key: key, label: value.text })
+          }
+          return <Select
+            allowClear
+            showSearch
+            optionFilterProp='children'
+          >
+            {newList.map(function (item, index) {
+              return <Select.Option key={index} value={item.key}>
+                {item.label}
+              </Select.Option>
+            })}
+          </Select>
+        }
+        return defaultRender(_);
+      },
       formItemProps: {
         rules: [
           {
@@ -273,9 +302,6 @@ const personnelComponent = ({
         ],
       },
     },
-
-
-
 
     {
       title: '备注',
@@ -307,37 +333,13 @@ const personnelComponent = ({
   ];
 
   const query = async (params, sorter, filter) => {
-    let newState
-    let newPattributes
-    if (params.state == '0') {
-      newState = '长病假'
-    } else if (params.state == '1') {
-      newState = '离职'
-    } else if (params.state == '2') {
-      newState = '在职'
-    } else {
-      newState = ''
-    }
-
-     if (params.pattributes == '1') {
-      newPattributes = '正式工'
-    } else if (params.pattributes == '2') {
-      newPattributes = '小时工'
-    } else if (params.pattributes == '3'){
-      newPattributes = '领班'
-    }else if (params.pattributes == '4') {
-      newPattributes = '劳务工'
-    }else{
-      newPattributes = ''
-    }
-
     const TableList = postListInit({
       employeeno: params.employeeno == null ? '' : params.employeeno,
       employeename: params.employeename == null ? '' : params.employeename,
       departmentid: Number(params.departmentid),
       defaultshiftclass: Number(params.defaultshiftclass),
-      state: newState,
-      pattributes: newPattributes,
+      state:  Number(params.state),
+      pattributes: Number(params.pattributes),
       PageIndex: params.current,
       PageSize: params.pageSize
     })
@@ -360,39 +362,15 @@ const personnelComponent = ({
   const handleAdd = async (fields) => {
     const hide = message.loading('正在添加');
     try {
-      let newState
-      let newPattributes
-      if (fields.state == '0') {
-        newState = '长病假'
-      } else if (fields.state == '1') {
-        newState = '离职'
-      } else if (fields.state == '2') {
-        newState = '在职'
-      } else {
-        newState = ''
-      }
-
-       if (fields.pattributes == '1') {
-        newPattributes = '正式工'
-      } else if (fields.pattributes == '2') {
-        newPattributes = '小时工'
-      } else if(fields.pattributes == '3'){
-        newPattributes = '领班'
-      }else if(fields.pattributes == '4') {
-        newPattributes = '劳务工'
-      }else{
-        newPattributes = ''
-      }
-
-      let params = {
+        let params = {
         employeeno: fields.employeeno,
         employeename: fields.employeename,
         departmentid: fields.departmentid,
         areaid: Number(fields.areaid) == null ? '' : Number(fields.areaid),
         defaultlineid: Number(fields.defaultlineid) == null ? '' : Number(fields.defaultlineid),
         defaultshiftclass: Number(fields.defaultshiftclass) == null ? '' : Number(fields.defaultshiftclass),
-        state: newState,
-        pattributes: newPattributes,
+        state:  Number(fields.state) == null ? '' : Number(fields.state),
+        pattributes: Number(fields.pattributes) == null ? '' : Number(fields.pattributes),
         remark: fields.remark,
       }
       let data = await addPost(params);
@@ -416,32 +394,9 @@ const personnelComponent = ({
 
 
   const handleUpdate = async (fields) => {
-    debugger
     const hide = message.loading('正在编辑');
     try {
-      let newState
-      let newPattributes
-      if (fields.state == '长病假' || fields.state == '0') {
-        newState = '长病假'
-      } else if (fields.state == '离职' || fields.state == '1') {
-        newState = '离职'
-      } else if (fields.state == '在职' || fields.state == '2') {
-        newState = '在职'
-      } else {
-        newState = ''
-      }
-
-      if (fields.pattributes == '正式工' || fields.pattributes == '0') {
-        newPattributes = '正式工'
-      } else if (fields.pattributes == '小时工' || fields.pattributes == '1') {
-        newPattributes = '小时工'
-      } else if (fields.pattributes == '领班' || fields.pattributes == '2') {
-        newPattributes = '领班'
-      } else if(fields.pattributes == '劳务工' || fields.pattributes == '3'){
-        newPattributes = '劳务工'
-      } else {
-        newPattributes = ''
-      }
+    
       let data = await updatePut({
         employeeid: UpdateDate.employeeid,
         employeeno: fields.employeeno,
@@ -450,8 +405,8 @@ const personnelComponent = ({
         areaid: Number(fields.areaid),
         defaultlineid: Number(fields.defaultlineid),
         defaultshiftclass: Number(fields.defaultshiftclass),
-        state: newState,
-        pattributes: newPattributes,
+        state: Number(fields.state),
+        pattributes: Number(fields.pattributes),
         remark: fields.remark,
       });
       if (data.status == '200') {

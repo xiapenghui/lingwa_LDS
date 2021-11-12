@@ -239,7 +239,6 @@ const personnelNumComponent = ({
 
 
   const query = async (params, sorter, filter) => {
-     debugger
     const TableList = postListInit({
       tsdateStart: params.tsdateStart,
       tsdateEnd: params.tsdateEnd,

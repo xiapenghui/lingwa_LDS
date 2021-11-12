@@ -35,6 +35,7 @@ const workHoursComponent = ({
     shifList,
     areaList,
     shiftTypeList,
+    personnelList,
     lineList,
     redList,
     timeaxisList
@@ -232,15 +233,58 @@ const workHoursComponent = ({
       width: 100
     },
 
+    // {
+    //   title: '员工属性',
+    //   dataIndex: 'employeepattributes',
+    //   valueType: 'text',
+    //   align: 'center',
+    //   hideInTable: true,
+    //   // initialValue: IsUpdate ? UpdateDate.employeepattributes : '',
+    //   valueEnum: ['全部','正式工', '小时工', '领班', '劳务工' ],
+    // },
+
+
     {
       title: '员工属性',
       dataIndex: 'employeepattributes',
       valueType: 'text',
       align: 'center',
       hideInTable: true,
-      // initialValue: IsUpdate ? UpdateDate.employeepattributes : '',
-      valueEnum: ['全部','正式工', '小时工', '领班', '劳务工' ],
+      valueEnum: personnelList.length == 0 ? {} : personnelList,
+      // initialValue: IsUpdate ? UpdateDate.defaultlineid.toString() : '',
+      initialValue: !IsUpdate ? '' : (UpdateDate.employeepattributes ? UpdateDate.employeepattributes.toString() : ''),
+      renderFormItem: (_, { type, defaultRender, ...rest }, form) => {
+        if (type === 'form' || type === 'table') {
+          // 返回新的组件
+          let newList = []
+          for (let [key, value] of Object.entries(personnelList)) {
+            newList.push({ key: key, label: value.text })
+          }
+          return <Select
+            allowClear
+            showSearch
+            optionFilterProp='children'
+          >
+            {newList.map(function (item, index) {
+              return <Select.Option key={index} value={item.key}>
+                {item.label}
+              </Select.Option>
+            })}
+          </Select>
+        }
+        return defaultRender(_);
+      },
+      formItemProps: {
+        rules: [
+          {
+            required: true,
+            message: '员工属性选项不能为空!',
+          },
+        ],
+      },
     },
+
+ 
 
     {
       title: '1',
@@ -530,22 +574,7 @@ const workHoursComponent = ({
   ];
 
   const query = async (params, sorter, filter) => {
-    debugger
-    let newEmployeepattributes
-    if (params.employeepattributes == '0') {
-      newEmployeepattributes = '全部'
-    } else if (params.employeepattributes == '1') {
-      newEmployeepattributes = '正式工'
-    } else if (params.employeepattributes == '2') {
-      newEmployeepattributes = '小时工'
-    } else if (params.employeepattributes == '3') {
-      newEmployeepattributes = '领班'
-    } else if(params.employeepattributes == '4') {
-       newEmployeepattributes = '劳务工'
-    }else{
-      newEmployeepattributes = ''
-    }
-
+     
     const TableList = postListInit({
       yearth: params.yearth.substring(0, 4),
       month: params.month.substring(5, 7),
@@ -553,7 +582,7 @@ const workHoursComponent = ({
       employeeid: Number(params.employeeid),
       areaid: Number(params.areaid),
       defalutshifttypeid: Number(params.defalutshifttypeid),
-      employeepattributes: newEmployeepattributes,
+      employeepattributes: params.employeepattributes,
       PageIndex: params.current,
       PageSize: params.pageSize
 
