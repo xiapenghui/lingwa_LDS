@@ -1,4 +1,4 @@
-import { PlusOutlined } from '@ant-design/icons';
+import { PlusOutlined,UploadOutlined } from '@ant-design/icons';
 import { Button, message, Select } from 'antd';
 import React, { useState, useRef, useEffect } from 'react';
 import { Link, connect } from 'umi';
@@ -38,7 +38,7 @@ const personnelComponent = ({
     */
   const [IsUpdate, setIsUpdate] = useState(false);
   const [UpdateDate, setUpdateDate] = useState({});
-
+  const [dataList, setDataList] = useState([]);
 
   const getColumns = () => [
 
@@ -341,9 +341,11 @@ const personnelComponent = ({
       state:  Number(params.state),
       pattributes: Number(params.pattributes),
       PageIndex: params.current,
-      PageSize: params.pageSize
+      // PageSize: params.pageSize
+      PageSize: 10000,
     })
     return TableList.then(function (value) {
+      setDataList(value.list);
       return {
         data: value.list,
         current: value.pageNum,
@@ -454,7 +456,41 @@ const personnelComponent = ({
 
 
 
+  // 导出
+  const downloadExcel = async () => {
+    console.log("dataList", dataList);
+    var option = {};
+    var dataTable = [];
+    if (dataList.length > 0) {
+      for (let i in dataList) {
+        let obj = {
+          'employeeno': dataList[i].employeeno,
+          'employeename': dataList[i].employeename,
+          'departmentshortname':dataList[i].departmentshortname,
+          'areaname':dataList[i].areaname,
+          'defaultlinename':dataList[i].defaultlinename,
+          'defaultshiftclassname':dataList[i].defaultshiftclassname,
+          'pattributes':dataList[i].pattributes,
+          'state':dataList[i].state,
+          'remark':dataList[i].remark,
+        }
+        dataTable.push(obj);
+      }
+    }
+    option.fileName = '员工信息'
+    option.datas = [
+      {
+        sheetData: dataTable,
+        sheetName: 'sheet',
+        sheetFilter: ['employeeno', 'employeename', 'departmentshortname','areaname','defaultlinename',
+        'defaultshiftclassname','pattributes','state','remark'],
+        sheetHeader: ['员工编号', '员工名称', '部门名称', '线体','班别','员工属性','员工状态','备注'],
+      }
+    ];
 
+    var toExcel = new ExportJsonExcel(option);
+    toExcel.saveExcel();
+  }
 
 
 
@@ -473,7 +509,10 @@ const personnelComponent = ({
         toolBarRender={() => [
           <Button type="primary" onClick={() => handleModalVisible(true)}>
             <PlusOutlined /> 新建
-          </Button>
+          </Button>,
+           <Button type="primary" onClick={() => downloadExcel()}>
+           <UploadOutlined /> 导出
+         </Button>,
         ]}
 
         request={(params, sorter, filter) => query(params, sorter, filter)}
@@ -510,6 +549,16 @@ const personnelComponent = ({
           >
             批量删除
           </Button>
+
+          {/* <Button
+            onClick={async () => {
+              await downloadExcel(selectedRowsState);
+              setSelectedRows([]);
+              actionRef.current?.reloadAndRest?.();
+            }}
+          >
+            批量导出
+          </Button> */}
         </FooterToolbar>
       )}
       <CreateForm

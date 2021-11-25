@@ -1,4 +1,4 @@
-import { PlusOutlined } from '@ant-design/icons';
+import { PlusOutlined ,UploadOutlined } from '@ant-design/icons';
 import { Button, message, Select } from 'antd';
 import React, { useState, useRef, useEffect } from 'react';
 import { Link, connect } from 'umi';
@@ -32,7 +32,7 @@ const regionComponent = ({
     */
   const [IsUpdate, setIsUpdate] = useState(false);
   const [UpdateDate, setUpdateDate] = useState({});
-
+  const [dataList, setDataList] = useState([]);
 
   const getColumns = () => [
 
@@ -126,9 +126,10 @@ const regionComponent = ({
       familyid: Number(params.familyid),
       productarea: params.productarea,
       PageIndex: params.current,
-      PageSize: params.pageSize
+      PageSize: 10000,
     })
     return TableList.then(function (value) {
+      setDataList(value.list);
       return {
         data: value.list,
         current: value.pageNum,
@@ -230,15 +231,15 @@ const regionComponent = ({
 
 
   // 导出
-  const downloadExcel = async (selectedRows) => {
+  const downloadExcel = async () => {
     var option = {};
     var dataTable = [];
-    if (selectedRows.length > 0) {
-      for (let i in selectedRows) {
+    if (dataList.length > 0) {
+      for (let i in dataList) {
         let obj = {
-          'familyname': selectedRows[i].familyname,
-          'productarea': selectedRows[i].productarea,
-          'remark': selectedRows[i].remark
+          'familyname': dataList[i].familyname,
+          'productarea': dataList[i].productarea,
+          'remark': dataList[i].remark
         }
         dataTable.push(obj);
       }
@@ -263,7 +264,7 @@ const regionComponent = ({
       <ProTable
         headerTitle="查询表格"
         actionRef={actionRef}
-scroll={{ y: 500 }}
+        scroll={{ y: 500 }}
         rowKey="productareaid"
         search={{
           labelWidth: 120,
@@ -273,6 +274,9 @@ scroll={{ y: 500 }}
           <Button type="primary" onClick={() => handleModalVisible(true)}>
             <PlusOutlined /> 新建
           </Button>,
+          <Button type="primary" onClick={() => downloadExcel()}>
+          <UploadOutlined /> 导出
+        </Button>,
         ]}
         request={(params, sorter, filter) => query(params, sorter, filter)}
         columns={getColumns()}
@@ -309,7 +313,7 @@ scroll={{ y: 500 }}
             批量删除
           </Button>
 
-          <Button
+          {/* <Button
             onClick={async () => {
               await downloadExcel(selectedRowsState);
               setSelectedRows([]);
@@ -317,7 +321,7 @@ scroll={{ y: 500 }}
             }}
           >
             批量导出
-          </Button>
+          </Button> */}
 
         </FooterToolbar>
       )}

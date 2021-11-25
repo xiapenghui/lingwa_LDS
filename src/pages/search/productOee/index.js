@@ -1,4 +1,4 @@
-import { PlusOutlined } from "@ant-design/icons";
+import { PlusOutlined ,UploadOutlined} from "@ant-design/icons";
 import {
   Button,
   message,
@@ -47,6 +47,7 @@ const productOeeComponent = ({ productOee, dispatch }) => {
   const [IsUpdate, setIsUpdate] = useState(false);
   const [UpdateDate, setUpdateDate] = useState({});
   const [dataSum, setDataSum] = useState([]);
+  const [dataList, setDataList] = useState([]);
 
   const columns = [
     {
@@ -705,10 +706,11 @@ const productOeeComponent = ({ productOee, dispatch }) => {
       tsdateStart: params.tsdateStart,
       tsdateEnd: params.tsdateEnd,
       PageIndex: params.current,
-      PageSize: params.pageSize,
+      PageSize: 10000,
     });
     return TableList.then(function (value) {
       setDataSum(value.list.sum);
+      setDataList(value.list.detail);
       return {
         data: value.list.detail,
         current: value.pageNum,
@@ -794,44 +796,44 @@ const productOeeComponent = ({ productOee, dispatch }) => {
   };
 
   // 导出
-  const downloadExcel = async (selectedRows) => {
+  const downloadExcel = async () => {
     var option = {};
     var dataTable = [];
-    if (selectedRows.length > 0) {
-      for (let i in selectedRows) {
+    if (dataList.length > 0) {
+      for (let i in dataList) {
         let obj = {
-          shiftname: selectedRows[i].shiftname,
-          productarea: selectedRows[i].productarea,
-          tsdate: selectedRows[i].tsdate,
-          ut: selectedRows[i].ut,
-          dt: selectedRows[i].dt,
-          ot: selectedRows[i].ot,
-          ts: selectedRows[i].ts,
-          OEE: parseInt(selectedRows[i].OEE * 100) + "%",
-          ie: parseInt(selectedRows[i].ie * 100) + "%",
-          targetke: parseInt(selectedRows[i].targetke) + "%",
-          targetie: parseInt(selectedRows[i].targetie) + "%",
-          ks: parseInt(selectedRows[i].ks * 100) + "%",
-          gap: selectedRows[i].gap,
-          planot: selectedRows[i].planot,
-          rot: selectedRows[i].rot,
-          relax: selectedRows[i].relax,
-          lend: selectedRows[i].lend,
-          borrow: selectedRows[i].borrow,
-          lbot: selectedRows[i].lbot,
-          t0: selectedRows[i].t0,
-          t1: selectedRows[i].t1,
-          t2: selectedRows[i].t2,
-          t3: selectedRows[i].t3,
-          t4: selectedRows[i].t4,
-          t5: selectedRows[i].t5,
-          goodparts: selectedRows[i].goodparts,
-          targetparts: selectedRows[i].targetparts,
+          'shiftname': dataList[i].shiftname,
+          'productarea': dataList[i].productarea,
+          'tsdate': dataList[i].tsdate,
+          'ut': dataList[i].ut,
+          'dt': dataList[i].dt,
+          'ot': dataList[i].ot,
+          'ts': dataList[i].ts,
+          'OEE': parseInt(dataList[i].OEE * 100) + "%",
+          'ie': parseInt(dataList[i].ie * 100) + "%",
+          'targetke': parseInt(dataList[i].targetke) + "%",
+          'targetie': parseInt(dataList[i].targetie) + "%",
+          'ks': parseInt(dataList[i].ks * 100) + "%",
+          'gap': dataList[i].gap,
+          'planot': dataList[i].planot,
+          'rot': dataList[i].rot,
+          'relax': dataList[i].relax,
+          'lend': dataList[i].lend,
+          'borrow': dataList[i].borrow,
+          'lbot': dataList[i].lbot,
+          't0': dataList[i].t0,
+          't1': dataList[i].t1,
+          't2': dataList[i].t2,
+          't3': dataList[i].t3,
+          't4': dataList[i].t4,
+          't5': dataList[i].t5,
+          'goodparts': dataList[i].goodparts,
+          'targetparts': dataList[i].targetparts,
         };
         dataTable.push(obj);
       }
     }
-    option.fileName = "产品族查询";
+    option.fileName = "产品族OEE查询";
     option.datas = [
       {
         sheetData: dataTable,
@@ -945,11 +947,14 @@ const productOeeComponent = ({ productOee, dispatch }) => {
           labelWidth: 120,
           defaultCollapsed: false,
         }}
-        // toolBarRender={() => [
-        //   <Button type="primary" onClick={() => handleModalVisible(true)}>
-        //     <PlusOutlined /> 新建
-        //   </Button>,
-        // ]}
+        toolBarRender={() => [
+          // <Button type="primary" onClick={() => handleModalVisible(true)}>
+          //   <PlusOutlined /> 新建
+          // </Button>,
+           <Button type="primary" onClick={() => downloadExcel()}>
+           <UploadOutlined /> 导出
+         </Button>,
+        ]}
 
         request={(params, sorter, filter) => query(params, sorter, filter)}
         columns={getColumns()}

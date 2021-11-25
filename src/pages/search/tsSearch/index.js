@@ -1,4 +1,4 @@
-import { PlusOutlined } from '@ant-design/icons';
+import { PlusOutlined , UploadOutlined} from '@ant-design/icons';
 import { Button, message, DatePicker, Select, Tag, Table, Row, Col } from 'antd';
 import React, { useState, useRef, useEffect } from 'react';
 import { Link, connect } from 'umi';
@@ -41,12 +41,10 @@ const tsSearchComponent = ({
   const [IsUpdate, setIsUpdate] = useState(false);
   const [UpdateDate, setUpdateDate] = useState({});
   const [dataSum, setDataSum] = useState([])
-
+  const [dataList, setDataList] = useState([]);
 
   
   const columns = [
-    
-    
     {
       title: '部门名称',
       dataIndex: 'departmentshortname',
@@ -372,10 +370,11 @@ const tsSearchComponent = ({
       tsdateStart: params.tsdateStart,
       tsdateEnd: params.tsdateEnd,
       PageIndex: params.current,
-      PageSize: params.pageSize
+      PageSize: 10000,
     })
     return TableList.then(function (value) {
       setDataSum(value.list.sum)
+      setDataList(value.list.detail);
       return {
         data: value.list.detail,
         current: value.pageNum,
@@ -464,23 +463,23 @@ const tsSearchComponent = ({
 
 
   // 导出
-  const downloadExcel = async (selectedRows) => {
+  const downloadExcel = async () => {
     var option = {};
     var dataTable = [];
-    if (selectedRows.length > 0) {
-      for (let i in selectedRows) {
+    if (dataList.length > 0) {
+      for (let i in dataList) {
         let obj = {
-          'departmentshortname': selectedRows[i].departmentshortname,
-          'tsdate': selectedRows[i].tsdate,
-          't1': selectedRows[i].t1,
-          't4': selectedRows[i].t4,
-          't5': selectedRows[i].t5,
-          'paidhour': selectedRows[i].paidhour,
-          'ke': selectedRows[i].ke,
-          'ts': selectedRows[i].ts,
-          'gap': selectedRows[i].gap,
-          'prodt4': selectedRows[i].prodt4,
-          'tstotal': selectedRows[i].tstotal,
+          'departmentshortname': dataList[i].departmentshortname,
+          'tsdate': dataList[i].tsdate,
+          't1': dataList[i].t1,
+          't4': dataList[i].t4,
+          't5': dataList[i].t5,
+          'paidhour': dataList[i].paidhour,
+          'ke': dataList[i].ke,
+          'ts': dataList[i].ts,
+          'gap': dataList[i].gap,
+          'prodt4': dataList[i].prodt4,
+          'tstotal': dataList[i].tstotal,
         }
         dataTable.push(obj);
       }
@@ -527,11 +526,14 @@ const tsSearchComponent = ({
           labelWidth: 120,
           defaultCollapsed: false,
         }}
-        // toolBarRender={() => [
-        //   <Button type="primary" onClick={() => handleModalVisible(true)}>
-        //     <PlusOutlined /> 新建
-        //   </Button>,
-        // ]}
+        toolBarRender={() => [
+          // <Button type="primary" onClick={() => handleModalVisible(true)}>
+          //   <PlusOutlined /> 新建
+          // </Button>,
+          <Button type="primary" onClick={() => downloadExcel()}>
+          <UploadOutlined /> 导出
+        </Button>,
+        ]}
  
         request={(params, sorter, filter) => query(params, sorter, filter)}
         columns={getColumns()}
@@ -569,7 +571,7 @@ const tsSearchComponent = ({
             批量删除
           </Button> */}
 
-
+{/* 
           <Button
             onClick={async () => {
               await downloadExcel(selectedRowsState);
@@ -578,7 +580,7 @@ const tsSearchComponent = ({
             }}
           >
             批量导出
-          </Button>
+          </Button> */}
 
         </FooterToolbar>
       )}

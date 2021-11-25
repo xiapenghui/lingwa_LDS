@@ -1,4 +1,4 @@
-import { PlusOutlined } from '@ant-design/icons';
+import { PlusOutlined,UploadOutlined } from '@ant-design/icons';
 import { Button, message, Select } from 'antd';
 import React, { useState, useRef, useEffect } from 'react';
 import { Link, connect } from 'umi';
@@ -33,7 +33,7 @@ const redInfoComponent = ({
   const [IsUpdate, setIsUpdate] = useState(false);
   const [UpdateDate, setUpdateDate] = useState({});
   const [isShows, setIsShows] = useState();
-
+  const [dataList, setDataList] = useState([]);
 
   const getColumns = () => [
 
@@ -202,10 +202,10 @@ const redInfoComponent = ({
       downtime: params.downtime == null ? '' : params.downtime,
       downtimedec: params.downtimedec == null ? '' : params.downtimedec,
       PageIndex: params.current,
-      PageSize: params.pageSize
+      PageSize: 10000,
     })
     return TableList.then(function (value) {
-
+      setDataList(value.list);
       return {
         data: value.list,
         current: value.pageNum,
@@ -316,16 +316,17 @@ const redInfoComponent = ({
 
 
   // 导出
-  const downloadExcel = async (selectedRows) => {
+  const downloadExcel = async () => {
     var option = {};
     var dataTable = [];
-    if (selectedRows.length > 0) {
-      for (let i in selectedRows) {
+    if (dataList.length > 0) {
+      for (let i in dataList) {
         let obj = {
-          'type': selectedRows[i].type,
-          'downtime': selectedRows[i].downtime,
-          'downtimedec': selectedRows[i].downtimedec,
-          'remark': selectedRows[i].remark,
+          'type': dataList[i].type,
+          'downtime': dataList[i].downtime,
+          'downtimedec': dataList[i].downtimedec,
+          'isshow': dataList[i].isshow ===true ?'是':'否',
+          'remark': dataList[i].remark,
 
         }
         dataTable.push(obj);
@@ -336,8 +337,8 @@ const redInfoComponent = ({
       {
         sheetData: dataTable,
         sheetName: 'sheet',
-        sheetFilter: ['type', 'downtime', 'downtimedec', 'remark'],
-        sheetHeader: ['红色类型', '红色项', '红色项名称', '备注'],
+        sheetFilter: ['type', 'downtime', 'downtimedec', 'isshow','remark'],
+        sheetHeader: ['红色类型', '红色项', '红色项名称', '支持部门', '备注'],
       }
     ];
 
@@ -362,6 +363,9 @@ const redInfoComponent = ({
           <Button type="primary" onClick={() => handleModalVisible(true)}>
             <PlusOutlined /> 新建
           </Button>,
+           <Button type="primary" onClick={() => downloadExcel()}>
+           <UploadOutlined /> 导出
+         </Button>,
         ]}
         request={(params, sorter, filter) => query(params, sorter, filter)}
         columns={getColumns()}
@@ -398,7 +402,7 @@ const redInfoComponent = ({
             批量删除
           </Button>
 
-          <Button
+          {/* <Button
             onClick={async () => {
               await downloadExcel(selectedRowsState);
               setSelectedRows([]);
@@ -406,7 +410,7 @@ const redInfoComponent = ({
             }}
           >
             批量导出
-          </Button>
+          </Button> */}
 
         </FooterToolbar>
       )}

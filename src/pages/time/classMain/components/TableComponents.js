@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Row, Col, Button, Icon, Table, Pagination, Popconfirm, Divider, message } from 'antd'
-import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import { EditOutlined, DeleteOutlined ,UploadOutlined  } from '@ant-design/icons';
 import { Link, connect } from 'umi';
 // import { ModalComponents } from './ModalComponents'
 import './index.less'
@@ -32,6 +32,7 @@ const TableComponents = ({
   PaginationComponentsChanger,
   ModalShowChanger,
   handleResetFields,
+  downloadExcel,
   staffType,
   currentUser
 }) => {
@@ -41,6 +42,7 @@ const TableComponents = ({
     columns,
     TableWidth,
     ModalWidth,
+    downloadExcel,
     data,
     pagination)
   // let { banciModalVisible, banbieModalVisible ,editModalVisible, detailsModalVisible, deleteModalVisible, EditData } = tableModels
@@ -142,7 +144,10 @@ const TableComponents = ({
     <div>
       <Row>
         <Col span={24} style={{ textAlign: 'left', marginBottom: '10px' }}>
-          <Button type="primary" onClick={() => handleModalShow('banciModalVisible')}>  <EditOutlined /> 编辑班次</Button>
+         <Button type="primary" onClick={() => downloadExcel()}>
+           <UploadOutlined /> 全部导出
+         </Button>
+          <Button type="primary" onClick={() => handleModalShow('banciModalVisible')} style={{ marginLeft: '10px' }}>  <EditOutlined /> 编辑班次</Button>
           <Button type="primary" onClick={() => handleModalShow('banbieModalVisible')} style={{ marginLeft: '10px' }}>  <EditOutlined /> 编辑班别</Button>
           <Button type="primary" onClick={() => handleModalShow('quyuModalVisible')} style={{ marginLeft: '10px' }}> <EditOutlined /> 编辑区域</Button>
           <Button type="primary" onClick={() => handleModalShow('lineModalVisible')} style={{ marginLeft: '10px' }}>  <EditOutlined /> 编辑线体</Button>

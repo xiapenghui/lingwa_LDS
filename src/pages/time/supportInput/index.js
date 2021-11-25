@@ -1,4 +1,4 @@
-import { PlusOutlined } from '@ant-design/icons';
+import { PlusOutlined ,UploadOutlined } from '@ant-design/icons';
 import { Button, message, DatePicker, Select, Input, Table } from 'antd';
 import React, { useState, useRef, useEffect } from 'react';
 import { Link, connect } from 'umi';
@@ -10,6 +10,7 @@ import CreateForm from './components/CreateForm';
 import UpdateForm from './components/UpdateForm';
 import '../../../../src/assets/commonStyle.css';
 import globalConfig from '../../../../config/defaultSettings';
+import ExportJsonExcel from 'js-export-excel';
 import {
   getDepartement,
   postListInit,
@@ -45,10 +46,8 @@ const supportInputComponent = ({
     */
   const [IsUpdate, setIsUpdate] = useState(false);
   const [UpdateDate, setUpdateDate] = useState({});
+  const [dataList, setDataList] = useState([]);
   const getColumns = () => [
-
-
-
     {
       title: '部门',
       dataIndex: 'departmentid',
@@ -150,11 +149,11 @@ const supportInputComponent = ({
       areaid: Number(params.areaid),
       tsdate: params.tsdate,
       PageIndex: params.current,
-      PageSize: params.pageSize
+      PageSize: 10000,
 
     })
     return TableList.then(function (value) {
-      console.log('value-rex', value)
+      setDataList(value.list);
       return {
         data: value.list,
         current: value.pageNum,
@@ -255,12 +254,40 @@ const supportInputComponent = ({
       return false;
     }
   };
+
+    // 导出
+    const downloadExcel = async () => {
+      var option = {};
+      var dataTable = [];
+      if (dataList.length > 0) {
+        for (let i in dataList) {
+          let obj = {
+            'departmentshortname': dataList[i].departmentshortname,
+            'tsdate': dataList[i].tsdate,
+            'period':dataList[i].period
+          };
+          dataTable.push(obj);
+        }
+      }
+      option.fileName = '部门录入信息'
+      option.datas = [
+        {
+          sheetData: dataTable,
+          sheetName: 'sheet',
+          sheetFilter: ['departmentshortname', 'tsdate', 'period'],
+          sheetHeader: ['部门', '日期', '用时'],
+        }
+      ];
+      var toExcel = new ExportJsonExcel(option);
+      toExcel.saveExcel();
+    };
+  
   return (
     <PageContainer>
       <ProTable
         headerTitle="查询表格"
         actionRef={actionRef}
-scroll={{ y: 500 }}
+       scroll={{ y: 500 }}
         rowKey="id"
         search={{
           labelWidth: 120,
@@ -270,6 +297,9 @@ scroll={{ y: 500 }}
           <Button type="primary" onClick={() => handleModalVisible(true)}>
             <PlusOutlined /> 新建
           </Button>,
+           <Button type="primary" onClick={() => downloadExcel()}>
+           <UploadOutlined /> 导出
+         </Button>,
         ]}
         request={(params, sorter, filter) => query(params, sorter, filter)}
         columns={getColumns()}

@@ -1,4 +1,4 @@
-import { PlusOutlined } from '@ant-design/icons';
+import { PlusOutlined ,UploadOutlined } from '@ant-design/icons';
 import { Button, message, DatePicker, Select, Input, Table } from 'antd';
 import ProForm, {
   ProFormDatePicker
@@ -51,6 +51,7 @@ const workHoursComponent = ({
     */
   const [IsUpdate, setIsUpdate] = useState(false);
   const [UpdateDate, setUpdateDate] = useState({});
+  const [dataList, setDataList] = useState([]);
   const { Option } = Select;
   const getColumns = () => [
 
@@ -584,11 +585,11 @@ const workHoursComponent = ({
       defalutshifttypeid: Number(params.defalutshifttypeid),
       employeepattributes: params.employeepattributes,
       PageIndex: params.current,
-      PageSize: params.pageSize
+      PageSize: 10000,
 
     })
     return TableList.then(function (value) {
-      console.log('value-rex', value)
+      setDataList(value.list);
       return {
         data: value.list,
         current: value.pageNum,
@@ -601,48 +602,48 @@ const workHoursComponent = ({
 
 
   // 导出
-  const downloadExcel = async (selectedRows) => {
+  const downloadExcel = async () => {
     var option = {};
     var dataTable = [];
-    if (selectedRows.length > 0) {
-      for (let i in selectedRows) {
+    if (dataList.length > 0) {
+      for (let i in dataList) {
         let obj = {
-          'emploeeno': selectedRows[i].emploeeno,
-          'employeename': selectedRows[i].employeename,
-          'hour': selectedRows[i].hour,
-          'periodtime': selectedRows[i].periodtime,
-          'relax': selectedRows[i].relax,
-          'd01': selectedRows[i].d01,
-          'd02': selectedRows[i].d02,
-          'd03': selectedRows[i].d03,
-          'd04': selectedRows[i].d04,
-          'd05': selectedRows[i].d05,
-          'd06': selectedRows[i].d06,
-          'd07': selectedRows[i].d07,
-          'd08': selectedRows[i].d08,
-          'd09': selectedRows[i].d09,
-          'd10': selectedRows[i].d10,
-          'd11': selectedRows[i].d11,
-          'd12': selectedRows[i].d12,
-          'd13': selectedRows[i].d13,
-          'd14': selectedRows[i].d14,
-          'd15': selectedRows[i].d15,
-          'd16': selectedRows[i].d16,
-          'd17': selectedRows[i].d17,
-          'd18': selectedRows[i].d18,
-          'd19': selectedRows[i].d19,
-          'd20': selectedRows[i].d20,
-          'd21': selectedRows[i].d21,
-          'd22': selectedRows[i].d22,
-          'd23': selectedRows[i].d23,
-          'd24': selectedRows[i].d24,
-          'd25': selectedRows[i].d25,
-          'd26': selectedRows[i].d26,
-          'd27': selectedRows[i].d27,
-          'd28': selectedRows[i].d28,
-          'd29': selectedRows[i].d29,
-          'd30': selectedRows[i].d30,
-          'd31': selectedRows[i].d31
+          'emploeeno': dataList[i].emploeeno,
+          'employeename': dataList[i].employeename,
+          'hour': dataList[i].hour,
+          'periodtime': dataList[i].periodtime,
+          'relax': dataList[i].relax,
+          'd01': dataList[i].d01,
+          'd02': dataList[i].d02,
+          'd03': dataList[i].d03,
+          'd04': dataList[i].d04,
+          'd05': dataList[i].d05,
+          'd06': dataList[i].d06,
+          'd07': dataList[i].d07,
+          'd08': dataList[i].d08,
+          'd09': dataList[i].d09,
+          'd10': dataList[i].d10,
+          'd11': dataList[i].d11,
+          'd12': dataList[i].d12,
+          'd13': dataList[i].d13,
+          'd14': dataList[i].d14,
+          'd15': dataList[i].d15,
+          'd16': dataList[i].d16,
+          'd17': dataList[i].d17,
+          'd18': dataList[i].d18,
+          'd19': dataList[i].d19,
+          'd20': dataList[i].d20,
+          'd21': dataList[i].d21,
+          'd22': dataList[i].d22,
+          'd23': dataList[i].d23,
+          'd24': dataList[i].d24,
+          'd25': dataList[i].d25,
+          'd26': dataList[i].d26,
+          'd27': dataList[i].d27,
+          'd28': dataList[i].d28,
+          'd29': dataList[i].d29,
+          'd30': dataList[i].d30,
+          'd31': dataList[i].d31
 
         }
         dataTable.push(obj);
@@ -681,6 +682,13 @@ const workHoursComponent = ({
           defaultCollapsed: false,
         }}
 
+        toolBarRender={() => [
+          <Button type="primary" onClick={() => downloadExcel()}>
+          <UploadOutlined /> 导出
+        </Button>,
+
+        ]}
+
         request={(params, sorter, filter) => query(params, sorter, filter)}
         columns={getColumns()}
         rowSelection={{
@@ -707,15 +715,7 @@ const workHoursComponent = ({
             </div>
           }
         >
-          <Button
-            onClick={async () => {
-              await downloadExcel(selectedRowsState);
-              setSelectedRows([]);
-              actionRef.current?.reloadAndRest?.();
-            }}
-          >
-            批量导出
-          </Button>
+           
         </FooterToolbar>
       )}
       <CreateForm

@@ -1,4 +1,4 @@
-import { PlusOutlined } from '@ant-design/icons';
+import { PlusOutlined,UploadOutlined } from "@ant-design/icons";
 import { Button, message, DatePicker, Select, Tag, Checkbox } from 'antd';
 import React, { useState, useRef, useEffect } from 'react';
 import { Link, connect } from 'umi';
@@ -10,6 +10,7 @@ import globalConfig from '../../../../config/defaultSettings';
 import CreateForm from './components/CreateForm';
 import UpdateForm from './components/UpdateForm';
 import ExportJsonExcel from 'js-export-excel';
+
 import {
   getDropDownInit,
   postListInit,
@@ -36,13 +37,12 @@ const personnelNumComponent = ({
   const [selectedRowsState, setSelectedRows] = useState([]);
   const [word, setWord] = useState();
 
-
   /**
     * 编辑初始化
     */
   const [IsUpdate, setIsUpdate] = useState(false);
   const [UpdateDate, setUpdateDate] = useState({});
-
+  const [dataList, setDataList] = useState([]);
 
   const getColumns = () => [
     {
@@ -85,7 +85,7 @@ const personnelNumComponent = ({
       valueType: 'text',
       align: 'center',
       width: 120,
-      hideInTable: true,
+      // hideInTable: true,
       valueEnum: shiftTypeList2.length == 0 ? {} : shiftTypeList2,
       renderFormItem: (_, { type, defaultRender, ...rest }, form) => {
         console.log(type)
@@ -244,9 +244,11 @@ const personnelNumComponent = ({
       tsdateEnd: params.tsdateEnd,
       shifttypekeyword: word == undefined ? '' : word  ,
       PageIndex: params.current,
-      PageSize: params.pageSize
+      // PageSize: params.pageSize
+      PageSize: 10000,
     })
     return TableList.then(function (value) {
+      setDataList(value.list);
       return {
         data: value.list,
         current: value.pageNum,
@@ -336,26 +338,27 @@ const personnelNumComponent = ({
   };
 
 
-  // 导出
-  const downloadExcel = async (selectedRows) => {
+   // 导出
+   const downloadExcel = async () => {
+    console.log("dataList", dataList);
     var option = {};
     var dataTable = [];
-    if (selectedRows.length > 0) {
-      for (let i in selectedRows) {
+    if (dataList.length > 0) {
+      for (let i in dataList) {
         let obj = {
-          'tsdate': selectedRows[i].tsdate,
-          'shifttypekeyword': selectedRows[i].shifttypekeyword,
-          'plannum': selectedRows[i].plannum,
-          'schedulingnum': selectedRows[i].schedulingnum,
-          'cardnum': selectedRows[i].cardnum,
-          'leavenum': selectedRows[i].leavenum,
-          'annualleavenum': selectedRows[i].annualleavenum,
-          'sickleavenum': selectedRows[i].sickleavenum,
-          'publicleavenum': selectedRows[i].publicleavenum,
-          'casualleavenum': selectedRows[i].casualleavenum,
-          'hourlynum': selectedRows[i].hourlynum,
-          'fulltimenum': selectedRows[i].fulltimenum,
-        }
+          'tsdate': dataList[i].tsdate,
+          'shifttypekeyword': dataList[i].shifttypekeyword,
+          'plannum': dataList[i].plannum,
+          'schedulingnum': dataList[i].schedulingnum,
+          'cardnum': dataList[i].cardnum,
+          'leavenum': dataList[i].leavenum,
+          'annualleavenum': dataList[i].annualleavenum,
+          'sickleavenum': dataList[i].sickleavenum,
+          'publicleavenum': dataList[i].publicleavenum,
+          'casualleavenum': dataList[i].casualleavenum,
+          'hourlynum': dataList[i].hourlynum,
+          'fulltimenum': dataList[i].fulltimenum,
+        };
         dataTable.push(obj);
       }
     }
@@ -370,11 +373,11 @@ const personnelNumComponent = ({
           '年假人数', '病假人数', '公假人数', '事假人数', '小时工人数', '正式工人数'],
       }
     ];
-
     var toExcel = new ExportJsonExcel(option);
     toExcel.saveExcel();
-  }
+  };
 
+ 
 
   return (
     <PageContainer>
@@ -392,6 +395,9 @@ const personnelNumComponent = ({
           // <Button type="primary" onClick={() => handleModalVisible(true)}>
           //   <PlusOutlined /> 新建
           // </Button>,
+          <Button type="primary" onClick={() => downloadExcel()}>
+            <UploadOutlined /> 导出
+          </Button>,
         ]}
         request={(params, sorter, filter) => query(params, sorter, filter)}
         columns={getColumns()}
@@ -428,15 +434,6 @@ const personnelNumComponent = ({
             批量删除
           </Button> */}
 
-          <Button
-            onClick={async () => {
-              await downloadExcel(selectedRowsState);
-              setSelectedRows([]);
-              actionRef.current?.reloadAndRest?.();
-            }}
-          >
-            批量导出
-          </Button>
 
         </FooterToolbar>
       )}

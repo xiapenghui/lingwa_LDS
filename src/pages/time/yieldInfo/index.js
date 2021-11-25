@@ -1,4 +1,4 @@
-import { PlusOutlined } from '@ant-design/icons';
+import { PlusOutlined ,UploadOutlined } from '@ant-design/icons';
 import { Button, message, DatePicker, Select, Input, Table } from 'antd';
 import React, { useState, useRef, useEffect } from 'react';
 import { Link, connect } from 'umi';
@@ -10,6 +10,7 @@ import CreateForm from './components/CreateForm';
 import UpdateForm from './components/UpdateForm';
 import '../../../../src/assets/commonStyle.css';
 import globalConfig from '../../../../config/defaultSettings';
+import ExportJsonExcel from 'js-export-excel';
 import {
   getDepartement,
   postListInit,
@@ -45,12 +46,8 @@ const yieldInfoComponent = ({
     */
   const [IsUpdate, setIsUpdate] = useState(false);
   const [UpdateDate, setUpdateDate] = useState({});
+  const [dataList, setDataList] = useState([]);
   const getColumns = () => [
-
-
-
-
-
     {
       title: '时间从',
       dataIndex: 'tsdateStart',
@@ -238,11 +235,11 @@ const yieldInfoComponent = ({
       tsdateStart: params.tsdateStart,
       tsdateEnd: params.tsdateEnd,
       PageIndex: params.current,
-      PageSize: params.pageSize
+      PageSize: 10000,
 
     })
     return TableList.then(function (value) {
-      console.log('value-rex', value)
+      setDataList(value.list);
       return {
         data: value.list,
         current: value.pageNum,
@@ -341,6 +338,38 @@ const yieldInfoComponent = ({
       return false;
     }
   };
+
+     // 导出
+  const downloadExcel = async () => {
+    var option = {};
+    var dataTable = [];
+    if (dataList.length > 0) {
+      for (let i in dataList) {
+        let obj = {
+          'tsdate': dataList[i].tsdate,
+          'shiftname': dataList[i].shiftname,
+          'linename':dataList[i].linename,
+          'shiftparts':dataList[i].shiftparts
+        };
+        dataTable.push(obj);
+      }
+    }
+    option.fileName = '目标产量信息'
+    option.datas = [
+      {
+        sheetData: dataTable,
+        sheetName: 'sheet',
+        sheetFilter: ['tsdate', 'shiftname', 'linename','shiftparts'],
+        sheetHeader: ['日期', '班次', '线体', '产量'],
+      }
+    ];
+    var toExcel = new ExportJsonExcel(option);
+    toExcel.saveExcel();
+  };
+
+
+
+
   return (
     <PageContainer>
       <ProTable
@@ -356,6 +385,9 @@ const yieldInfoComponent = ({
           <Button type="primary" onClick={() => handleModalVisible(true)}>
             <PlusOutlined /> 新建
           </Button>,
+          <Button type="primary" onClick={() => downloadExcel()}>
+          <UploadOutlined /> 导出
+        </Button>,
         ]}
         request={(params, sorter, filter) => query(params, sorter, filter)}
         columns={getColumns()}

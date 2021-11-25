@@ -46,7 +46,7 @@ const dayFrequencyComponent = ({
   const [visible, setVisible] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [newData, setnewData] = useState();
-
+  const [dataList, setDataList] = useState([]);
 
 
   /**
@@ -539,12 +539,11 @@ const dayFrequencyComponent = ({
       tsdate: params.tsdate,
       // PageIndex: params.current,
       // PageSize: params.pageSize
+      PageSize: 10000,
 
     })
     return TableList.then(function (value) {
-      console.log('value-rex', value)
-      setvalList(value.list)
-
+      setDataList(value.list);
       return {
         data: value.list,
         // current: value.pageNum,
@@ -722,28 +721,29 @@ const dayFrequencyComponent = ({
 
   // 导出
   const downloadExcel = async () => {
-    setLoadings(true);
     var option = {};
     var dataTable = [];
-    for (let i in valList) {
-      let obj = {
-        'tsdate': valList[i].tsdate,
-        'shiftname': valList[i].shiftname,
-        'employeename': valList[i].employeename,
-        'hour': valList[i].hour,
-        'period': valList[i].period,
-        'gap': valList[i].gap,
-        'productarea': valList[i].productarea,
-        'relax': valList[i].relax,
-        'lend': valList[i].lend,
-        'borrow': valList[i].borrow,
-        't4': valList[i].t4,
-        't5': valList[i].t5,
-        'linename': valList[i].linename,
-        'relaxtype': valList[i].relaxtype,
-        'lendarea': valList[i].lendarea,
+    if (dataList.length > 0) {
+      for (let i in dataList) {
+        let obj = {
+        'tsdate': dataList[i].tsdate,
+        'shiftname': dataList[i].shiftname,
+        'employeename': dataList[i].employeename,
+        'hour': dataList[i].hour,
+        'period': dataList[i].period,
+        'gap': dataList[i].gap,
+        'productarea': dataList[i].productarea,
+        'relax': dataList[i].relax,
+        'lend': dataList[i].lend,
+        'borrow': dataList[i].borrow,
+        't4': dataList[i].t4,
+        't5': dataList[i].t5,
+        'linename': dataList[i].linename,
+        'relaxtype': dataList[i].relaxtype,
+        'lendarea': dataList[i].lendarea,
       }
       dataTable.push(obj);
+     }
     }
 
     option.fileName = '每日排班管理'
@@ -760,7 +760,6 @@ const dayFrequencyComponent = ({
 
     var toExcel = new ExportJsonExcel(option);
     toExcel.saveExcel();
-    setLoadings(false)
   }
 
 
@@ -795,10 +794,8 @@ const dayFrequencyComponent = ({
           <Button type="primary" onClick={() => handleModalVisible(true)}>
             <PlusOutlined /> 新建
           </Button>,
-          <Button type="primary" loading={loadings}
-            onClick={() => downloadExcel(true)}
-          >
-            <UploadOutlined />  批量导出
+            <Button type="primary" onClick={() => downloadExcel()}>
+            <UploadOutlined /> 导出
           </Button>,
 
           <Button type="primary" onClick={handleUp}>

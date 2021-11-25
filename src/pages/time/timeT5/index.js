@@ -1,4 +1,4 @@
-import { PlusOutlined } from '@ant-design/icons';
+import { PlusOutlined ,UploadOutlined} from '@ant-design/icons';
 import { Button, message, DatePicker, Select, Input, Table } from 'antd';
 import React, { useState, useRef, useEffect } from 'react';
 import { Link, connect } from 'umi';
@@ -10,6 +10,7 @@ import CreateForm from './components/CreateForm';
 import UpdateForm from './components/UpdateForm';
 import '../../../../src/assets/commonStyle.css';
 import globalConfig from '../../../../config/defaultSettings';
+import ExportJsonExcel from 'js-export-excel';
 import {
   getDepartement,
   postListInit,
@@ -47,6 +48,8 @@ const timeT5Component = ({
     */
   const [IsUpdate, setIsUpdate] = useState(false);
   const [UpdateDate, setUpdateDate] = useState({});
+  const [dataList, setDataList] = useState([]);
+  
   const getColumns = () => [
 
     {
@@ -522,11 +525,11 @@ const timeT5Component = ({
       dateStart: params.timefrom,
       dateEnd: params.timeto,
       PageIndex: params.current,
-      PageSize: params.pageSize
+      PageSize: 10000,
 
     })
     return TableList.then(function (value) {
-      console.log('value-rex', value)
+      setDataList(value.list);
       return {
         data: value.list,
         current: value.pageNum,
@@ -663,6 +666,47 @@ const timeT5Component = ({
       return false;
     }
   };
+
+
+   // 导出
+   const downloadExcel = async () => {
+    var option = {};
+    var dataTable = [];
+    if (dataList.length > 0) {
+      for (let i in dataList) {
+        let obj = {
+          'type': dataList[i].type,
+          'downtime': dataList[i].downtime,
+          'date':dataList[i].date,
+          'timeaxis':dataList[i].timeaxis,
+          'departmentshortname':dataList[i].departmentshortname,
+          'employeename':dataList[i].employeename,
+          'shift':dataList[i].shift,
+          'familyname':dataList[i].familyname,
+          'productarea':dataList[i].productarea,
+          'linename':dataList[i].linename,
+          'usetime':dataList[i].usetime,
+        };
+        dataTable.push(obj);
+      }
+    }
+    option.fileName = 'T5信息'
+    option.datas = [
+      {
+        sheetData: dataTable,
+        sheetName: 'sheet',
+        sheetFilter: ['type', 'downtime', 'date','timeaxis','departmentshortname','employeename','shift','familyname',
+      'productarea','linename','usetime'],
+        sheetHeader: ['红色类型', '红色项', '日期', '时间段','部门','员工','班次','工厂名称','产品族','线体','用时'],
+      }
+    ];
+    var toExcel = new ExportJsonExcel(option);
+    toExcel.saveExcel();
+  };
+
+
+
+
   return (
     <PageContainer>
       <ProTable
@@ -678,6 +722,10 @@ const timeT5Component = ({
           <Button type="primary" onClick={() => handleModalVisible(true)}>
             <PlusOutlined /> 新建
           </Button>,
+
+        <Button type="primary" onClick={() => downloadExcel()}>
+           <UploadOutlined /> 导出
+        </Button>,
         ]}
         request={(params, sorter, filter) => query(params, sorter, filter)}
         columns={getColumns()}

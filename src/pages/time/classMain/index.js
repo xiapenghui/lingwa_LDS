@@ -1,4 +1,4 @@
-import { PlusOutlined } from '@ant-design/icons';
+import { PlusOutlined ,UploadOutlined } from '@ant-design/icons';
 import { Form, Input, Button, Row, Col, DatePicker, InputNumber, Radio, Select, message } from 'antd'
 import React, { useState, useRef, useEffect } from 'react';
 import { Link, connect } from 'umi';
@@ -9,7 +9,7 @@ import BanciForm from './components/BanciForm';
 import BanbieForm from './components/BanbieForm';
 import QuyuForm from './components/QuyuForm';
 import LineForm from './components/LineForm';
-
+import ExportJsonExcel from 'js-export-excel';
 import { PageContainer } from '@ant-design/pro-layout';
 import moment from 'moment'
 const formItemLayout = {
@@ -250,8 +250,42 @@ const Component = ({
     //从这里要调用父组件来清空Form新增表单域
     // handleResetFields('AddFormLayout')
   }
+ 
 
-  console.log('TableList-component', TableModelsData)
+    // 导出
+    const downloadExcel = async () => {
+      var option = {};
+      var dataTable = [];
+      if (TableData.length > 0) {
+        for (let i in TableData) {
+          let obj = {
+            'departmentshortname': TableData[i].departmentshortname,
+            'employeename': TableData[i].employeename,
+            'areaname':TableData[i].areaname,
+            'defaultlinename':TableData[i].defaultlinename,
+            'defalutshifttypename':TableData[i].defalutshifttypename,
+            'defaultshiftclassname':TableData[i].defaultshiftclassname,
+            'shifthour':TableData[i].shifthour,
+
+          };
+          dataTable.push(obj);
+        }
+      }
+      option.fileName = '班别班次维护'
+      option.datas = [
+        {
+          sheetData: dataTable,
+          sheetName: 'sheet',
+          sheetFilter: ['departmentshortname', 'employeename', 'areaname','defaultlinename',
+        'defalutshifttypename','defaultshiftclassname','shifthour'],
+          sheetHeader: ['部门', '员工', '区域','线体','班别','班次','花费时间'],
+        }
+      ];
+      var toExcel = new ExportJsonExcel(option);
+      toExcel.saveExcel();
+    };
+
+
   return (
 
     <div>
@@ -366,9 +400,9 @@ const Component = ({
         </Row>
       </Form>
 
-
-
+  
       <TableComponents
+        downloadExcel={downloadExcel}
         scroll={{y: 500 }}
         tableName={TableName}
         data={TableData}
@@ -382,6 +416,8 @@ const Component = ({
         handleResetFields={handleResetFields}
         ModalShowChanger={ModalShowChanger}
       />
+
+
 
       <BanciForm
         ModalTitle='编辑班次'
@@ -428,6 +464,8 @@ const Component = ({
         tableName={TableName}
         data={TableModelsData}
       />
+
+        
 
 
     </div>

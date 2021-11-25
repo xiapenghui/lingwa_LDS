@@ -1,4 +1,4 @@
-import { PlusOutlined } from '@ant-design/icons';
+import { PlusOutlined ,UploadOutlined} from '@ant-design/icons';
 import { Button, message, DatePicker, Select, Input, Table } from 'antd';
 import React, { useState, useRef, useEffect } from 'react';
 import { Link, connect } from 'umi';
@@ -11,6 +11,7 @@ import UpdateForm from './components/UpdateForm';
 import '../../../../src/assets/commonStyle.css';
 import globalConfig from '../../../../config/defaultSettings';
 import './components/common.css';
+import ExportJsonExcel from 'js-export-excel';
 import {
   getDepartement,
   postListInit,
@@ -43,7 +44,7 @@ const supportTimeComponent = ({
   const [newSum, setNewSum] = useState(0);
   const [newDisf, setNewDisf] = useState(0);
   const [newEff, setNewEff] = useState(0);
-
+  const [dataList, setDataList] = useState([]);
 
 
 
@@ -336,10 +337,11 @@ const supportTimeComponent = ({
       tsdateStart: params.tsdateStart,
       tsdateEnd: params.tsdateEnd,
       PageIndex: params.current,
-      PageSize: params.pageSize
+      PageSize: 10000,
 
     })
     return TableList.then(function (value) {
+      setDataList(value.list);
       return {
         data: value.list,
         current: value.pageNum,
@@ -450,12 +452,48 @@ const supportTimeComponent = ({
       return false;
     }
   };
+
+ // 导出
+ const downloadExcel = async () => {
+  var option = {};
+  var dataTable = [];
+  if (dataList.length > 0) {
+    for (let i in dataList) {
+      let obj = {
+        'departmentshortname': dataList[i].departmentshortname,
+        'tsdate': dataList[i].tsdate,
+        't1':dataList[i].t1,
+        't4':dataList[i].t4,
+        't5':dataList[i].t5,
+        'paidhour':dataList[i].paidhour,
+        'ke':(dataList[i].ke * 100) + '%',
+        'ts':dataList[i].ts,
+        'gap':dataList[i].gap
+      };
+      dataTable.push(obj);
+    }
+  }
+  option.fileName = '支持时间录入'
+  option.datas = [
+    {
+      sheetData: dataTable,
+      sheetName: 'sheet',
+      sheetFilter: ['departmentshortname', 'tsdate','t1','t4','t5','paidhour',
+      'ke', 'ts','gap'],
+      sheetHeader: ['部门名称', '日期', 'T1','T4','T5','paidhour','效率','TS','Gap'],
+    }
+  ];
+  var toExcel = new ExportJsonExcel(option);
+  toExcel.saveExcel();
+};
+
+
   return (
     <PageContainer>
       <ProTable
         headerTitle="查询表格"
         actionRef={actionRef}
-scroll={{ y: 500 }}
+        scroll={{ y: 500 }}
         rowKey="id"
         search={{
           labelWidth: 120,
@@ -463,6 +501,10 @@ scroll={{ y: 500 }}
         toolBarRender={() => [
           <Button type="primary" onClick={() => handleModalVisible(true)}>
             <PlusOutlined /> 新建
+          </Button>,
+
+          <Button type="primary" onClick={() => downloadExcel()}>
+          <UploadOutlined /> 导出
           </Button>,
         ]}
         request={(params, sorter, filter) => query(params, sorter, filter)}

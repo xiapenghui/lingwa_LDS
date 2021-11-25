@@ -1,4 +1,4 @@
-import { PlusOutlined } from '@ant-design/icons';
+import { PlusOutlined ,UploadOutlined} from '@ant-design/icons';
 import { Button, message, DatePicker, Select, Input, Table } from 'antd';
 import React, { useState, useRef, useEffect } from 'react';
 import { Link, connect } from 'umi';
@@ -10,6 +10,7 @@ import CreateForm from './components/CreateForm';
 import UpdateForm from './components/UpdateForm';
 import '../../../../src/assets/commonStyle.css';
 import globalConfig from '../../../../config/defaultSettings';
+import ExportJsonExcel from 'js-export-excel';
 import {
   getDepartement,
   postListInit,
@@ -45,11 +46,9 @@ const productKpiComponent = ({
     */
   const [IsUpdate, setIsUpdate] = useState(false);
   const [UpdateDate, setUpdateDate] = useState({});
+  const [dataList, setDataList] = useState([]);
+
   const getColumns = () => [
-
-
-
-
     {
       title: '日期',
       dataIndex: 'tsdate',
@@ -417,11 +416,11 @@ const productKpiComponent = ({
       lineid: Number(params.lineid),
       tsdate: params.tsdate,
       PageIndex: params.current,
-      PageSize: params.pageSize
+      PageSize: 10000,
 
     })
     return TableList.then(function (value) {
-      console.log('value-rex', value)
+      setDataList(value.list);
       return {
         data: value.list,
         current: value.pageNum,
@@ -559,6 +558,59 @@ const productKpiComponent = ({
       return false;
     }
   };
+
+
+ // 导出
+ const downloadExcel = async () => {
+  var option = {};
+  var dataTable = [];
+  if (dataList.length > 0) {
+    for (let i in dataList) {
+      let obj = {
+        'tsdate': dataList[i].tsdate,
+        'shiftname': dataList[i].shiftname,
+        'productarea':dataList[i].productarea,
+        'ot':dataList[i].ot,
+        'ut':dataList[i].ut,
+        'dt':dataList[i].dt,
+        'goodparts':dataList[i].goodparts,
+        'ts':dataList[i].ts,
+        't0':dataList[i].t0,
+        't1':dataList[i].t1,
+        't2':dataList[i].t2,
+        't3':dataList[i].t3,
+        't4':dataList[i].t4,
+        't5':dataList[i].t5,
+        'targetparts':dataList[i].targetparts,
+        'targetke':dataList[i].targetke,
+        'targetie':dataList[i].targetie,
+        'targetprr':dataList[i].targetprr,
+        'lend':dataList[i].lend,
+        'borrow':dataList[i].borrow,
+        'relax':dataList[i].relax,
+      };
+      dataTable.push(obj);
+    }
+  }
+  option.fileName = '产品族kpi管理'
+  option.datas = [
+    {
+      sheetData: dataTable,
+      sheetName: 'sheet',
+      sheetFilter: ['tsdate', 'shiftname', 'productarea','ot','ut','dt','goodparts','ts','t0','t1','t2','t3',
+      't4','t5','targetparts','targetke','targetie','targetprr','lend','borrow','relax'],
+      sheetHeader: ['日期', '班次', '产品族', 'ou','ut','dt','产量','ts','t0','t1','t2','t3','t4','t5',
+      '目标产量','目标ke','目标ie','目标prr','借出','借入','休假'],
+    }
+  ];
+  var toExcel = new ExportJsonExcel(option);
+  toExcel.saveExcel();
+};
+
+
+
+
+
   return (
     <PageContainer>
       <ProTable
@@ -574,6 +626,9 @@ const productKpiComponent = ({
           <Button type="primary" onClick={() => handleModalVisible(true)}>
             <PlusOutlined /> 新建
           </Button>,
+           <Button type="primary" onClick={() => downloadExcel()}>
+           <UploadOutlined /> 导出
+         </Button>,
         ]}
         request={(params, sorter, filter) => query(params, sorter, filter)}
         columns={getColumns()}

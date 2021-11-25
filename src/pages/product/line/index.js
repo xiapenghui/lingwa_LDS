@@ -1,4 +1,4 @@
-import { PlusOutlined } from '@ant-design/icons';
+import { PlusOutlined ,UploadOutlined } from '@ant-design/icons';
 import { Button, message, Select } from 'antd';
 import React, { useState, useRef, useEffect } from 'react';
 import { Link, connect } from 'umi';
@@ -34,7 +34,7 @@ const lineComponent = ({
     */
   const [IsUpdate, setIsUpdate] = useState(false);
   const [UpdateDate, setUpdateDate] = useState({});
-
+  const [dataList, setDataList] = useState([]);
 
   const getColumns = () => [
 
@@ -196,9 +196,10 @@ const lineComponent = ({
       productareaid: Number(params.productareaid),
       productarea: params.productarea == null ? '' : params.productarea,
       PageIndex: params.current,
-      PageSize: params.pageSize
+      PageSize: 10000,
     })
     return TableList.then(function (value) {
+      setDataList(value.list);
       return {
         data: value.list,
         current: value.pageNum,
@@ -305,16 +306,18 @@ const lineComponent = ({
   };
 
   // 导出
-  const downloadExcel = async (selectedRows) => {
+  const downloadExcel = async () => {
     var option = {};
     var dataTable = [];
-    if (selectedRows.length > 0) {
-      for (let i in selectedRows) {
+    if (dataList.length > 0) {
+      for (let i in dataList) {
         let obj = {
-          'lineno': selectedRows[i].lineno,
-          'linename': selectedRows[i].linename,
-          'familyname': selectedRows[i].familyname,
-          'remark': selectedRows[i].remark,
+          'lineno': dataList[i].lineno,
+          'linename': dataList[i].linename,
+          'familyname': dataList[i].familyname,
+          'targetKE': dataList[i].targetKE,
+          'targetIE': dataList[i].targetIE,
+          'remark': dataList[i].remark,
 
         }
         dataTable.push(obj);
@@ -325,8 +328,8 @@ const lineComponent = ({
       {
         sheetData: dataTable,
         sheetName: 'sheet',
-        sheetFilter: ['lineno', 'linename', 'familyname', 'remark'],
-        sheetHeader: ['线体编号', '线体名称', '所属工厂', '备注'],
+        sheetFilter: ['lineno', 'linename', 'familyname', 'targetKE','targetIE','remark'],
+        sheetHeader: ['线体编号', '线体名称', '所属工厂', '目标KE', '目标IE', '备注'],
       }
     ];
 
@@ -349,6 +352,9 @@ scroll={{ y: 500 }}
           <Button type="primary" onClick={() => handleModalVisible(true)}>
             <PlusOutlined /> 新建
           </Button>,
+           <Button type="primary" onClick={() => downloadExcel()}>
+           <UploadOutlined /> 导出
+         </Button>,
         ]}
         request={(params, sorter, filter) => query(params, sorter, filter)}
         columns={getColumns()}
@@ -386,7 +392,7 @@ scroll={{ y: 500 }}
           </Button>
 
 
-          <Button
+          {/* <Button
             onClick={async () => {
               await downloadExcel(selectedRowsState);
               setSelectedRows([]);
@@ -394,7 +400,7 @@ scroll={{ y: 500 }}
             }}
           >
             批量导出
-          </Button>
+          </Button> */}
 
         </FooterToolbar>
       )}

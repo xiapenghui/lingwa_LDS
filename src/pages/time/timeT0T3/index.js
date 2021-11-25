@@ -1,4 +1,4 @@
-import { PlusOutlined } from '@ant-design/icons';
+import { PlusOutlined ,UploadOutlined} from '@ant-design/icons';
 import { Button, message, DatePicker, Select, Input, Table } from 'antd';
 import React, { useState, useRef, useEffect } from 'react';
 import { Link, connect } from 'umi';
@@ -39,17 +39,17 @@ const timeT0T3Component = ({
   const actionRef = useRef();
   const [selectedRowsState, setSelectedRows] = useState([]);
   // const [areaList, setareaList] = useState([]);
-
+ 
 
   /**
     * 编辑初始化
     */
   const [IsUpdate, setIsUpdate] = useState(false);
   const [UpdateDate, setUpdateDate] = useState({});
+  const [dataList, setDataList] = useState([]);
+
+
   const getColumns = () => [
-
-
-
     {
       title: '时间从',
       dataIndex: 'timefrom',
@@ -256,11 +256,11 @@ const timeT0T3Component = ({
       dateStart: params.timefrom,
       dateEnd: params.timeto,
       PageIndex: params.current,
-      PageSize: params.pageSize
+      PageSize: 10000,
 
     })
     return TableList.then(function (value) {
-      console.log('value-rex', value)
+      setDataList(value.list);
       return {
         data: value.list,
         current: value.pageNum,
@@ -394,22 +394,20 @@ const timeT0T3Component = ({
 
 
   // 导出
-  const downloadExcel = async (selectedRows) => {
+  const downloadExcel = async () => {
     var option = {};
     var dataTable = [];
-    if (selectedRows.length > 0) {
-      for (let i in selectedRows) {
+    if (dataList.length > 0) {
+      for (let i in dataList) {
         let obj = {
-          'type': selectedRows[i].type,
-          'downtime': selectedRows[i].downtime,
-          'date': selectedRows[i].date,
-          'timeaxis': selectedRows[i].timeaxis,
-          'departmentname': selectedRows[i].departmentname,
-          'employeename': selectedRows[i].employeename,
-          'shift': selectedRows[i].shift,
-          'familyname': selectedRows[i].familyname,
-          'linename': selectedRows[i].linename,
-          'usetime': selectedRows[i].usetime
+          'linename': dataList[i].linename,
+          'date': dataList[i].date,
+          'shift': dataList[i].shift,
+          'type': dataList[i].type,
+          'downtime': dataList[i].downtime,
+          'downtimedec': dataList[i].downtimedec,
+          'familyname': dataList[i].familyname,
+          'usetime': dataList[i].usetime
         }
         dataTable.push(obj);
       }
@@ -419,10 +417,9 @@ const timeT0T3Component = ({
       {
         sheetData: dataTable,
         sheetName: 'sheet',
-        sheetFilter: ['type', 'downtime', 'date', 'timeaxis', 'departmentname', 'employeename',
-          'shift', 'familyname', 'linename', 'usetime', 'remark'
-        ],
-        sheetHeader: ['红色类型', '红色项', '日期', '时间段', '部门', '员工', '班次', '工厂名称', '线体', '用时'],
+        sheetFilter: ['linename', 'date', 'shift', 'type','downtime', 'downtimedec', 'familyname',
+          'usetime' ],
+        sheetHeader: ['线体', '日期', '班次', '红色类型', '红色项', '红色描述', '产品族', '用时'],
       }
     ];
 
@@ -446,6 +443,9 @@ const timeT0T3Component = ({
           // <Button type="primary" onClick={() => handleModalVisible(true)}>
           //   <PlusOutlined /> 新建
           // </Button>,
+          <Button type="primary" onClick={() => downloadExcel()}>
+          <UploadOutlined /> 导出
+        </Button>,
         ]}
         request={(params, sorter, filter) => query(params, sorter, filter)}
         columns={getColumns()}

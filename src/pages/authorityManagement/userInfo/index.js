@@ -1,14 +1,4 @@
-
-// import React from 'react';
-// import { Card } from 'antd';
-
-
-// export default () => (
-//   <Card>欢迎使用Pro</Card>
-// );
-
-
-import { PlusOutlined } from '@ant-design/icons';
+import { PlusOutlined ,UploadOutlined  } from '@ant-design/icons';
 import { Divider, Button, message, Popconfirm } from 'antd';
 import React, { useState, useRef, useEffect } from 'react';
 import { Link, connect } from 'umi';
@@ -17,6 +7,7 @@ import ProTable from '@ant-design/pro-table';
 import ProDescriptions from '@ant-design/pro-descriptions';
 import CreateForm from './components/CreateForm';
 import UpdateForm from './components/UpdateForm';
+import ExportJsonExcel from 'js-export-excel';
 
 import {
   getDropDownInit,
@@ -47,6 +38,7 @@ const Component = ({
     */
   const [IsUpdate, setIsUpdate] = useState(false);
   const [UpdateDate, setUpdateDate] = useState({});
+  const [dataList, setDataList] = useState([]);
 
 
   const getColumns = () => [
@@ -152,7 +144,7 @@ const Component = ({
   const query = async (params, sorter, filter) => {
     const TableList = postListInit({
       "pageNum": params.current,
-      "pageSize": params.pageSize,
+      "pageSize": 10000,
       "data": {
         name: params.name,
         cname: params.cname,
@@ -160,6 +152,7 @@ const Component = ({
       }
     })
     return TableList.then(function (value) {
+      setDataList(value.data.list);
       return {
         data: value.data.list,
         current: value.data.pageNum,
@@ -293,13 +286,45 @@ const Component = ({
       return false;
     }
   };
-  console.log('TableList-component', userInfo, UpdateDate)
+    
+
+  // 导出
+  const downloadExcel = async () => {
+    var option = {};
+    var dataTable = [];
+    if (dataList.length > 0) {
+      for (let i in dataList) {
+        let obj = {
+          'code': dataList[i].code,
+          'name': dataList[i].name,
+          'title':dataList[i].title,
+          'department':dataList[i].department,
+          'cname':dataList[i].cname
+        }
+        dataTable.push(obj);
+      }
+    }
+    option.fileName = '用户管理'
+    option.datas = [
+      {
+        sheetData: dataTable,
+        sheetName: 'sheet',
+        sheetFilter: ['code', 'property','title','department','cname'],
+        sheetHeader: ['编号', '用户',  '中文名','部门','职位'],
+      }
+    ];
+
+    var toExcel = new ExportJsonExcel(option);
+    toExcel.saveExcel();
+  }
+
+
   return (
     <PageContainer>
       <ProTable
         headerTitle="查询表格"
         actionRef={actionRef}
-scroll={{ y: 500 }}
+        scroll={{ y: 500 }}
         rowKey="id"
         search={{
           labelWidth: 120,
@@ -309,6 +334,9 @@ scroll={{ y: 500 }}
           <Button type="primary" onClick={() => handleModalVisible(true)}>
             <PlusOutlined /> 新建
           </Button>,
+          <Button type="primary" onClick={() => downloadExcel()}>
+          <UploadOutlined /> 导出
+        </Button>,
         ]}
         request={(params, sorter, filter) => query(params, sorter, filter)}
         columns={getColumns()}
