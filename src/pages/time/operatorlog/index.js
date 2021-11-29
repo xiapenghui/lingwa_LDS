@@ -1,36 +1,46 @@
-import { PlusOutlined ,UploadOutlined} from '@ant-design/icons';
-import { Button, message } from 'antd';
+import { PlusOutlined ,UploadOutlined } from '@ant-design/icons';
+import { Button, message, DatePicker, Select, Input, Table } from 'antd';
 import React, { useState, useRef, useEffect } from 'react';
 import { Link, connect } from 'umi';
 import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
 import ProTable from '@ant-design/pro-table';
 import ProDescriptions from '@ant-design/pro-descriptions';
+import moment from 'moment'
 import CreateForm from './components/CreateForm';
 import UpdateForm from './components/UpdateForm';
+import '../../../../src/assets/commonStyle.css';
+import globalConfig from '../../../../config/defaultSettings';
 import ExportJsonExcel from 'js-export-excel';
-
 import {
-  getDropDownInit,
+  getDepartement,
   postListInit,
-  deleted,
+  getArea,
+  // deleted,
   getAddDropDownInit,
-  addPost,
-  updatePut,
-} from '@/services/product/number';
+  // addPost,
+  // updatePut,
+} from '@/services/time/operatorlog';
 
-const numberComponent = ({
-  number,
+const unscheduledComponent = ({
+  operatorlog,
   dispatch
 }) => {
   const {
-    TableList,
-    typeList,
-    riskList,
-    isNoList, } = number
+    departmentList,
+    productList,
+    personList,
+    shifList,
+    areaList,
+    lineList,
+    redList
+  } = operatorlog
   const [createModalVisible, handleModalVisible] = useState(false);
   const [updateModalVisible, handleUpdateModalVisible] = useState(false);
   const actionRef = useRef();
   const [selectedRowsState, setSelectedRows] = useState([]);
+  // const [areaList, setareaList] = useState([]);
+
+
   /**
     * 编辑初始化
     */
@@ -41,87 +51,166 @@ const numberComponent = ({
   const getColumns = () => [
 
 
-    {
-      title: '产品编号',
-      dataIndex: 'productno',
-      valueType: 'text',
-      align: 'center',
-      initialValue: IsUpdate ? UpdateDate.productno : '',
-      formItemProps: {
-        rules: [
-          {
-            required: true,
-            message: '产品编号不能为空!',
-          },
-        ],
-      },
-    },
-    {
-      title: '产品名称',
-      dataIndex: 'productname',
-      valueType: 'text',
-      align: 'center',
-      initialValue: IsUpdate ? UpdateDate.productname : '',
-      formItemProps: {
-        rules: [
-          {
-            required: true,
-            message: '产品名称不能为空!',
-          },
-        ],
-      },
-    },
 
     {
-      title: '产品类型',
-      dataIndex: 'producttypeid',
+      title: '姓名',
+      dataIndex: 'OperatorName',
       valueType: 'text',
-      align: 'center',
-      initialValue: IsUpdate ? UpdateDate.producttypeid : '',
-      formItemProps: {
-        rules: [
-          {
-            required: true,
-            message: '产品类型不能为空!',
-          },
-        ],
-      },
-    },
-
-
-    {
-      title: '备注',
-      dataIndex: 'remark',
-      valueType: 'textarea',
       align: 'center',
       hideInSearch: true,
-      initialValue: IsUpdate ? UpdateDate.remark : '',
     },
+
 
 
     {
-      title: '操作',
-      dataIndex: 'option',
-      valueType: 'option',
+      title: '线体id',
+      dataIndex: 'LineID',
+      valueType: 'text',
       align: 'center',
-      render: (_, record) => (
-        <>
-          <a onClick={() => {
-            setIsUpdate(true)
-            setUpdateDate({ ...record });
-            handleUpdateModalVisible(true);
-          }}
-          >编辑</a>
-        </>
-      ),
+      hideInSearch: true,
     },
+
+    {
+      title: '时间从',
+      dataIndex: 'TSFrom',
+      // valueType: 'dateTime',
+      valueType: 'date',
+      align: 'center',
+      hideInTable:true,
+      initialValue: new Date()
+    },
+
+    {
+      title: '时间至',
+      dataIndex: 'TSTo',
+      // valueType: 'dateTime',
+      valueType: 'date',
+      align: 'center',
+      hideInTable:true,
+      initialValue: new Date()
+    },
+
+    {
+      title: '日期',
+      dataIndex: 'TSDate',
+      // valueType: 'dateTime',
+      valueType: 'date',
+      align: 'center',
+      hideInTable:true,
+      initialValue: new Date()
+    },
+
+
+
+    {
+      title: '班次',
+      dataIndex: 'shiftid',
+      valueType: 'text',
+      align: 'center',
+      hideInTable:true,
+      initialValue: ['早班'],
+      valueEnum: shifList.length == 0 ? {} : shifList,
+      renderFormItem: (_, { type, defaultRender, ...rest }, form) => {
+        if (type) {
+          // 返回新的组件
+          let newList = []
+          for (let [key, value] of Object.entries(shifList)) {
+            if (value.text != '全部') {
+              newList.push({ key: key, label: value.text })
+            }
+          }
+          return <Select
+            allowClear
+            showSearch
+            allowClear={false}
+            optionFilterProp='children'
+          >
+            {newList.map(function (item, index) {
+              return <Select.Option key={index} value={item.key} >
+                {item.label}
+              </Select.Option>
+            })}
+          </Select>
+        }
+        return defaultRender(_);
+      },
+    },
+
+    {
+      title: '版本',
+      dataIndex: 'templateID',
+      valueType: 'text',
+      align: 'center',
+      hideInSearch: true,
+    },
+
+    {
+      title: '时间段',
+      dataIndex: 'hourid',
+      valueType: 'text',
+      align: 'center',
+      hideInSearch: true,
+    },
+
+    {
+      title: '工时',
+      dataIndex: 'period',
+      valueType: 'text',
+      align: 'center',
+      hideInSearch: true,
+    },
+    
+    {
+      title: '工号',
+      dataIndex: 'periOperatorNOod',
+      valueType: 'text',
+      align: 'center',
+      hideInSearch: true,
+    },
+
+    {
+      title: '休息时间',
+      dataIndex: 'breakperiod',
+      valueType: 'text',
+      align: 'center',
+      hideInSearch: true,
+    },
+
+    {
+      title: '区域' ,
+      dataIndex: 'areaid',
+      valueType: 'text',
+      align: 'center',
+      hideInSearch: true,
+    },
+
+    // {
+    //   title: '操作',
+    //   dataIndex: 'option',
+    //   valueType: 'option',
+    //   align: 'center',
+    //   render: (_, record) => (
+    //     <>
+
+    //       <a onClick={() => {
+    //         setIsUpdate(true)
+    //         setUpdateDate({ ...record });
+    //         handleUpdateModalVisible(true);
+    //       }}
+    //       >编辑</a>
+    //     </>
+    //   ),
+    // },
   ];
 
-  const query = async (params, sorter, filter) => {
 
+
+
+  const query = async (params, sorter, filter) => {
     const TableList = postListInit({
-      productno: params.productno == null ? '' : params.productno,
-      productname: params.productname == null ? '' : params.productname,
+      tsdate: params.tsdate,
+      shiftid: params.shiftid[0] == "早班" ? 1 : Number(params.shiftid),
+      areaid: params.productareaid[0] == "NW" ? 30 : Number(params.productareaid),
       PageIndex: params.current,
       PageSize: 10000,
     })
@@ -135,10 +224,30 @@ const numberComponent = ({
         total: value.total
       }
     });
+  };
 
-  
 
-  }
+
+  // changeProduct = async (value) => {
+  //   try {
+  //     let data = await getArea({ familyid: value });
+  //     
+  //     if (data.status == '200') {
+  //       setareaList(data.list)
+  //       message.success(data.message);
+  //       return true;
+  //     } else {
+  //       message.error(data.message);
+  //       return false;
+  //     }
+  //   } catch (error) {
+  //     message.error('添加失败请重试！');
+  //     return false;
+  //   }
+  // }
+
+
+
   /**
    * 添加节点
    * @param fields
@@ -146,8 +255,12 @@ const numberComponent = ({
 
   const handleAdd = async (fields) => {
     const hide = message.loading('正在添加');
+    let params = {
+      date: fields.date,
+     shiftid: Number(fields.shiftid) == null ? '' : Number(fields.shiftid),
+    }
     try {
-      let data = await addPost(fields);
+      let data = await addPost(params);
       if (data.status == '200') {
         hide();
         message.success(data.message);
@@ -169,9 +282,20 @@ const numberComponent = ({
 
   const handleUpdate = async (fields) => {
     const hide = message.loading('正在编辑');
-    console.log('handleUpdate', fields)
     try {
-      let data = await updatePut({ productid: UpdateDate.productid, ...fields });
+      let data = await updatePut({
+        id: UpdateDate.id,
+        departmentid: Number(fields.departmentid),
+        employeeid: Number(fields.employeeid),
+        shiftid: Number(fields.shiftid),
+        lineid: Number(fields.lineid),
+        supporttimeid: Number(fields.supporttimeid),
+        date: fields.date,
+        timefrom: fields.timefrom,
+        timeto: fields.timeto,
+        type: 'T5',
+        // ...fields
+      });
       if (data.status == '200') {
         hide();
         message.success(data.message);
@@ -182,6 +306,7 @@ const numberComponent = ({
       }
     } catch (error) {
       message.error('编辑失败请重试！');
+      hide();
       return false;
     }
   };
@@ -196,7 +321,7 @@ const numberComponent = ({
 
     try {
       let data = await deleted({
-        productids: selectedRows.map((row) => row.productid),
+        ids: selectedRows.map((row) => row.id),
       });
 
       if (data.status == '200') {
@@ -215,35 +340,44 @@ const numberComponent = ({
     }
   };
 
-  // 导出
-  const downloadExcel = async () => {
+
+   // 导出
+   const downloadExcel = async () => {
     var option = {};
     var dataTable = [];
     if (dataList.length > 0) {
       for (let i in dataList) {
         let obj = {
-          'productno': dataList[i].productno,
-          'productname': dataList[i].productname,
-          'remark':dataList[i].remark,
-        }
+          'OperatorName': dataList[i].OperatorName,
+          'LineID': dataList[i].LineID,
+          'TSFrom':dataList[i].TSFrom,
+          'TSTo':dataList[i].TSTo,
+          'TSDate':dataList[i].TSDate,
+          'ShiftID':dataList[i].ShiftID,
+          'templateID':dataList[i].templateID,
+          'hourid':dataList[i].hourid,
+          'period':dataList[i].period,
+          'OperatorNO':dataList[i].OperatorNO,
+          'breakperiod':dataList[i].breakperiod,
+          'areaid':dataList[i].areaid,
+        };
         dataTable.push(obj);
       }
     }
-    option.fileName = '产品信息'
+    option.fileName = '已登出未排班人员'
     option.datas = [
       {
         sheetData: dataTable,
         sheetName: 'sheet',
-        sheetFilter: ['productno', 'productname','remark'],
-        sheetHeader: ['产品编号', '产品名称',  '备注'],
+        sheetFilter: ['OperatorName', 'LineID', 'TSFrom','TSTo','TSDate', 'ShiftID','templateID',
+      'hourid','period','OperatorNO','breakperiod','areaid'],
+        sheetHeader: ['姓名', '线体', '时间从', '时间至','日期','班次','版本','时间段','工时','工号','休息时间',
+      '区域'],
       }
     ];
-
     var toExcel = new ExportJsonExcel(option);
     toExcel.saveExcel();
-  }
-
-
+  };
 
   return (
     <PageContainer>
@@ -251,19 +385,18 @@ const numberComponent = ({
         headerTitle="查询表格"
         actionRef={actionRef}
         scroll={{ y: 500 }}
-        rowKey="productid"
+        rowKey="id"
         search={{
           labelWidth: 120,
 
         }}
         toolBarRender={() => [
-          <Button type="primary" onClick={() => handleModalVisible(true)}>
-            <PlusOutlined /> 新建
-          </Button>,
+          // <Button type="primary" onClick={() => handleModalVisible(true)}>
+          //   <PlusOutlined /> 新建
+          // </Button>,
           <Button type="primary" onClick={() => downloadExcel()}>
           <UploadOutlined /> 导出
         </Button>,
-
         ]}
         request={(params, sorter, filter) => query(params, sorter, filter)}
         columns={getColumns()}
@@ -290,7 +423,7 @@ const numberComponent = ({
             </div>
           }
         >
-          <Button
+          {/* <Button
             onClick={async () => {
               await handleRemove(selectedRowsState);
               setSelectedRows([]);
@@ -298,16 +431,6 @@ const numberComponent = ({
             }}
           >
             批量删除
-          </Button>
-
-          {/* <Button
-            onClick={async () => {
-              await downloadExcel(selectedRowsState);
-              setSelectedRows([]);
-              actionRef.current?.reloadAndRest?.();
-            }}
-          >
-            批量导出
           </Button> */}
 
         </FooterToolbar>
@@ -329,7 +452,7 @@ const numberComponent = ({
               }
             }
           }}
-          rowKey="productid"
+          rowKey="id"
           type="form"
           columns={getColumns()}
         />
@@ -358,7 +481,7 @@ const numberComponent = ({
                 }
               }
             }}
-            rowKey="productid"
+            rowKey="id"
             type="form"
             columns={getColumns()}
 
@@ -370,7 +493,7 @@ const numberComponent = ({
   );
 };
 
-export default connect(({ number }) => ({ number }))(numberComponent);
+export default connect(({ operatorlog }) => ({ operatorlog }))(unscheduledComponent);
 
 
 

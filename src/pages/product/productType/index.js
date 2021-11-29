@@ -16,17 +16,17 @@ import {
   getAddDropDownInit,
   addPost,
   updatePut,
-} from '@/services/product/number';
+} from '@/services/product/productType';
 
 const numberComponent = ({
-  number,
+  productType,
   dispatch
 }) => {
   const {
     TableList,
     typeList,
     riskList,
-    isNoList, } = number
+    isNoList, } = productType
   const [createModalVisible, handleModalVisible] = useState(false);
   const [updateModalVisible, handleUpdateModalVisible] = useState(false);
   const actionRef = useRef();
@@ -42,42 +42,11 @@ const numberComponent = ({
 
 
     {
-      title: '产品编号',
-      dataIndex: 'productno',
-      valueType: 'text',
-      align: 'center',
-      initialValue: IsUpdate ? UpdateDate.productno : '',
-      formItemProps: {
-        rules: [
-          {
-            required: true,
-            message: '产品编号不能为空!',
-          },
-        ],
-      },
-    },
-    {
-      title: '产品名称',
-      dataIndex: 'productname',
-      valueType: 'text',
-      align: 'center',
-      initialValue: IsUpdate ? UpdateDate.productname : '',
-      formItemProps: {
-        rules: [
-          {
-            required: true,
-            message: '产品名称不能为空!',
-          },
-        ],
-      },
-    },
-
-    {
       title: '产品类型',
-      dataIndex: 'producttypeid',
+      dataIndex: 'producttype',
       valueType: 'text',
       align: 'center',
-      initialValue: IsUpdate ? UpdateDate.producttypeid : '',
+      initialValue: IsUpdate ? UpdateDate.producttype : '',
       formItemProps: {
         rules: [
           {
@@ -88,6 +57,24 @@ const numberComponent = ({
       },
     },
 
+
+    {
+      title: '类型描述',
+      dataIndex: 'producttypedec',
+      valueType: 'textarea',
+      align: 'center',
+      initialValue: IsUpdate ? UpdateDate.producttypedec : '',
+      formItemProps: {
+        rules: [
+          {
+            required: true,
+            message: '类型描述不能为空!',
+          },
+        ],
+      },
+    },
+
+  
 
     {
       title: '备注',
@@ -222,8 +209,8 @@ const numberComponent = ({
     if (dataList.length > 0) {
       for (let i in dataList) {
         let obj = {
-          'productno': dataList[i].productno,
-          'productname': dataList[i].productname,
+          'producttype': dataList[i].producttype,
+          'producttypedec': dataList[i].producttypedec,
           'remark':dataList[i].remark,
         }
         dataTable.push(obj);
@@ -234,8 +221,8 @@ const numberComponent = ({
       {
         sheetData: dataTable,
         sheetName: 'sheet',
-        sheetFilter: ['productno', 'productname','remark'],
-        sheetHeader: ['产品编号', '产品名称',  '备注'],
+        sheetFilter: ['producttype', 'producttypedec','remark'],
+        sheetHeader: ['产品类型', '类型描述',  '备注'],
       }
     ];
 
@@ -370,7 +357,7 @@ const numberComponent = ({
   );
 };
 
-export default connect(({ number }) => ({ number }))(numberComponent);
+export default connect(({ productType }) => ({ productType }))(numberComponent);
 
 
 

@@ -157,6 +157,42 @@ const lineComponent = ({
       },
     },
 
+    {
+      title: '线体属性',
+      dataIndex: 'linetype',
+      valueType: 'text',
+      align: 'center',
+      hideInSearch: true,
+      initialValue: IsUpdate ? UpdateDate.linetype : '',
+      valueEnum: ['KE','OEE'],
+      formItemProps: {
+        rules: [
+          {
+            required: true,
+            message: '线体属性不能为空!',
+          },
+        ],
+      },
+    },
+
+    {
+      title: '焊接属性',
+      dataIndex: 'weldtype',
+      valueType: 'text',
+      align: 'center',
+      hideInSearch: true,
+      initialValue: IsUpdate ? UpdateDate.weldtype : '',
+      valueEnum: ['焊接','非焊接'],
+      formItemProps: {
+        rules: [
+          {
+            required: true,
+            message: '焊接属性不能为空!',
+          },
+        ],
+      },
+    },
+
 
 
     {
@@ -317,8 +353,9 @@ const lineComponent = ({
           'familyname': dataList[i].familyname,
           'targetKE': dataList[i].targetKE,
           'targetIE': dataList[i].targetIE,
+          'linetype': dataList[i].linetype,
+          'weldtype': dataList[i].weldtype,
           'remark': dataList[i].remark,
-
         }
         dataTable.push(obj);
       }
@@ -328,8 +365,8 @@ const lineComponent = ({
       {
         sheetData: dataTable,
         sheetName: 'sheet',
-        sheetFilter: ['lineno', 'linename', 'familyname', 'targetKE','targetIE','remark'],
-        sheetHeader: ['线体编号', '线体名称', '所属工厂', '目标KE', '目标IE', '备注'],
+        sheetFilter: ['lineno', 'linename', 'familyname', 'targetKE','targetIE','linetype','weldtype','remark'],
+        sheetHeader: ['线体编号', '线体名称', '所属工厂', '目标KE', '目标IE', '线体属性','焊接属性','备注'],
       }
     ];
 

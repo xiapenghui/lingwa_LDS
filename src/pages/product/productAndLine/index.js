@@ -16,17 +16,17 @@ import {
   getAddDropDownInit,
   addPost,
   updatePut,
-} from '@/services/product/number';
+} from '@/services/product/productAndLine';
 
 const numberComponent = ({
-  number,
+  productAndLine,
   dispatch
 }) => {
   const {
     TableList,
     typeList,
     riskList,
-    isNoList, } = number
+    isNoList, } = productAndLine
   const [createModalVisible, handleModalVisible] = useState(false);
   const [updateModalVisible, handleUpdateModalVisible] = useState(false);
   const actionRef = useRef();
@@ -42,47 +42,192 @@ const numberComponent = ({
 
 
     {
-      title: '产品编号',
-      dataIndex: 'productno',
+      title: 'ut',
+      dataIndex: 'ut',
       valueType: 'text',
       align: 'center',
-      initialValue: IsUpdate ? UpdateDate.productno : '',
+      initialValue: IsUpdate ? UpdateDate.ut : '',
       formItemProps: {
         rules: [
           {
             required: true,
-            message: '产品编号不能为空!',
+            message: 'ut不能为空!',
           },
         ],
       },
     },
     {
-      title: '产品名称',
-      dataIndex: 'productname',
+      title: 'dt',
+      dataIndex: 'dt',
       valueType: 'text',
       align: 'center',
-      initialValue: IsUpdate ? UpdateDate.productname : '',
+      initialValue: IsUpdate ? UpdateDate.dt : '',
       formItemProps: {
         rules: [
           {
             required: true,
-            message: '产品名称不能为空!',
+            message: 'dt不能为空!',
           },
         ],
       },
     },
 
     {
-      title: '产品类型',
-      dataIndex: 'producttypeid',
+      title: '目标KE',
+      dataIndex: 'TargetKE',
       valueType: 'text',
       align: 'center',
-      initialValue: IsUpdate ? UpdateDate.producttypeid : '',
+      initialValue: IsUpdate ? UpdateDate.TargetKE : '',
       formItemProps: {
         rules: [
           {
             required: true,
-            message: '产品类型不能为空!',
+            message: '目标KE不能为空!',
+          },
+        ],
+      },
+    },
+
+    {
+      title: '目标IE',
+      dataIndex: 'TargetIE',
+      valueType: 'text',
+      align: 'center',
+      initialValue: IsUpdate ? UpdateDate.TargetIE : '',
+      formItemProps: {
+        rules: [
+          {
+            required: true,
+            message: '目标IE不能为空!',
+          },
+        ],
+      },
+    },
+
+    {
+      title: '目标SUR',
+      dataIndex: 'TargetSUR',
+      valueType: 'text',
+      align: 'center',
+      initialValue: IsUpdate ? UpdateDate.TargetSUR : '',
+      formItemProps: {
+        rules: [
+          {
+            required: true,
+            message: '目标SUR不能为空!',
+          },
+        ],
+      },
+    },
+
+    {
+      title: '目标OEE',
+      dataIndex: 'TargetOEE',
+      valueType: 'text',
+      align: 'center',
+      initialValue: IsUpdate ? UpdateDate.TargetOEE : '',
+      formItemProps: {
+        rules: [
+          {
+            required: true,
+            message: '目标OEE不能为空!',
+          },
+        ],
+      },
+    },
+
+    {
+      title: '最高效率',
+      dataIndex: 'Preference',
+      valueType: 'text',
+      align: 'center',
+      initialValue: IsUpdate ? UpdateDate.Preference : '',
+      formItemProps: {
+        rules: [
+          {
+            required: true,
+            message: '最高效率不能为空!',
+          },
+        ],
+      },
+    },
+
+    {
+      title: '目标FPY',
+      dataIndex: 'TargetFPY',
+      valueType: 'text',
+      align: 'center',
+      initialValue: IsUpdate ? UpdateDate.TargetFPY : '',
+      formItemProps: {
+        rules: [
+          {
+            required: true,
+            message: '目标FPY不能为空!',
+          },
+        ],
+      },
+    },
+
+    {
+      title: '目标MDR',
+      dataIndex: 'TargetMDR',
+      valueType: 'text',
+      align: 'center',
+      initialValue: IsUpdate ? UpdateDate.TargetMDR : '',
+      formItemProps: {
+        rules: [
+          {
+            required: true,
+            message: '目标MDR不能为空!',
+          },
+        ],
+      },
+    },
+
+    
+    {
+      title: '目标效率',
+      dataIndex: 'TargetAvailability',
+      valueType: 'text',
+      align: 'center',
+      initialValue: IsUpdate ? UpdateDate.TargetAvailability : '',
+      formItemProps: {
+        rules: [
+          {
+            required: true,
+            message: '目标效率不能为空!',
+          },
+        ],
+      },
+    },
+
+    {
+      title: '目标质量',
+      dataIndex: 'TargetQuality',
+      valueType: 'text',
+      align: 'center',
+      initialValue: IsUpdate ? UpdateDate.TargetQuality : '',
+      formItemProps: {
+        rules: [
+          {
+            required: true,
+            message: '目标质量不能为空!',
+          },
+        ],
+      },
+    },
+
+    {
+      title: '目标最高效率',
+      dataIndex: 'argetPerformance',
+      valueType: 'text',
+      align: 'center',
+      initialValue: IsUpdate ? UpdateDate.argetPerformance : '',
+      formItemProps: {
+        rules: [
+          {
+            required: true,
+            message: '目标最高效率不能为空!',
           },
         ],
       },
@@ -222,20 +367,32 @@ const numberComponent = ({
     if (dataList.length > 0) {
       for (let i in dataList) {
         let obj = {
-          'productno': dataList[i].productno,
-          'productname': dataList[i].productname,
+          'ut': dataList[i].ut,
+          'dt': dataList[i].dt,
+          'TargetKE': dataList[i].TargetKE,
+          'TargetIE': dataList[i].TargetIE,
+          'TargetSUR': dataList[i].TargetSUR,
+          'TargetOEE': dataList[i].TargetOEE,
+          'Preference': dataList[i].Preference,
+          'TargetFPY': dataList[i].TargetFPY,
+          'TargetMDR': dataList[i].TargetMDR,
+          'TargetAvailability': dataList[i].TargetAvailability,
+          'TargetQuality': dataList[i].TargetQuality,
+          'TargetPerformance': dataList[i].TargetPerformance,
           'remark':dataList[i].remark,
         }
         dataTable.push(obj);
       }
     }
-    option.fileName = '产品信息'
+    option.fileName = '产品与线体的关系'
     option.datas = [
       {
         sheetData: dataTable,
         sheetName: 'sheet',
-        sheetFilter: ['productno', 'productname','remark'],
-        sheetHeader: ['产品编号', '产品名称',  '备注'],
+        sheetFilter: ['ut', 'dt','TargetKE','TargetIE','TargetSUR','TargetOEE','Preference','TargetFPY',
+        'TargetMDR','TargetAvailability','TargetQuality','TargetPerformance','remark'],
+        sheetHeader: ['ut', 'dt',  '目标KE',  '目标IE',  '目标SUR',  
+        '目标OEE',  '最高效率',  '目标FPY',  '目标MDR',  '目标效率',  '目标质量','目标最高效率','备注'],
       }
     ];
 
@@ -370,7 +527,7 @@ const numberComponent = ({
   );
 };
 
-export default connect(({ number }) => ({ number }))(numberComponent);
+export default connect(({ productAndLine }) => ({ productAndLine }))(numberComponent);
 
 
 

@@ -1,4 +1,4 @@
-import { PlusOutlined ,UploadOutlined} from '@ant-design/icons';
+import { PlusOutlined ,UploadOutlined } from '@ant-design/icons';
 import { Button, message, DatePicker, Select, Input, Table } from 'antd';
 import React, { useState, useRef, useEffect } from 'react';
 import { Link, connect } from 'umi';
@@ -10,7 +10,6 @@ import CreateForm from './components/CreateForm';
 import UpdateForm from './components/UpdateForm';
 import '../../../../src/assets/commonStyle.css';
 import globalConfig from '../../../../config/defaultSettings';
-import './components/common.css';
 import ExportJsonExcel from 'js-export-excel';
 import {
   getDepartement,
@@ -20,77 +19,40 @@ import {
   getAddDropDownInit,
   addPost,
   updatePut,
-} from '@/services/time/supportTime';
-import index from '@/pages/authorityManagement/roleInfo/components/MenuForm';
+} from '@/services/time/supportTarea';
 
-
-// useEffect(() => {
-//   // selectRow
-// }, {});
-
-const supportTimeComponent = ({
-  supportTime,
+const supportInputComponent = ({
+  supportTarea,
   dispatch
 }) => {
   const {
-    departmentList
-  } = supportTime
+    departmentList,
+    productList,
+    personList,
+    shifList,
+    areaList,
+    lineList,
+    redList,
+    timeaxisList
+  } = supportTarea
   const [createModalVisible, handleModalVisible] = useState(false);
   const [updateModalVisible, handleUpdateModalVisible] = useState(false);
   const actionRef = useRef();
   const [selectedRowsState, setSelectedRows] = useState([]);
-  const [colList, setColList] = useState({});
-  // const [sum, setSum] = useState(0);
-  const [newSum, setNewSum] = useState(0);
-  const [newDisf, setNewDisf] = useState(0);
-  const [newEff, setNewEff] = useState(0);
-  const [dataList, setDataList] = useState([]);
-
-
-
+  // const [areaList, setareaList] = useState([]);
 
   /**
     * 编辑初始化
     */
   const [IsUpdate, setIsUpdate] = useState(false);
   const [UpdateDate, setUpdateDate] = useState({});
-  let [selectRow, setselectRow] = useState({});
-
-
+  const [dataList, setDataList] = useState([]);
   const getColumns = () => [
-
     {
-      title: '时间从',
-      dataIndex: 'tsdateStart',
-      // valueType: 'dateTime',
-      valueType: 'date',
-      align: 'center',
-      hideInTable: true,
-      hideInForm: true,
-      // initialValue: new Date(),
-      initialValue: moment(UpdateDate.tsdateStart),
-    },
-
-
-    {
-      title: '时间至',
-      dataIndex: 'tsdateEnd',
-      // valueType: 'dateTime',
-      valueType: 'date',
-      align: 'center',
-      hideInTable: true,
-      hideInForm: true,
-      // initialValue: new Date(),
-      initialValue: moment(UpdateDate.tsdateStart),
-    },
-
-
-    {
-      title: '部门名称',
+      title: '部门',
       dataIndex: 'departmentid',
       valueType: 'text',
       align: 'center',
-      width: 120,
       valueEnum: departmentList.length == 0 ? {} : departmentList,
       initialValue: !IsUpdate ? '' : (UpdateDate.departmentid ? UpdateDate.departmentid.toString() : ''),
       renderFormItem: (_, { type, defaultRender, ...rest }, form) => {
@@ -114,7 +76,6 @@ const supportTimeComponent = ({
         }
         return defaultRender(_);
       },
-
       formItemProps: {
         rules: [
           {
@@ -129,11 +90,9 @@ const supportTimeComponent = ({
     {
       title: '日期',
       dataIndex: 'tsdate',
-      width: 120,
       // valueType: 'dateTime',
       valueType: 'date',
       align: 'center',
-      hideInSearch: true,
       // initialValue: IsUpdate ? UpdateDate.date : '',
       initialValue: IsUpdate ? moment(UpdateDate.tsdate, globalConfig.form.onlyDateFormat) : moment(new Date()),
       renderFormItem: (_, { type, defaultRender, ...rest }, form) => {
@@ -155,211 +114,25 @@ const supportTimeComponent = ({
 
 
     {
-      title: 'T1',
-      dataIndex: 't1',
+      title: '用时',
+      dataIndex: 'period',
       valueType: 'text',
       align: 'center',
       hideInSearch: true,
-      width: 100,
-      initialValue: IsUpdate ? UpdateDate.t1 : '',
-      formItemProps: {
-        rules: [
-          {
-            required: true,
-            message: 't1不能为空!',
-          },
-        ],
-      },
+      initialValue: IsUpdate ? UpdateDate.period : '',
     },
-
-
-    {
-      title: 'T4',
-      dataIndex: 't4',
-      valueType: 'text',
-      align: 'center',
-      hideInSearch: true,
-      width: 100,
-      initialValue: IsUpdate ? UpdateDate.t4 : '',
-      formItemProps: {
-        rules: [
-          {
-            required: true,
-            message: 't1不能为空!',
-          },
-        ],
-      },
-    },
-
-
-
-    {
-      title: 'T5',
-      dataIndex: 't5',
-      valueType: 'text',
-      align: 'center',
-      hideInSearch: true,
-      width: 100,
-      initialValue: IsUpdate ? UpdateDate.t5 : '',
-      formItemProps: {
-        rules: [
-          {
-            required: true,
-            message: 't1不能为空!',
-          },
-        ],
-      },
-    },
-
-
-    {
-      title: 'paidhour',
-      dataIndex: 'paidhour',
-      valueType: 'text',
-      align: 'center',
-      hideInSearch: true,
-      width: 100,
-      initialValue: IsUpdate ? UpdateDate.paidhour : '',
-      formItemProps: {
-        rules: [
-          {
-            required: true,
-            message: 'paidhour不能为空!',
-          },
-        ],
-      },
-    },
-
-
-    {
-      title: 'prodt4',
-      dataIndex: 'prodt4',
-      valueType: 'text',
-      align: 'center',
-      hideInSearch: true,
-      width: 100,
-      initialValue: IsUpdate ? UpdateDate.prodt4 : '',
-      formItemProps: {
-        rules: [
-          {
-            required: true,
-            message: 'prodt4不能为空!',
-          },
-        ],
-      },
-    },
-
-
-    {
-      title: '产品族id',
-      dataIndex: 'areaid',
-      valueType: 'text',
-      align: 'center',
-      hideInSearch: true,
-      width: 100,
-      initialValue: IsUpdate ? UpdateDate.areaid : '',
-      formItemProps: {
-        rules: [
-          {
-            required: true,
-            message: '产品族id不能为空!',
-          },
-        ],
-      },
-    },
-
-
-    {
-      title: '效率',
-      dataIndex: 'ke',
-      valueType: 'text',
-      align: 'center',
-      hideInSearch: true,
-      width: 100,
-      initialValue: IsUpdate ? UpdateDate.ke : '',
-      renderFormItem: (_, { type, defaultRender, formItemProps, fieldProps, ...rest }, form) => {
-        let eff = 0;
-        eff = Number(form.getFieldsValue(true).t4) / (Number(form.getFieldsValue(true).t4) + Number(form.getFieldsValue(true).t1))
-        console.log('Number(form.getFieldsValue(true).t4)', Number(form.getFieldsValue(true).t4))
-        setNewEff(eff)
-        if (IsUpdate) {
-          // 返回新的组件
-          return <Input disabled value={eff} ></Input>
-        } else {
-          return <Input disabled value={eff}></Input>
-        }
-        return defaultRender(_);
-      },
-      render: (text) => {
-        return parseInt(text * 100) + '%';
-      }
-    },
-
-
-
-    {
-      title: 'TS',
-      dataIndex: 'ts',
-      valueType: 'text',
-      width: 100,
-      align: 'center',
-      hideInSearch: true,
-      initialValue: IsUpdate ? UpdateDate.ts : '',
-      renderFormItem: (_, { type, defaultRender, formItemProps, fieldProps, ...rest }, form) => {
-        let sum = 0;
-        sum = Number(form.getFieldsValue(true).t1) + Number(form.getFieldsValue(true).t4) + Number(form.getFieldsValue(true).t5)
-        setNewSum(sum)
-        if (IsUpdate) {
-          // 返回新的组件
-          return <Input disabled value={sum}></Input>
-        } else {
-          return <Input disabled value={sum}></Input>
-        }
-        return defaultRender(_);
-      },
-    },
-
-
-
-
-    {
-      title: 'Gap',
-      dataIndex: 'gap',
-      valueType: 'text',
-      hideInSearch: true,
-      align: 'center',
-      width: 100,
-      initialValue: IsUpdate ? UpdateDate.gap : '',
-      renderFormItem: (_, { type, defaultRender, formItemProps, fieldProps, ...rest }, form) => {
-        // console.log("renderFormItem", _, type, defaultRender, formItemProps, fieldProps, rest, form.getFieldsValue(true))
-        let disf = 0;
-        disf = Number(form.getFieldsValue(true).paidhour) - Number(form.getFieldsValue(true).t1) - Number(form.getFieldsValue(true).t4) - Number(form.getFieldsValue(true).t5);
-        setNewDisf(disf)
-        if (IsUpdate) {
-          // 返回新的组件
-          return <Input disabled value={disf}></Input>
-        } else {
-          return <Input disabled value={disf}></Input>
-        }
-        return defaultRender(_);
-      },
-    },
-
-
-
 
     {
       title: '操作',
       dataIndex: 'option',
       valueType: 'option',
       align: 'center',
-      width: 100,
       render: (_, record) => (
         <>
+
           <a onClick={() => {
             setIsUpdate(true)
             setUpdateDate({ ...record });
-            setselectRow({ ...record })
             handleUpdateModalVisible(true);
           }}
           >编辑</a>
@@ -368,12 +141,13 @@ const supportTimeComponent = ({
     },
   ];
 
-
   const query = async (params, sorter, filter) => {
     const TableList = postListInit({
       departmentid: Number(params.departmentid),
-      tsdateStart: params.tsdateStart,
-      tsdateEnd: params.tsdateEnd,
+      employeeid: Number(params.employeeid),
+      shiftid: Number(params.shiftid),
+      areaid: Number(params.areaid),
+      tsdate: params.tsdate,
       PageIndex: params.current,
       PageSize: 10000,
 
@@ -391,6 +165,9 @@ const supportTimeComponent = ({
   };
 
 
+
+
+
   /**
    * 添加节点
    * @param fields
@@ -398,17 +175,10 @@ const supportTimeComponent = ({
 
   const handleAdd = async (fields) => {
     const hide = message.loading('正在添加');
-
     let params = {
       departmentid: Number(fields.departmentid) == null ? '' : Number(fields.departmentid),
       tsdate: fields.tsdate,
-      t1: fields.t1,
-      t4: fields.t4,
-      t5: fields.t5,
-      ts: newSum,
-      gap: newDisf,
-      ke: newEff,
-      paidhour: fields.paidhour,
+      period: fields.period
     }
     try {
       let data = await addPost(params);
@@ -434,18 +204,12 @@ const supportTimeComponent = ({
   const handleUpdate = async (fields) => {
     const hide = message.loading('正在编辑');
     try {
-
       let data = await updatePut({
         id: UpdateDate.id,
+        // departmentid: Number(fields.departmentid) == null ? '' : Number(fields.departmentid),
         departmentid: Number(fields.departmentid),
         tsdate: fields.tsdate,
-        t1: fields.t1,
-        t4: fields.t4,
-        t5: fields.t5,
-        ts: newSum,
-        gap: newDisf,
-        ke: newEff,
-        paidhour: fields.paidhour
+        period: fields.period
       });
       if (data.status == '200') {
         hide();
@@ -491,61 +255,51 @@ const supportTimeComponent = ({
     }
   };
 
- // 导出
- const downloadExcel = async () => {
-  var option = {};
-  var dataTable = [];
-  if (dataList.length > 0) {
-    for (let i in dataList) {
-      let obj = {
-        'departmentshortname': dataList[i].departmentshortname,
-        'tsdate': dataList[i].tsdate,
-        't1':dataList[i].t1,
-        't4':dataList[i].t4,
-        't5':dataList[i].t5,
-        'paidhour':dataList[i].paidhour,
-        'prodt4':dataList[i].prodt4,
-        'areaid':dataList[i].areaid,
-        'ke':(dataList[i].ke * 100) + '%',
-        'ts':dataList[i].ts,
-        'gap':dataList[i].gap
-      };
-      dataTable.push(obj);
-    }
-  }
-  option.fileName = '支持时间录入'
-  option.datas = [
-    {
-      sheetData: dataTable,
-      sheetName: 'sheet',
-      sheetFilter: ['departmentshortname', 'tsdate','t1','t4','t5','paidhour', 'prodt4','areaid',
-      'ke', 'ts','gap'],
-      sheetHeader: ['部门名称', '日期', 'T1','T4','T5','paidhour', 'prodt4','产品族id','效率','TS','Gap'],
-    }
-  ];
-  var toExcel = new ExportJsonExcel(option);
-  toExcel.saveExcel();
-};
-
-
+    // 导出
+    const downloadExcel = async () => {
+      var option = {};
+      var dataTable = [];
+      if (dataList.length > 0) {
+        for (let i in dataList) {
+          let obj = {
+            'departmentshortname': dataList[i].departmentshortname,
+            'tsdate': dataList[i].tsdate,
+            'period':dataList[i].period
+          };
+          dataTable.push(obj);
+        }
+      }
+      option.fileName = '部门录入信息'
+      option.datas = [
+        {
+          sheetData: dataTable,
+          sheetName: 'sheet',
+          sheetFilter: ['departmentshortname', 'tsdate', 'period'],
+          sheetHeader: ['部门', '日期', '用时'],
+        }
+      ];
+      var toExcel = new ExportJsonExcel(option);
+      toExcel.saveExcel();
+    };
+  
   return (
     <PageContainer>
       <ProTable
         headerTitle="查询表格"
         actionRef={actionRef}
-        scroll={{ y: 500 }}
+       scroll={{ y: 500 }}
         rowKey="id"
         search={{
           labelWidth: 120,
+
         }}
         toolBarRender={() => [
           <Button type="primary" onClick={() => handleModalVisible(true)}>
             <PlusOutlined /> 新建
           </Button>,
-
-          <Button type="primary" onClick={() => downloadExcel()}>
-          <UploadOutlined /> 导出
-          </Button>,
+           <Button type="primary" onClick={() => downloadExcel()}>
+           <UploadOutlined /> 导出
+         </Button>,
         ]}
         request={(params, sorter, filter) => query(params, sorter, filter)}
         columns={getColumns()}
@@ -642,7 +396,7 @@ const supportTimeComponent = ({
   );
 };
 
-export default connect(({ supportTime }) => ({ supportTime }))(supportTimeComponent);
+export default connect(({ supportTarea }) => ({ supportTarea }))(supportInputComponent);
 
 
 

@@ -494,7 +494,16 @@ const timeT4Component = ({
       },
     },
 
-
+    
+    {
+      title: '备注',
+      dataIndex: 'remark',
+      valueType: 'textarea',
+      align: 'center',
+      width: 150,
+      hideInSearch: true,
+      initialValue: IsUpdate ? UpdateDate.remark : '',
+    },
 
     {
       title: '操作',
