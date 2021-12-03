@@ -482,7 +482,7 @@ const lineDataComponent = ({
       tsdateStart: params.tsdateStart,
       tsdateEnd: params.tsdateEnd,
       PageIndex: params.current,
-      PageSize: 10000,
+      PageSize: params.pageSize,
     })
     return TableList.then(function (value) {
       setDataList(value.list);
@@ -494,9 +494,9 @@ const lineDataComponent = ({
         total: value.total
       }
     });
-  }
+  };
 
-
+ 
 
   /**
    * 添加节点
@@ -629,6 +629,7 @@ const lineDataComponent = ({
         headerTitle="查询表格"
         actionRef={actionRef}
         scroll={{ x: 2000, y: 500 }}
+        pagination={false}
         rowKey="row"
         search={{
           labelWidth: 120,

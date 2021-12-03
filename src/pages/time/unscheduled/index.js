@@ -210,7 +210,7 @@ const unscheduledComponent = ({
       shiftid: params.shiftid[0] == "早班" ? 1 : Number(params.shiftid),
       areaid: params.productareaid[0] == "NW" ? 30 : Number(params.productareaid),
       PageIndex: params.current,
-      PageSize: 10000,
+      PageSize: params.pageSize,
     })
     return TableList.then(function (value) {
       setDataList(value.list);
@@ -224,7 +224,7 @@ const unscheduledComponent = ({
     });
   };
 
-
+   
 
   // changeProduct = async (value) => {
   //   try {
@@ -376,6 +376,7 @@ const unscheduledComponent = ({
         headerTitle="查询表格"
         actionRef={actionRef}
         scroll={{ y: 500 }}
+        pagination={false}
         rowKey="id"
         search={{
           labelWidth: 120,

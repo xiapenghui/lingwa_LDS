@@ -84,7 +84,7 @@ export async function getTimeaxis(params) {
  * 查询
  */
 export async function postListInit(params) {
-  return request(`${ip}/WebAPI/api/TimeSupperiod/List`, {
+  return request(`${ip}/WebAPI/api/TimeSupportArea/List`, {
     method: 'POST',
     data: { ...params },
   });
@@ -96,7 +96,7 @@ export async function postListInit(params) {
  * 新建保存
  */
 export async function addPost(params) {
-  return request(`${ip}/WebAPI/api/TimeSupperiod/Add`, {
+  return request(`${ip}/WebAPI/api/TimeSupportArea/Add`, {
     method: 'POST',
     data: { ...params },
   });
@@ -107,7 +107,7 @@ export async function addPost(params) {
  * 编辑保存
  */
 export async function updatePut(params) {
-  return request(`${ip}/WebAPI/api/TimeSupperiod/Modify`, {
+  return request(`${ip}/WebAPI/api/TimeSupportArea/Modify`, {
     method: 'POST',
     data: { ...params },
   });
@@ -119,7 +119,7 @@ export async function updatePut(params) {
  * 删除
  */
 export async function deleted(params) {
-  return request(`${ip}/WebAPI/api/TimeSupperiod/Delete`, {
+  return request(`${ip}/WebAPI/api/TimeSupportArea/Delete`, {
     method: 'POST',
     data: { ...params },
   });

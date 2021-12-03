@@ -325,6 +325,7 @@ const Component = ({
         headerTitle="查询表格"
         actionRef={actionRef}
         scroll={{ y: 500 }}
+        pagination={false}
         rowKey="id"
         search={{
           labelWidth: 120,

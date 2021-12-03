@@ -34,7 +34,7 @@ import {
 import { BackgroundColor } from "chalk";
 
 const productOeeComponent = ({ lineOee, dispatch }) => {
-  const { productList, areaList, shifList } = lineOee;
+  const { productList, areaList, shifList ,lineList} = lineOee;
   const [createModalVisible, handleModalVisible] = useState(false);
   const [updateModalVisible, handleUpdateModalVisible] = useState(false);
   const actionRef = useRef();
@@ -52,16 +52,12 @@ const productOeeComponent = ({ lineOee, dispatch }) => {
   const columns = [
     {
       title: "班次",
-      dataIndex: "shiftid",
+      dataIndex: "shiftname",
       align: "center",
       width: 100,
       fixed: "left",
-      render: (text, action) => {
-        if (action.shiftid == 0) {
-          return (text = "-");
-        }
-      },
     },
+    
 
     {
       title: "时间段",
@@ -73,9 +69,10 @@ const productOeeComponent = ({ lineOee, dispatch }) => {
 
     {
       title: "线体",
-      dataIndex: "lineid",
+      dataIndex: "linename",
       align: "center",
       width: 100,
+      fixed: "left",
     },
 
     {
@@ -135,42 +132,15 @@ const productOeeComponent = ({ lineOee, dispatch }) => {
     },
 
     {
-      title: "KS",
-      dataIndex: "ks",
+      title: "ts",
+      dataIndex: "ts",
       align: "center",
       width: 100,
       render: (text) => {
         return parseInt(text * 100) + "%";
       },
     },
-
-    {
-      title: "spt",
-      dataIndex: "spt",
-      align: "center",
-      width: 100,
-    },
-
-    {
-      title: "npv",
-      dataIndex: "npv",
-      align: "center",
-      width: 100,
-    },
-
-    {
-      title: "downtimeid",
-      dataIndex: "downtimeid",
-      align: "center",
-      width: 100,
-    },
-
-    {
-      title: "tepmleteid",
-      dataIndex: "tepmleteid",
-      align: "center",
-      width: 100,
-    },
+ 
 
     {
       title: "目标产量",
@@ -179,19 +149,7 @@ const productOeeComponent = ({ lineOee, dispatch }) => {
       width: 120,
     },
 
-    {
-      title: "sdtp",
-      dataIndex: "sdtp",
-      align: "center",
-      width: 120,
-    },
-
-    {
-      title: "rot",
-      dataIndex: "rot",
-      align: "center",
-      width: 120,
-    },
+    
 
     {
       title: "t0",
@@ -242,6 +200,14 @@ const productOeeComponent = ({ lineOee, dispatch }) => {
       align: "center",
       width: 100,
     },
+
+    {
+      title: "ke",
+      dataIndex: "ke",
+      align: "center",
+      width: 100,
+    },
+    
   ];
 
   const getColumns = () => [
@@ -274,7 +240,7 @@ const productOeeComponent = ({ lineOee, dispatch }) => {
       align: "center",
       width: 120,
       fixed: "left",
-      // hideInTable: true,
+      hideInTable: true,
       valueEnum: shifList.length == 0 ? {} : shifList,
       initialValue: ["早班"],
       // initialValue: !IsUpdate ? '' : (UpdateDate.shiftid ? UpdateDate.shiftid.toString() : ''),
@@ -301,21 +267,69 @@ const productOeeComponent = ({ lineOee, dispatch }) => {
       },
     },
 
+    
+    {
+      title: "班次",
+      dataIndex: "shiftname",
+      align: "center",
+      width: 100,
+      fixed: "left",
+      hideInSearch: true,
+    },
+
     {
       title: "时间段",
       dataIndex: "hourid",
       align: "center",
       width: 100,
+      fixed: "left",
       hideInSearch: true,
+    },
+
+   
+
+    {
+      title: '线体',
+      dataIndex: 'lineid',
+      valueType: 'text',
+      align: 'center',
+      width: 100,
+      hideInTable:true,
+      valueEnum: lineList.length == 0 ? {} : lineList,
+      // initialValue: IsUpdate ? UpdateDate.lineid.toString() : '',
+      initialValue: !IsUpdate ? '' : (UpdateDate.lineid ? UpdateDate.lineid.toString() : ''),
+      renderFormItem: (_, { type, defaultRender, ...rest }, form) => {
+        if (type === 'form' || type === 'table') {
+          // 返回新的组件
+          let newList = []
+          for (let [key, value] of Object.entries(lineList)) {
+            newList.push({ key: key, label: value.text })
+          }
+          return <Select
+            allowClear
+            showSearch
+            optionFilterProp='children'
+          >
+            {newList.map(function (item, index) {
+              return <Select.Option key={index} value={item.key}>
+                {item.label}
+              </Select.Option>
+            })}
+          </Select>
+        }
+        return defaultRender(_);
+      },
     },
 
     {
       title: "线体",
-      dataIndex: "lineid",
+      dataIndex: "linename",
       align: "center",
       width: 100,
+      fixed: "left",
       hideInSearch: true,
     },
+
 
     {
       title: "ot",
@@ -381,8 +395,8 @@ const productOeeComponent = ({ lineOee, dispatch }) => {
     },
 
     {
-      title: "KS",
-      dataIndex: "ks",
+      title: "ts",
+      dataIndex: "ts",
       align: "center",
       width: 100,
       hideInSearch: true,
@@ -391,57 +405,11 @@ const productOeeComponent = ({ lineOee, dispatch }) => {
       },
     },
 
-    {
-      title: "spt",
-      dataIndex: "spt",
-      align: "center",
-      width: 100,
-      hideInSearch: true,
-    },
-
-    {
-      title: "npv",
-      dataIndex: "npv",
-      align: "center",
-      width: 100,
-      hideInSearch: true,
-    },
-
-    {
-      title: "downtimeid",
-      dataIndex: "downtimeid",
-      align: "center",
-      width: 100,
-      hideInSearch: true,
-    },
-
-    {
-      title: "tepmleteid",
-      dataIndex: "tepmleteid",
-      align: "center",
-      width: 100,
-      hideInSearch: true,
-    },
+     
 
     {
       title: "目标产量",
       dataIndex: "targetparts",
-      align: "center",
-      width: 120,
-      hideInSearch: true,
-    },
-
-    {
-      title: "sdtp",
-      dataIndex: "sdtp",
-      align: "center",
-      width: 120,
-      hideInSearch: true,
-    },
-
-    {
-      title: "rot",
-      dataIndex: "rot",
       align: "center",
       width: 120,
       hideInSearch: true,
@@ -503,6 +471,14 @@ const productOeeComponent = ({ lineOee, dispatch }) => {
       hideInSearch: true,
     },
 
+    {
+      title: "ke",
+      dataIndex: "ke",
+      align: "center",
+      width: 100,
+      hideInSearch: true,
+    },
+
     // {
     //   title: '目标PRR',
     //   dataIndex: 'targetparts',
@@ -536,13 +512,12 @@ const productOeeComponent = ({ lineOee, dispatch }) => {
 
   const query = async (params, sorter, filter) => {
     const TableList = postListInit({
-      familyid: Number(params.familyid),
-      productareaid: Number(params.productareaid),
+      lineid: Number(params.lineid),
       shiftid: params.shiftid[0] == "早班" ? 1 : params.shiftid,
       tsdateStart: params.tsdateStart,
       tsdateEnd: params.tsdateEnd,
       PageIndex: params.current,
-      PageSize: 10000,
+      PageSize: params.pageSize,
     });
     return TableList.then(function (value) {
       setDataSum(value.list.sum);
@@ -556,6 +531,8 @@ const productOeeComponent = ({ lineOee, dispatch }) => {
       };
     });
   };
+
+ 
 
   /**
    * 添加节点
@@ -639,98 +616,38 @@ const productOeeComponent = ({ lineOee, dispatch }) => {
       for (let i in dataList) {
         let obj = {
           shiftname: dataList[i].shiftname,
-          productarea: dataList[i].productarea,
-          tsdate: dataList[i].tsdate,
+          hourid: dataList[i].hourid,
+          linename: dataList[i].linename,
           ut: dataList[i].ut,
           dt: dataList[i].dt,
           ot: dataList[i].ot,
-          ts: dataList[i].ts,
-          OEE: parseInt(dataList[i].OEE * 100) + "%",
-          ie: parseInt(dataList[i].ie * 100) + "%",
+          goodparts: dataList[i].goodparts,
           targetke: parseInt(dataList[i].targetke) + "%",
           targetie: parseInt(dataList[i].targetie) + "%",
-          ks: parseInt(dataList[i].ks * 100) + "%",
-          gap: dataList[i].gap,
-          planot: dataList[i].planot,
-          rot: dataList[i].rot,
-          relax: dataList[i].relax,
-          lend: dataList[i].lend,
-          borrow: dataList[i].borrow,
-          lbot: dataList[i].lbot,
+          ts: dataList[i].ts,
+          targetparts: dataList[i].targetparts,
           t0: dataList[i].t0,
           t1: dataList[i].t1,
           t2: dataList[i].t2,
           t3: dataList[i].t3,
           t4: dataList[i].t4,
           t5: dataList[i].t5,
-          goodparts: dataList[i].goodparts,
-          targetparts: dataList[i].targetparts,
+          ke: parseInt(dataList[i].ke * 100) + "%",
         };
         dataTable.push(obj);
       }
     }
-    option.fileName = "产品族OEE查询";
+    option.fileName = "线体OEE查询";
     option.datas = [
       {
         sheetData: dataTable,
         sheetName: "sheet",
         sheetFilter: [
-          "shiftname",
-          "productarea",
-          "tsdate",
-          "ut",
-          "dt",
-          "ot",
-          "ts",
-          "OEE",
-          "ie",
-          "targetke",
-          "targetie",
-          "gap",
-          "ks",
-          "planot",
-          "rot",
-          "relax",
-          "lend",
-          "borrow",
-          "lbot",
-          "t0",
-          "t1",
-          "t2",
-          "t3",
-          "t4",
-          "t5",
-          "goodparts",
-          "targetparts",
+          "shiftname","hourid","linename","ut","dt","ot","goodparts","targetke","targetie","ts",
+          "targetparts","t0","t1","t2","t3","t4","t5","ke"
         ],
-        sheetHeader: [
-          "班次",
-          "产品族",
-          "日期",
-          "UT",
-          "DT",
-          "OT",
-          "TS",
-          "OEE",
-          "IE",
-          "目标ke",
-          "目标ie",
-          "KS",
-          "gap",
-          "排班",
-          "工作时间",
-          "休假",
-          "借入",
-          "借出",
-          "领班T4",
-          "t0",
-          "t1",
-          "t2",
-          "t3",
-          "t4",
-          "t5",
-          "产量",
-          "目标产量",
+        sheetHeader: ["班次","时间段", "线体", "ut", "dt", "ot", "产量", "目标ke", "目标ie", "ts",
+        "目标产量", "t0", "t1", "t2", "t3", "t4", "t5", "ke",
         ],
       },
     ];
@@ -777,6 +694,7 @@ const productOeeComponent = ({ lineOee, dispatch }) => {
         }
         actionRef={actionRef}
         scroll={{ x: 2500, y: 400 }}
+        pagination={false}
         rowKey="row"
         pagination={false}
         search={{
@@ -825,7 +743,7 @@ const productOeeComponent = ({ lineOee, dispatch }) => {
             批量删除
           </Button> */}
 
-          <Button
+          {/* <Button
             onClick={async () => {
               await downloadExcel(selectedRowsState);
               setSelectedRows([]);
@@ -833,7 +751,7 @@ const productOeeComponent = ({ lineOee, dispatch }) => {
             }}
           >
             批量导出
-          </Button>
+          </Button> */}
         </FooterToolbar>
       )}
       <CreateForm

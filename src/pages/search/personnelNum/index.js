@@ -244,8 +244,7 @@ const personnelNumComponent = ({
       tsdateEnd: params.tsdateEnd,
       shifttypekeyword: word == undefined ? '' : word  ,
       PageIndex: params.current,
-      // PageSize: params.pageSize
-      PageSize: 10000,
+      PageSize: params.pageSize,
     })
     return TableList.then(function (value) {
       setDataList(value.list);
@@ -257,8 +256,9 @@ const personnelNumComponent = ({
         total: value.total
       }
     });
-  }
+  };
 
+ 
 
 
   /**

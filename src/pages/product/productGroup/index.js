@@ -90,7 +90,7 @@ const productGroupComponent = ({
       familyno: params.familyno == null ? '' : params.familyno,
       familyname: params.familyname == null ? '' : params.familyname,
       PageIndex: params.current,
-      PageSize: 10000,
+      PageSize: params.pageSize,
     })
     return TableList.then(function (value) {
       setDataList(value.list);
@@ -102,9 +102,8 @@ const productGroupComponent = ({
         total: value.total
       }
     });
-
-
-  }
+  };
+ 
   /**
    * 添加节点
    * @param fields
@@ -218,6 +217,7 @@ const productGroupComponent = ({
         headerTitle="查询表格"
         actionRef={actionRef}
         scroll={{ y: 500 }}
+        pagination={false}
         rowKey="familyid"
         search={{
           labelWidth: 120,

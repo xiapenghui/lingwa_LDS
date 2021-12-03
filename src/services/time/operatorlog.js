@@ -68,13 +68,11 @@ export async function getRed(params) {
 }
 
 
-
-
 /**
  * 查询
  */
 export async function postListInit(params) {
-  return request(`${ip}/WebAPI/api/TimeDailyShift/ListLoginNotShift`, {
+  return request(`${ip}/WebAPI/api/operatorlog/List`, {
     method: 'POST',
     data: { ...params },
   });

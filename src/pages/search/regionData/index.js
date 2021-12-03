@@ -708,7 +708,7 @@ const regionDataComponent = ({ regionData, dispatch }) => {
       tsdateStart: params.tsdateStart,
       tsdateEnd: params.tsdateEnd,
       PageIndex: params.current,
-      PageSize: 10000,
+      PageSize: params.pageSize,
     });
     return TableList.then(function (value) {
       setDataSum(value.list.sum);
@@ -722,6 +722,7 @@ const regionDataComponent = ({ regionData, dispatch }) => {
       };
     });
   };
+ 
 
   /**
    * 添加节点

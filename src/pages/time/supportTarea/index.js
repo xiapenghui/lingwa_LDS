@@ -112,15 +112,192 @@ const supportInputComponent = ({
       },
     },
 
-
+   
     {
-      title: '用时',
-      dataIndex: 'period',
+      title: '区域',
+      dataIndex: 'areaid',
       valueType: 'text',
       align: 'center',
       hideInSearch: true,
-      initialValue: IsUpdate ? UpdateDate.period : '',
+      valueEnum: areaList.length == 0 ? {} : areaList,
+      // initialValue: IsUpdate ? UpdateDate.productareaid.toString() : '',
+      initialValue: !IsUpdate ? '' : (UpdateDate.areaid ? UpdateDate.areaid.toString() : ''),
+      renderFormItem: (_, { type, defaultRender, ...rest }, form) => {
+        if (type === 'form' || type === 'table') {
+          // 返回新的组件
+          let newList = []
+          for (let [key, value] of Object.entries(areaList)) {
+            newList.push({ key: key, label: value.text })
+          }
+          return <Select
+            allowClear
+            showSearch
+            optionFilterProp='children'
+          >
+            {newList.map(function (item, index) {
+              return <Select.Option key={index} value={item.key}>
+                {item.label}
+              </Select.Option>
+            })}
+          </Select>
+        }
+        return defaultRender(_);
+      },
+      formItemProps: {
+        rules: [
+          {
+            required: true,
+            message: '区域不能为空!',
+          },
+        ],
+      },
     },
+
+
+    {
+      title: 'ts',
+      dataIndex: 'ts',
+      valueType: 'text',
+      align: 'center',
+      hideInSearch: true,
+      initialValue: IsUpdate ? UpdateDate.ts : '',
+      formItemProps: {
+        rules: [
+          {
+            required: true,
+            message: 'ts不能为空!',
+          },
+        ],
+      },
+    },
+
+
+    {
+      title: 'gap',
+      dataIndex: 'gap',
+      valueType: 'text',
+      align: 'center',
+      hideInSearch: true,
+      initialValue: IsUpdate ? UpdateDate.gap : '',
+      formItemProps: {
+        rules: [
+          {
+            required: true,
+            message: 'gap不能为空!',
+          },
+        ],
+      },
+    },
+
+    
+    {
+      title: 'paidhour',
+      dataIndex: 'paidhour',
+      valueType: 'text',
+      align: 'center',
+      hideInSearch: true,
+      initialValue: IsUpdate ? UpdateDate.paidhour : '',
+      formItemProps: {
+        rules: [
+          {
+            required: true,
+            message: 'paidhour不能为空!',
+          },
+        ],
+      },
+    },
+
+     
+    {
+      title: 't1',
+      dataIndex: 't1',
+      valueType: 'text',
+      align: 'center',
+      hideInSearch: true,
+      initialValue: IsUpdate ? UpdateDate.t1 : '',
+      formItemProps: {
+        rules: [
+          {
+            required: true,
+            message: 't1不能为空!',
+          },
+        ],
+      },
+    },
+
+       
+    {
+      title: 't4',
+      dataIndex: 't4',
+      valueType: 'text',
+      align: 'center',
+      hideInSearch: true,
+      initialValue: IsUpdate ? UpdateDate.t4 : '',
+      formItemProps: {
+        rules: [
+          {
+            required: true,
+            message: 't4不能为空!',
+          },
+        ],
+      },
+    },
+
+         
+    {
+      title: 't5',
+      dataIndex: 't5',
+      valueType: 'text',
+      align: 'center',
+      hideInSearch: true,
+      initialValue: IsUpdate ? UpdateDate.t5 : '',
+      formItemProps: {
+        rules: [
+          {
+            required: true,
+            message: 't5不能为空!',
+          },
+        ],
+      },
+    },
+
+
+    {
+      title: 'ke',
+      dataIndex: 'ke',
+      valueType: 'text',
+      align: 'center',
+      hideInSearch: true,
+      initialValue: IsUpdate ? UpdateDate.ke : '',
+      formItemProps: {
+        rules: [
+          {
+            required: true,
+            message: 'ke不能为空!',
+          },
+        ],
+      },
+    },
+
+
+    {
+      title: 'prodt4',
+      dataIndex: 'prodt4',
+      valueType: 'text',
+      align: 'center',
+      hideInSearch: true,
+      initialValue: IsUpdate ? UpdateDate.prodt4 : '',
+      formItemProps: {
+        rules: [
+          {
+            required: true,
+            message: 'prodt4不能为空!',
+          },
+        ],
+      },
+    },
+
+ 
 
     {
       title: '操作',
@@ -144,12 +321,10 @@ const supportInputComponent = ({
   const query = async (params, sorter, filter) => {
     const TableList = postListInit({
       departmentid: Number(params.departmentid),
-      employeeid: Number(params.employeeid),
-      shiftid: Number(params.shiftid),
       areaid: Number(params.areaid),
       tsdate: params.tsdate,
       PageIndex: params.current,
-      PageSize: 10000,
+      PageSize: params.pageSize,
 
     })
     return TableList.then(function (value) {
@@ -163,9 +338,7 @@ const supportInputComponent = ({
       }
     });
   };
-
-
-
+ 
 
 
   /**
@@ -178,7 +351,16 @@ const supportInputComponent = ({
     let params = {
       departmentid: Number(fields.departmentid) == null ? '' : Number(fields.departmentid),
       tsdate: fields.tsdate,
-      period: fields.period
+      areaid: Number(fields.areaid) == null ? '' : Number(fields.areaid),
+      ts: fields.ts,
+      gap: fields.gap,
+      paidhour: fields.paidhour,
+      t1: fields.t1,
+      t4: fields.t4,
+      t5: fields.t5,
+      ke: fields.ke,
+      prodt4: fields.prodt4,
+      period: fields.period, 
     }
     try {
       let data = await addPost(params);
@@ -209,7 +391,15 @@ const supportInputComponent = ({
         // departmentid: Number(fields.departmentid) == null ? '' : Number(fields.departmentid),
         departmentid: Number(fields.departmentid),
         tsdate: fields.tsdate,
-        period: fields.period
+        areaid: Number(fields.areaid),
+        ts: fields.ts,
+        gap: fields.gap,
+        paidhour: fields.paidhour,
+        t1: fields.t1,
+        t4: fields.t4,
+        t5: fields.t5,
+        ke: fields.ke,
+        prodt4: fields.prodt4,
       });
       if (data.status == '200') {
         hide();
@@ -264,7 +454,15 @@ const supportInputComponent = ({
           let obj = {
             'departmentshortname': dataList[i].departmentshortname,
             'tsdate': dataList[i].tsdate,
-            'period':dataList[i].period
+            'areaname': dataList[i].areaname,
+            'ts': dataList[i].ts,
+            'gap': dataList[i].gap,
+            'paidhour': dataList[i].paidhour,
+            't1': dataList[i].t1,
+            't4': dataList[i].t4,
+            't5': dataList[i].t5,
+            'ke': dataList[i].ke,
+            'prodt4': dataList[i].prodt4
           };
           dataTable.push(obj);
         }
@@ -274,8 +472,8 @@ const supportInputComponent = ({
         {
           sheetData: dataTable,
           sheetName: 'sheet',
-          sheetFilter: ['departmentshortname', 'tsdate', 'period'],
-          sheetHeader: ['部门', '日期', '用时'],
+          sheetFilter: ['departmentshortname', 'tsdate','areaname','ts','gap','paidhour','t1','t4','t5', 'ke', 'prodt4'],
+          sheetHeader: ['部门', '日期', '区域', 'ts', 'gap', 'paidhour', 't1', 't4', 't5', 'ke', 'prodt4'],
         }
       ];
       var toExcel = new ExportJsonExcel(option);
@@ -288,6 +486,7 @@ const supportInputComponent = ({
         headerTitle="查询表格"
         actionRef={actionRef}
        scroll={{ y: 500 }}
+       pagination={false}
         rowKey="id"
         search={{
           labelWidth: 120,

@@ -202,7 +202,7 @@ const redInfoComponent = ({
       downtime: params.downtime == null ? '' : params.downtime,
       downtimedec: params.downtimedec == null ? '' : params.downtimedec,
       PageIndex: params.current,
-      PageSize: 10000,
+      PageSize: params.pageSize,
     })
     return TableList.then(function (value) {
       setDataList(value.list);
@@ -214,10 +214,9 @@ const redInfoComponent = ({
         total: value.total
       }
     });
+  };
 
-
-
-  }
+ 
   /**
    * 添加节点
    * @param fields
@@ -354,6 +353,7 @@ const redInfoComponent = ({
         headerTitle="查询表格"
         actionRef={actionRef}
         scroll={{ y: 500 }}
+        pagination={false}
         rowKey="downtimeid"
         search={{
           labelWidth: 120,

@@ -125,7 +125,7 @@ const classMaintainComponent = ({
     const TableList = postListInit({
       shiftname: params.shiftname == null ? '' : params.shiftname,
       PageIndex: params.current,
-      PageSize: 10000,
+      PageSize: params.pageSize,
     })
     return TableList.then(function (value) {
       setDataList(value.list);
@@ -137,10 +137,11 @@ const classMaintainComponent = ({
         total: value.total
       }
     });
-
-
-
   }
+
+ 
+
+
   /**
    * 添加节点
    * @param fields
@@ -271,6 +272,7 @@ return (
       headerTitle="查询表格"
       actionRef={actionRef}
       scroll={{ y: 500 }}
+      pagination={false}
       rowKey="shiftID"
       search={{
         labelWidth: 120,

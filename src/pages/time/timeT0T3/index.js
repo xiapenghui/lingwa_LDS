@@ -256,7 +256,7 @@ const timeT0T3Component = ({
       dateStart: params.timefrom,
       dateEnd: params.timeto,
       PageIndex: params.current,
-      PageSize: 10000,
+      PageSize: params.pageSize,
 
     })
     return TableList.then(function (value) {
@@ -271,7 +271,7 @@ const timeT0T3Component = ({
     });
   };
 
-
+ 
 
   // changeProduct = async (value) => {
   //   try {
@@ -434,6 +434,7 @@ const timeT0T3Component = ({
         headerTitle="查询表格"
         actionRef={actionRef}
         scroll={{ x: 1000, y: 500 }}
+        pagination={false}
         rowKey="id"
         search={{
           labelWidth: 120,

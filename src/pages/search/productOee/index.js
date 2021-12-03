@@ -700,13 +700,12 @@ const productOeeComponent = ({ productOee, dispatch }) => {
 
   const query = async (params, sorter, filter) => {
     const TableList = postListInit({
-      familyid: Number(params.familyid),
       productareaid: Number(params.productareaid),
       shiftid: params.shiftid[0] == "早班" ? 1 : params.shiftid,
       tsdateStart: params.tsdateStart,
       tsdateEnd: params.tsdateEnd,
       PageIndex: params.current,
-      PageSize: 10000,
+      PageSize: params.pageSize,
     });
     return TableList.then(function (value) {
       setDataSum(value.list.sum);
@@ -721,6 +720,7 @@ const productOeeComponent = ({ productOee, dispatch }) => {
     });
   };
 
+  
   /**
    * 添加节点
    * @param fields

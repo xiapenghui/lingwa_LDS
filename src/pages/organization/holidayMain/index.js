@@ -77,7 +77,7 @@ const holidayMainComponent = ({
     const TableList = postListInit({
       relaxtype: params.relaxtype ,
       PageIndex: params.current,
-      PageSize: 10000,
+      PageSize: params.pageSize,
     })
     return TableList.then(function (value) {
       setDataList(value.list);
@@ -90,7 +90,8 @@ const holidayMainComponent = ({
       }
     });
 
-  }
+  };
+ 
   /**
    * 添加节点
    * @param fields
@@ -207,6 +208,7 @@ const holidayMainComponent = ({
         headerTitle="查询表格"
         actionRef={actionRef}
         scroll={{ y: 500 }}
+        pagination={false}
         rowKey="id"
         search={{
           labelWidth: 120,

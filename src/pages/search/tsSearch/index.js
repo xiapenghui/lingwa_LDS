@@ -370,10 +370,10 @@ const tsSearchComponent = ({
       tsdateStart: params.tsdateStart,
       tsdateEnd: params.tsdateEnd,
       PageIndex: params.current,
-      PageSize: 10000,
+      PageSize: params.pageSize,
     })
     return TableList.then(function (value) {
-      setDataSum(value.list.sum)
+      setDataSum(value.list.sum);
       setDataList(value.list.detail);
       return {
         data: value.list.detail,
@@ -383,7 +383,9 @@ const tsSearchComponent = ({
         total: value.total
       }
     });
-  }
+  };
+
+ 
 
   /**
    * 添加节点

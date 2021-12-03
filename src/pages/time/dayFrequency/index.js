@@ -423,7 +423,7 @@ const dayFrequencyComponent = ({
         rules: [
           {
             required: true,
-            message: '班次不能为空!',
+            message: '线体不能为空!',
           },
         ],
       },
@@ -537,23 +537,23 @@ const dayFrequencyComponent = ({
       areaid: Number(params.areaid),
       lineid: Number(params.lineid),
       tsdate: params.tsdate,
-      // PageIndex: params.current,
-      // PageSize: params.pageSize
-      PageSize: 10000,
+      PageIndex: params.current,
+      PageSize: params.pageSize,
 
     })
     return TableList.then(function (value) {
       setDataList(value.list);
       return {
         data: value.list,
-        // current: value.pageNum,
-        // pageSize: value.pageSize,
+        current: value.pageNum,
+        pageSize: value.pageSize,
         success: true,
         total: value.total
       }
     });
   };
 
+ 
 
   //获取日期聚焦的值
   const dataPick = (value) => {

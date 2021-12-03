@@ -1,6 +1,6 @@
 import { PlusOutlined ,UploadOutlined} from '@ant-design/icons';
-import { Button, message } from 'antd';
-import React, { useState, useRef, useEffect } from 'react';
+import { Button, message ,Select  } from 'antd';
+import React, { useState, useRef, useEffect  } from 'react';
 import { Link, connect } from 'umi';
 import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
 import ProTable from '@ant-design/pro-table';
@@ -26,7 +26,10 @@ const numberComponent = ({
     TableList,
     typeList,
     riskList,
-    isNoList, } = productAndLine
+    isNoList,
+    lineList,
+    ProductTypeList
+  } = productAndLine
   const [createModalVisible, handleModalVisible] = useState(false);
   const [updateModalVisible, handleUpdateModalVisible] = useState(false);
   const actionRef = useRef();
@@ -40,12 +43,129 @@ const numberComponent = ({
 
   const getColumns = () => [
 
+    {
+      title: '产品名称',
+      dataIndex: 'productid',
+      valueType: 'text',
+      align: 'center',
+      hideInTable:true,
+      width:150,
+      valueEnum: ProductTypeList.length == 0 ? {} : ProductTypeList,
+      initialValue: !IsUpdate ? '' : (UpdateDate.productid ? UpdateDate.productid.toString() : ''),
+      renderFormItem: (_, { type, defaultRender, ...rest }, form) => {
+        
+        if (type === 'form' || type === 'table') {
+          // 返回新的组件
+          let newList = []
+          for (let [key, value] of Object.entries(ProductTypeList)) {
+            newList.push({ key: key, label: value.text })
+          }
+          return <Select
+            allowClear
+            showSearch
+            optionFilterProp='children'
+          >
+            {newList.map(function (item, index) {
+              return <Select.Option key={index} value={item.key}>
+                {item.label}
+              </Select.Option>
+            })}
+          </Select>
+        }
+        return defaultRender(_);
+      },
+      formItemProps: {
+        rules: [
+          {
+            required: true,
+            message: '产品类型不能为空!',
+          },
+        ],
+      },
+    },
+
+    {
+      title: '产品名称',
+      dataIndex: 'productname',
+      valueType: 'text',
+      align: 'center',
+      width:150,
+      hideInSearch:true,
+      hideInForm:true,
+    },
+
+
+    {
+      title: '线体名称',
+      dataIndex: 'lineid',
+      valueType: 'text',
+      align: 'center',
+      width: 150,
+      hideInTable:true,
+      valueEnum: lineList.length == 0 ? {} : lineList,
+      initialValue: !IsUpdate ? '' : (UpdateDate.lineid ? UpdateDate.lineid.toString() : ''),
+      renderFormItem: (_, { type, defaultRender, ...rest }, form) => {
+        if (type === 'form') {
+          // 返回新的组件
+          let newList = []
+          for (let [key, value] of Object.entries(lineList)) {
+            if (value.text != '全部') {
+              newList.push({ key: key, label: value.text })
+            }
+          }
+          return <Select
+            allowClear
+            showSearch
+            optionFilterProp='children'
+          >
+            {newList.map(function (item, index) {
+              return <Select.Option key={index} value={item.key}>
+                {item.label}
+              </Select.Option>
+            })}
+          </Select>
+        }
+        return defaultRender(_);
+      },
+
+      render: (text, action) => {
+        if (action.lineid == 0) {
+          return text = '-'
+        } else {
+          return text = action.linename
+        }
+      },
+
+      formItemProps: {
+        rules: [
+          {
+            required: true,
+            message: '线体不能为空!',
+          },
+        ],
+      },
+    },
+
+
+    {
+      title: '线体名称',
+      dataIndex: 'linename',
+      valueType: 'text',
+      align: 'center',
+      width:150,
+      hideInSearch:true,
+      hideInForm:true,
+    },
+
+
 
     {
       title: 'ut',
       dataIndex: 'ut',
       valueType: 'text',
       align: 'center',
+      width:100,
+      hideInSearch:true,
       initialValue: IsUpdate ? UpdateDate.ut : '',
       formItemProps: {
         rules: [
@@ -61,6 +181,8 @@ const numberComponent = ({
       dataIndex: 'dt',
       valueType: 'text',
       align: 'center',
+      width:100,
+      hideInSearch:true,
       initialValue: IsUpdate ? UpdateDate.dt : '',
       formItemProps: {
         rules: [
@@ -77,6 +199,8 @@ const numberComponent = ({
       dataIndex: 'TargetKE',
       valueType: 'text',
       align: 'center',
+      width:100,
+      hideInSearch:true,
       initialValue: IsUpdate ? UpdateDate.TargetKE : '',
       formItemProps: {
         rules: [
@@ -86,6 +210,9 @@ const numberComponent = ({
           },
         ],
       },
+      render: (text) => {
+        return text + "%";
+      },
     },
 
     {
@@ -93,6 +220,8 @@ const numberComponent = ({
       dataIndex: 'TargetIE',
       valueType: 'text',
       align: 'center',
+      width:100,
+      hideInSearch:true,
       initialValue: IsUpdate ? UpdateDate.TargetIE : '',
       formItemProps: {
         rules: [
@@ -102,6 +231,9 @@ const numberComponent = ({
           },
         ],
       },
+      render: (text) => {
+        return text + "%";
+      },
     },
 
     {
@@ -109,6 +241,8 @@ const numberComponent = ({
       dataIndex: 'TargetSUR',
       valueType: 'text',
       align: 'center',
+      width:100,
+      hideInSearch:true,
       initialValue: IsUpdate ? UpdateDate.TargetSUR : '',
       formItemProps: {
         rules: [
@@ -125,6 +259,8 @@ const numberComponent = ({
       dataIndex: 'TargetOEE',
       valueType: 'text',
       align: 'center',
+      width:100,
+      hideInSearch:true,
       initialValue: IsUpdate ? UpdateDate.TargetOEE : '',
       formItemProps: {
         rules: [
@@ -141,6 +277,8 @@ const numberComponent = ({
       dataIndex: 'Preference',
       valueType: 'text',
       align: 'center',
+      width:100,
+      hideInSearch:true,
       initialValue: IsUpdate ? UpdateDate.Preference : '',
       formItemProps: {
         rules: [
@@ -150,6 +288,9 @@ const numberComponent = ({
           },
         ],
       },
+      render: (text) => {
+        return text + "%";
+      },
     },
 
     {
@@ -157,6 +298,8 @@ const numberComponent = ({
       dataIndex: 'TargetFPY',
       valueType: 'text',
       align: 'center',
+      width:100,
+      hideInSearch:true,
       initialValue: IsUpdate ? UpdateDate.TargetFPY : '',
       formItemProps: {
         rules: [
@@ -173,6 +316,8 @@ const numberComponent = ({
       dataIndex: 'TargetMDR',
       valueType: 'text',
       align: 'center',
+      width:100,
+      hideInSearch:true,
       initialValue: IsUpdate ? UpdateDate.TargetMDR : '',
       formItemProps: {
         rules: [
@@ -190,6 +335,8 @@ const numberComponent = ({
       dataIndex: 'TargetAvailability',
       valueType: 'text',
       align: 'center',
+      width:100,
+      hideInSearch:true,
       initialValue: IsUpdate ? UpdateDate.TargetAvailability : '',
       formItemProps: {
         rules: [
@@ -199,6 +346,9 @@ const numberComponent = ({
           },
         ],
       },
+      render: (text) => {
+        return text + "%";
+      },
     },
 
     {
@@ -206,6 +356,8 @@ const numberComponent = ({
       dataIndex: 'TargetQuality',
       valueType: 'text',
       align: 'center',
+      width:100,
+      hideInSearch:true,
       initialValue: IsUpdate ? UpdateDate.TargetQuality : '',
       formItemProps: {
         rules: [
@@ -219,10 +371,12 @@ const numberComponent = ({
 
     {
       title: '目标最高效率',
-      dataIndex: 'argetPerformance',
+      dataIndex: 'TargetPerformance',
       valueType: 'text',
       align: 'center',
-      initialValue: IsUpdate ? UpdateDate.argetPerformance : '',
+      width:100,
+      hideInSearch:true,
+      initialValue: IsUpdate ? UpdateDate.TargetPerformance : '',
       formItemProps: {
         rules: [
           {
@@ -230,6 +384,9 @@ const numberComponent = ({
             message: '目标最高效率不能为空!',
           },
         ],
+      },
+      render: (text) => {
+        return text + "%";
       },
     },
 
@@ -239,6 +396,7 @@ const numberComponent = ({
       dataIndex: 'remark',
       valueType: 'textarea',
       align: 'center',
+      width:100,
       hideInSearch: true,
       initialValue: IsUpdate ? UpdateDate.remark : '',
     },
@@ -249,6 +407,7 @@ const numberComponent = ({
       dataIndex: 'option',
       valueType: 'option',
       align: 'center',
+      width:100,
       render: (_, record) => (
         <>
           <a onClick={() => {
@@ -265,10 +424,10 @@ const numberComponent = ({
   const query = async (params, sorter, filter) => {
 
     const TableList = postListInit({
-      productno: params.productno == null ? '' : params.productno,
-      productname: params.productname == null ? '' : params.productname,
+      productid:params.productid,
+      lineid:params.lineid,
       PageIndex: params.current,
-      PageSize: 10000,
+      PageSize: params.pageSize,
     })
     return TableList.then(function (value) {
       setDataList(value.list);
@@ -279,11 +438,9 @@ const numberComponent = ({
         success: true,
         total: value.total
       }
-    });
-
-  
-
-  }
+    })
+  };
+ 
   /**
    * 添加节点
    * @param fields
@@ -316,7 +473,7 @@ const numberComponent = ({
     const hide = message.loading('正在编辑');
     console.log('handleUpdate', fields)
     try {
-      let data = await updatePut({ productid: UpdateDate.productid, ...fields });
+      let data = await updatePut({ id: UpdateDate.id, ...fields });
       if (data.status == '200') {
         hide();
         message.success(data.message);
@@ -341,7 +498,7 @@ const numberComponent = ({
 
     try {
       let data = await deleted({
-        productids: selectedRows.map((row) => row.productid),
+        shipids: selectedRows.map((row) => row.id),
       });
 
       if (data.status == '200') {
@@ -367,13 +524,15 @@ const numberComponent = ({
     if (dataList.length > 0) {
       for (let i in dataList) {
         let obj = {
+          'productname': dataList[i].productname,
+          'linename': dataList[i].linename,
           'ut': dataList[i].ut,
           'dt': dataList[i].dt,
-          'TargetKE': dataList[i].TargetKE,
-          'TargetIE': dataList[i].TargetIE,
-          'TargetSUR': dataList[i].TargetSUR,
-          'TargetOEE': dataList[i].TargetOEE,
-          'Preference': dataList[i].Preference,
+          'TargetKE': dataList[i].TargetKE + '%',
+          'TargetIE': dataList[i].TargetIE  + '%',
+          'TargetSUR': dataList[i].TargetSUR  + '%',
+          'TargetOEE': dataList[i].TargetOEE + '%',
+          'Preference': dataList[i].Preference  + '%',
           'TargetFPY': dataList[i].TargetFPY,
           'TargetMDR': dataList[i].TargetMDR,
           'TargetAvailability': dataList[i].TargetAvailability,
@@ -389,9 +548,9 @@ const numberComponent = ({
       {
         sheetData: dataTable,
         sheetName: 'sheet',
-        sheetFilter: ['ut', 'dt','TargetKE','TargetIE','TargetSUR','TargetOEE','Preference','TargetFPY',
+        sheetFilter: ['productname','linename','ut', 'dt','TargetKE','TargetIE','TargetSUR','TargetOEE','Preference','TargetFPY',
         'TargetMDR','TargetAvailability','TargetQuality','TargetPerformance','remark'],
-        sheetHeader: ['ut', 'dt',  '目标KE',  '目标IE',  '目标SUR',  
+        sheetHeader: ['产品名称','线体名称','ut', 'dt',  '目标KE',  '目标IE',  '目标SUR',  
         '目标OEE',  '最高效率',  '目标FPY',  '目标MDR',  '目标效率',  '目标质量','目标最高效率','备注'],
       }
     ];
@@ -408,10 +567,10 @@ const numberComponent = ({
         headerTitle="查询表格"
         actionRef={actionRef}
         scroll={{ y: 500 }}
-        rowKey="productid"
+        // pagination={false}
+        rowKey="id"
         search={{
           labelWidth: 120,
-
         }}
         toolBarRender={() => [
           <Button type="primary" onClick={() => handleModalVisible(true)}>
@@ -486,7 +645,7 @@ const numberComponent = ({
               }
             }
           }}
-          rowKey="productid"
+          rowKey="id"
           type="form"
           columns={getColumns()}
         />
@@ -515,7 +674,7 @@ const numberComponent = ({
                 }
               }
             }}
-            rowKey="productid"
+            rowKey="id"
             type="form"
             columns={getColumns()}
 

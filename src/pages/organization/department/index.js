@@ -122,8 +122,7 @@ const departmentComponent = ({
       departmentname: params.departmentno == null ? '' : params.departmentname,
       departmentshortname: params.departmentshortname == null ? '' : params.departmentshortname,
       PageIndex: params.current,
-      // PageSize: params.pageSize
-      PageSize: 10000,
+      PageSize: params.pageSize,
     })
     return TableList.then(function (value) {
       setDataList(value.list);
@@ -135,10 +134,9 @@ const departmentComponent = ({
         total: value.total
       }
     });
-
-
-
   }
+ 
+
   /**
    * 添加节点
    * @param fields
@@ -254,6 +252,7 @@ const departmentComponent = ({
         headerTitle="查询表格"
         actionRef={actionRef}
         scroll={{ y: 500 }}
+        pagination={false}
         rowKey="departmentid"
         search={{
           labelWidth: 120,

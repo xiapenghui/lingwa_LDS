@@ -149,7 +149,7 @@ const supportInputComponent = ({
       areaid: Number(params.areaid),
       tsdate: params.tsdate,
       PageIndex: params.current,
-      PageSize: 10000,
+      PageSize: params.pageSize,
 
     })
     return TableList.then(function (value) {
@@ -164,9 +164,7 @@ const supportInputComponent = ({
     });
   };
 
-
-
-
+ 
 
   /**
    * 添加节点
@@ -288,6 +286,7 @@ const supportInputComponent = ({
         headerTitle="查询表格"
         actionRef={actionRef}
        scroll={{ y: 500 }}
+       pagination={false}
         rowKey="id"
         search={{
           labelWidth: 120,

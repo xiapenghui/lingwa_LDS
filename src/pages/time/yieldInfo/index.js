@@ -148,8 +148,6 @@ const yieldInfoComponent = ({
     },
 
 
-
-
     {
       title: '线体',
       dataIndex: 'lineid',
@@ -235,7 +233,7 @@ const yieldInfoComponent = ({
       tsdateStart: params.tsdateStart,
       tsdateEnd: params.tsdateEnd,
       PageIndex: params.current,
-      PageSize: 10000,
+      PageSize: params.pageSize,
 
     })
     return TableList.then(function (value) {
@@ -250,6 +248,7 @@ const yieldInfoComponent = ({
     });
   };
 
+ 
 
   /**
    * 添加节点
@@ -376,6 +375,7 @@ const yieldInfoComponent = ({
         headerTitle="查询表格"
         actionRef={actionRef}
         scroll={{ y: 500 }}
+        pagination={false}
         rowKey="id"
         search={{
           labelWidth: 120,

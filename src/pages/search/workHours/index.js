@@ -585,7 +585,7 @@ const workHoursComponent = ({
       defalutshifttypeid: Number(params.defalutshifttypeid),
       employeepattributes: params.employeepattributes,
       PageIndex: params.current,
-      PageSize: 10000,
+      PageSize: params.pageSize,
 
     })
     return TableList.then(function (value) {
@@ -600,6 +600,7 @@ const workHoursComponent = ({
     });
   };
 
+  
 
   // 导出
   const downloadExcel = async () => {

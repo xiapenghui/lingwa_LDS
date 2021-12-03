@@ -12,11 +12,28 @@ export async function getDropDownInit(params) {
     data: { ...params },
   });
 }
+
+ 
+// 线体接口
+export async function getLine(params) {
+  return request(`${ip}/WebAPI/api/Common/GetProductLineTextIdText`, {
+    method: 'POST',
+    data: { ...params }
+  });
+}
+
+//获取产品类型
+export async function getProductType(params) {
+  return request(`${ip}/WebAPI/api/Common/GetproductNameText`, {
+    method: 'POST',
+    data: { ...params },
+  });
+}
 /**
  * 查询
  */
 export async function postListInit(params) {
-  return request(`${ip}/WebAPI/api/ProductProducts/List`, {
+  return request(`${ip}/WebAPI/api/ProductLineShip/List`, {
     method: 'POST',
     data: { ...params },
   });
@@ -28,7 +45,7 @@ export async function postListInit(params) {
  * 新建保存
  */
  export async function addPost(params) {
-  return request(`${ip}/WebAPI/api/ProductProducts/Add`, {
+  return request(`${ip}/WebAPI/api/ProductLineShip/Add`, {
     method: 'POST',
     data: { ...params },
   });
@@ -39,7 +56,7 @@ export async function postListInit(params) {
  * 编辑保存
  */
  export async function updatePut(params) {
-  return request(`${ip}/WebAPI/api/ProductProducts/Modify`, {
+  return request(`${ip}/WebAPI/api/ProductLineShip/Modify`, {
     method: 'POST',
     data: { ...params },
   });
@@ -51,14 +68,14 @@ export async function postListInit(params) {
  * 删除
  */
 export async function deleted(params) {
-  return request(`${ip}/WebAPI/api/ProductProducts/Delete`, {
+  return request(`${ip}/WebAPI/api/ProductLineShip/Delete`, {
     method: 'POST',
     data: { ...params },
   });
 }
  
 
- 
+
 
 
 

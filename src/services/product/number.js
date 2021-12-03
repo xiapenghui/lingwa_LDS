@@ -12,6 +12,16 @@ export async function getDropDownInit(params) {
     data: { ...params },
   });
 }
+
+//获取产品类型
+export async function getProductType(params) {
+  return request(`${ip}/WebAPI/api/Common/GetproducttypeidText`, {
+    method: 'POST',
+    data: { ...params },
+  });
+}
+ 
+
 /**
  * 查询
  */

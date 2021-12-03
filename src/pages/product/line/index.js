@@ -224,7 +224,6 @@ const lineComponent = ({
   ];
 
   const query = async (params, sorter, filter) => {
-
     const TableList = postListInit({
       lineno: params.lineno,
       linename: params.linename,
@@ -232,7 +231,7 @@ const lineComponent = ({
       productareaid: Number(params.productareaid),
       productarea: params.productarea == null ? '' : params.productarea,
       PageIndex: params.current,
-      PageSize: 10000,
+      PageSize: params.pageSize,
     })
     return TableList.then(function (value) {
       setDataList(value.list);
@@ -244,8 +243,10 @@ const lineComponent = ({
         total: value.total
       }
     });
-
   }
+
+ 
+
   /**
    * 添加节点
    * @param fields
@@ -261,7 +262,8 @@ const lineComponent = ({
         productareaid: Number(fields.productareaid) == null ? '' : Number(fields.productareaid),
         targetKE:fields.targetKE,
         targetIE:fields.targetIE,
-        // defalutparts:fields.defalutparts,
+        linetype:fields.linetype,
+        weldtype:fields.weldtype,
         remark: fields.remark
       });
       if (data.status == '200') {
@@ -295,6 +297,8 @@ const lineComponent = ({
         productareaid: Number(fields.productareaid),
         targetKE:fields.targetKE,
         targetIE:fields.targetIE,
+        linetype:fields.linetype,
+        weldtype:fields.weldtype,
         // defalutparts:fields.defalutparts,
         remark: fields.remark
       });
@@ -379,7 +383,8 @@ const lineComponent = ({
       <ProTable
         headerTitle="查询表格"
         actionRef={actionRef}
-scroll={{ y: 500 }}
+        scroll={{ y: 500 }}
+        pagination={false}
         rowKey="lineid"
         search={{
           labelWidth: 120,

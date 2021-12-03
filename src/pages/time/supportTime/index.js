@@ -375,7 +375,7 @@ const supportTimeComponent = ({
       tsdateStart: params.tsdateStart,
       tsdateEnd: params.tsdateEnd,
       PageIndex: params.current,
-      PageSize: 10000,
+      PageSize: params.pageSize,
 
     })
     return TableList.then(function (value) {
@@ -390,6 +390,7 @@ const supportTimeComponent = ({
     });
   };
 
+  
 
   /**
    * 添加节点
@@ -534,6 +535,7 @@ const supportTimeComponent = ({
         headerTitle="查询表格"
         actionRef={actionRef}
         scroll={{ y: 500 }}
+        pagination={false}
         rowKey="id"
         search={{
           labelWidth: 120,

@@ -110,7 +110,7 @@ const timeMaintainComponent = ({
       shiftname: params.shiftname == null ? '' : params.shiftname,
       shiftclass: Number(params.shiftclass),
       PageIndex: params.current,
-      PageSize: 10000,
+      PageSize: params.pageSize,
     })
     return TableList.then(function (value) {
       setDataList(value.list);
@@ -122,10 +122,9 @@ const timeMaintainComponent = ({
         total: value.total
       }
     });
+  };
 
-
-
-  }
+ 
   /**
    * 添加节点
    * @param fields
@@ -241,6 +240,7 @@ const timeMaintainComponent = ({
         headerTitle="查询表格"
         actionRef={actionRef}
         scroll={{ y: 500 }}  
+        pagination={false}
         rowKey="shiftid"
         search={{
           labelWidth: 120,

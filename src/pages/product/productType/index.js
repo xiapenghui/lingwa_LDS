@@ -64,6 +64,7 @@ const numberComponent = ({
       valueType: 'textarea',
       align: 'center',
       initialValue: IsUpdate ? UpdateDate.producttypedec : '',
+      hideInSearch: true,
       formItemProps: {
         rules: [
           {
@@ -107,10 +108,9 @@ const numberComponent = ({
   const query = async (params, sorter, filter) => {
 
     const TableList = postListInit({
-      productno: params.productno == null ? '' : params.productno,
-      productname: params.productname == null ? '' : params.productname,
+      producttype: params.producttype == null ? '' : params.producttype,
       PageIndex: params.current,
-      PageSize: 10000,
+      PageSize: params.pageSize,
     })
     return TableList.then(function (value) {
       setDataList(value.list);
@@ -122,10 +122,9 @@ const numberComponent = ({
         total: value.total
       }
     });
+  };
 
-  
-
-  }
+ 
   /**
    * 添加节点
    * @param fields
@@ -158,7 +157,7 @@ const numberComponent = ({
     const hide = message.loading('正在编辑');
     console.log('handleUpdate', fields)
     try {
-      let data = await updatePut({ productid: UpdateDate.productid, ...fields });
+      let data = await updatePut({ id: UpdateDate.id, ...fields });
       if (data.status == '200') {
         hide();
         message.success(data.message);
@@ -183,7 +182,7 @@ const numberComponent = ({
 
     try {
       let data = await deleted({
-        productids: selectedRows.map((row) => row.productid),
+        productids: selectedRows.map((row) => row.id),
       });
 
       if (data.status == '200') {
@@ -238,7 +237,8 @@ const numberComponent = ({
         headerTitle="查询表格"
         actionRef={actionRef}
         scroll={{ y: 500 }}
-        rowKey="productid"
+        pagination={false}
+        rowKey="id"
         search={{
           labelWidth: 120,
 
@@ -316,7 +316,7 @@ const numberComponent = ({
               }
             }
           }}
-          rowKey="productid"
+          rowKey="id"
           type="form"
           columns={getColumns()}
         />
@@ -345,7 +345,7 @@ const numberComponent = ({
                 }
               }
             }}
-            rowKey="productid"
+            rowKey="id"
             type="form"
             columns={getColumns()}
 

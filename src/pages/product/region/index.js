@@ -126,7 +126,7 @@ const regionComponent = ({
       familyid: Number(params.familyid),
       productarea: params.productarea,
       PageIndex: params.current,
-      PageSize: 10000,
+      PageSize: params.pageSize,
     })
     return TableList.then(function (value) {
       setDataList(value.list);
@@ -138,9 +138,9 @@ const regionComponent = ({
         total: value.total
       }
     });
+  };
 
-
-  }
+  
   /**
    * 添加节点
    * @param fields
@@ -265,6 +265,7 @@ const regionComponent = ({
         headerTitle="查询表格"
         actionRef={actionRef}
         scroll={{ y: 500 }}
+        pagination={false}
         rowKey="productareaid"
         search={{
           labelWidth: 120,

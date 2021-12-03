@@ -534,7 +534,7 @@ const timeT5Component = ({
       dateStart: params.timefrom,
       dateEnd: params.timeto,
       PageIndex: params.current,
-      PageSize: 10000,
+      PageSize: params.pageSize,
 
     })
     return TableList.then(function (value) {
@@ -548,6 +548,9 @@ const timeT5Component = ({
       }
     });
   };
+
+
+ 
 
 
 
@@ -590,6 +593,7 @@ const timeT5Component = ({
       timeto: fields.timeto,
       timeaxis:fields.timeaxis,
       usetime:fields.usetime,
+      remark:fields.remark,
       type: 'T5'
     }
     try {
@@ -629,6 +633,7 @@ const timeT5Component = ({
         timeto: fields.timeto,
         timeaxis:fields.timeaxis,
         usetime:fields.usetime,
+        remark:fields.remark,
         type: 'T5',
         // ...fields
       });
@@ -695,6 +700,7 @@ const timeT5Component = ({
           'productarea':dataList[i].productarea,
           'linename':dataList[i].linename,
           'usetime':dataList[i].usetime,
+          'remark':dataList[i].remark,
         };
         dataTable.push(obj);
       }
@@ -705,8 +711,8 @@ const timeT5Component = ({
         sheetData: dataTable,
         sheetName: 'sheet',
         sheetFilter: ['type', 'downtime', 'date','timeaxis','departmentshortname','employeename','shift','familyname',
-      'productarea','linename','usetime'],
-        sheetHeader: ['红色类型', '红色项', '日期', '时间段','部门','员工','班次','工厂名称','产品族','线体','用时'],
+      'productarea','linename','usetime',"remark"],
+        sheetHeader: ['红色类型', '红色项', '日期', '时间段','部门','员工','班次','工厂名称','产品族','线体','用时','备注'],
       }
     ];
     var toExcel = new ExportJsonExcel(option);
@@ -722,6 +728,7 @@ const timeT5Component = ({
         headerTitle="查询表格"
         actionRef={actionRef}
         scroll={{ x: 2000, y: 500 }}
+        pagination={false}
         rowKey="id"
         search={{
           labelWidth: 120,

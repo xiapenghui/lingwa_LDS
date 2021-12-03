@@ -16,7 +16,7 @@ export async function getDropDownInit(params) {
  * 查询
  */
 export async function postListInit(params) {
-  return request(`${ip}/WebAPI/api/ProductProducts/List`, {
+  return request(`${ip}/WebAPI/api/producttypeinfo/List`, {
     method: 'POST',
     data: { ...params },
   });
@@ -28,7 +28,7 @@ export async function postListInit(params) {
  * 新建保存
  */
  export async function addPost(params) {
-  return request(`${ip}/WebAPI/api/ProductProducts/Add`, {
+  return request(`${ip}/WebAPI/api/producttypeinfo/Add`, {
     method: 'POST',
     data: { ...params },
   });
@@ -39,7 +39,7 @@ export async function postListInit(params) {
  * 编辑保存
  */
  export async function updatePut(params) {
-  return request(`${ip}/WebAPI/api/ProductProducts/Modify`, {
+  return request(`${ip}/WebAPI/api/producttypeinfo/Modify`, {
     method: 'POST',
     data: { ...params },
   });
@@ -51,7 +51,7 @@ export async function postListInit(params) {
  * 删除
  */
 export async function deleted(params) {
-  return request(`${ip}/WebAPI/api/ProductProducts/Delete`, {
+  return request(`${ip}/WebAPI/api/producttypeinfo/Delete`, {
     method: 'POST',
     data: { ...params },
   });

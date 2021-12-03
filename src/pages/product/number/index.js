@@ -1,5 +1,5 @@
 import { PlusOutlined ,UploadOutlined} from '@ant-design/icons';
-import { Button, message } from 'antd';
+import { Button, message ,Select  } from 'antd';
 import React, { useState, useRef, useEffect } from 'react';
 import { Link, connect } from 'umi';
 import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
@@ -26,6 +26,7 @@ const numberComponent = ({
     TableList,
     typeList,
     riskList,
+    ProductTypeList,
     isNoList, } = number
   const [createModalVisible, handleModalVisible] = useState(false);
   const [updateModalVisible, handleUpdateModalVisible] = useState(false);
@@ -56,6 +57,7 @@ const numberComponent = ({
         ],
       },
     },
+
     {
       title: '产品名称',
       dataIndex: 'productname',
@@ -72,12 +74,38 @@ const numberComponent = ({
       },
     },
 
+
     {
       title: '产品类型',
       dataIndex: 'producttypeid',
       valueType: 'text',
       align: 'center',
-      initialValue: IsUpdate ? UpdateDate.producttypeid : '',
+      hideInSearch:true,
+      hideInTable:true,
+      valueEnum: ProductTypeList.length == 0 ? {} : ProductTypeList,
+      initialValue: !IsUpdate ? '' : (UpdateDate.producttypeid ? UpdateDate.producttypeid.toString() : ''),
+      renderFormItem: (_, { type, defaultRender, ...rest }, form) => {
+        debugger
+        if (type === 'form' || type === 'table') {
+          // 返回新的组件
+          let newList = []
+          for (let [key, value] of Object.entries(ProductTypeList)) {
+            newList.push({ key: key, label: value.text })
+          }
+          return <Select
+            allowClear
+            showSearch
+            optionFilterProp='children'
+          >
+            {newList.map(function (item, index) {
+              return <Select.Option key={index} value={item.key}>
+                {item.label}
+              </Select.Option>
+            })}
+          </Select>
+        }
+        return defaultRender(_);
+      },
       formItemProps: {
         rules: [
           {
@@ -88,6 +116,14 @@ const numberComponent = ({
       },
     },
 
+    {
+      title: '产品类型',
+      dataIndex: 'producttype',
+      valueType: 'text',
+      align: 'center',
+      hideInSearch:true,
+      hideInForm:true,
+    },
 
     {
       title: '备注',
@@ -118,12 +154,11 @@ const numberComponent = ({
   ];
 
   const query = async (params, sorter, filter) => {
-
     const TableList = postListInit({
       productno: params.productno == null ? '' : params.productno,
       productname: params.productname == null ? '' : params.productname,
       PageIndex: params.current,
-      PageSize: 10000,
+      PageSize: params.pageSize,
     })
     return TableList.then(function (value) {
       setDataList(value.list);
@@ -135,10 +170,8 @@ const numberComponent = ({
         total: value.total
       }
     });
-
-  
-
-  }
+  };
+ 
   /**
    * 添加节点
    * @param fields
@@ -224,6 +257,7 @@ const numberComponent = ({
         let obj = {
           'productno': dataList[i].productno,
           'productname': dataList[i].productname,
+          'producttype': dataList[i].producttype,
           'remark':dataList[i].remark,
         }
         dataTable.push(obj);
@@ -234,8 +268,8 @@ const numberComponent = ({
       {
         sheetData: dataTable,
         sheetName: 'sheet',
-        sheetFilter: ['productno', 'productname','remark'],
-        sheetHeader: ['产品编号', '产品名称',  '备注'],
+        sheetFilter: ['productno', 'productname','producttype','remark'],
+        sheetHeader: ['产品编号', '产品名称', '产品类型', '备注'],
       }
     ];
 
@@ -251,6 +285,7 @@ const numberComponent = ({
         headerTitle="查询表格"
         actionRef={actionRef}
         scroll={{ y: 500 }}
+        // pagination={false}
         rowKey="productid"
         search={{
           labelWidth: 120,

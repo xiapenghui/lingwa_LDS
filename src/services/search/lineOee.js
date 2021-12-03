@@ -31,6 +31,16 @@ export async function getArea(params) {
   });
 }
 
+// 线体接口
+export async function getLine(params) {
+  return request(`${ip}/WebAPI/api/Common/GetProductLineTextIdText`, {
+    method: 'POST',
+    data: { ...params }
+  });
+}
+
+
+
 //班次接口
 export async function getShif() { 
   return request(`${ip}/WebAPI/api/Common/GetShiftinfoIdTextAll`, {
@@ -43,7 +53,7 @@ export async function getShif() {
  * 查询
  */
 export async function postListInit(params) {
-  return request(`${ip}/WebAPI/api/KpiAreaShiftOEE/ListArea`, {
+  return request(`${ip}/WebAPI/api/lineoeekpi/ListArea`, {
     method: 'POST',
     data: { ...params },
   });

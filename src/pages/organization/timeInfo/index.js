@@ -205,7 +205,7 @@ const timeInfoComponent = ({
       timefrom: params.timefrom,
       timeto: params.timeto,
       PageIndex: params.current,
-      PageSize: 10000,
+      PageSize: params.pageSize,
     })
     return TableList.then(function (value) {
       setDataList(value.list);
@@ -217,9 +217,9 @@ const timeInfoComponent = ({
         total: value.total
       }
     });
+  };
 
-
-  }
+ 
   /**
    * 添加节点
    * @param fields
@@ -354,6 +354,7 @@ const timeInfoComponent = ({
         headerTitle="查询表格"
         actionRef={actionRef}
         scroll={{ y: 500 }}
+        pagination={false}
         rowKey="timeaxisid"
         search={{
           labelWidth: 120,

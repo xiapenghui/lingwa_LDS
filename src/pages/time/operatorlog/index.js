@@ -50,25 +50,53 @@ const unscheduledComponent = ({
 
   const getColumns = () => [
 
+    // OperatorName
 
 
     {
       title: '姓名',
-      dataIndex: 'OperatorName',
+      dataIndex: 'employeeid',
       valueType: 'text',
       align: 'center',
-      hideInSearch: true,
+      width: 150,
+      fixed: 'left',
+      valueEnum: personList.length == 0 ? {} : personList,
+      initialValue: !IsUpdate ? '' : (UpdateDate.employeeid ? UpdateDate.employeeid.toString() : ''),
+      renderFormItem: (_, { type, defaultRender, ...rest }, form) => {
+        if (type === 'form' || type === 'table') {
+          // 返回新的组件
+          let newList = []
+          for (let [key, value] of Object.entries(personList)) {
+            newList.push({ key: key, label: value.text })
+          }
+          return <Select
+            allowClear
+            showSearch
+            optionFilterProp='children'
+          >
+            {newList.map(function (item, index) {
+              return <Select.Option key={index} value={item.key}>
+                {item.label}
+              </Select.Option>
+            })}
+          </Select>
+        }
+        return defaultRender(_);
+      },
+
     },
 
 
 
     {
-      title: '线体id',
-      dataIndex: 'LineID',
+      title: '线体',
+      dataIndex: 'linename',
       valueType: 'text',
       align: 'center',
       hideInSearch: true,
     },
+
+
 
     {
       title: '时间从',
@@ -76,7 +104,7 @@ const unscheduledComponent = ({
       // valueType: 'dateTime',
       valueType: 'date',
       align: 'center',
-      hideInTable:true,
+      hideInSearch: true,
       initialValue: new Date()
     },
 
@@ -86,7 +114,7 @@ const unscheduledComponent = ({
       // valueType: 'dateTime',
       valueType: 'date',
       align: 'center',
-      hideInTable:true,
+      hideInSearch: true,
       initialValue: new Date()
     },
 
@@ -96,7 +124,6 @@ const unscheduledComponent = ({
       // valueType: 'dateTime',
       valueType: 'date',
       align: 'center',
-      hideInTable:true,
       initialValue: new Date()
     },
 
@@ -107,6 +134,7 @@ const unscheduledComponent = ({
       dataIndex: 'shiftid',
       valueType: 'text',
       align: 'center',
+      hideInTable:true,
       hideInTable:true,
       initialValue: ['早班'],
       valueEnum: shifList.length == 0 ? {} : shifList,
@@ -137,21 +165,13 @@ const unscheduledComponent = ({
     },
 
     {
-      title: '版本',
-      dataIndex: 'templateID',
+      title: '班次',
+      dataIndex: 'shift',
       valueType: 'text',
       align: 'center',
       hideInSearch: true,
     },
-
-    {
-      title: '时间段',
-      dataIndex: 'hourid',
-      valueType: 'text',
-      align: 'center',
-      hideInSearch: true,
-    },
-
+ 
     {
       title: '工时',
       dataIndex: 'period',
@@ -162,7 +182,7 @@ const unscheduledComponent = ({
     
     {
       title: '工号',
-      dataIndex: 'periOperatorNOod',
+      dataIndex: 'OperatorNo',
       valueType: 'text',
       align: 'center',
       hideInSearch: true,
@@ -176,13 +196,7 @@ const unscheduledComponent = ({
       hideInSearch: true,
     },
 
-    {
-      title: '区域' ,
-      dataIndex: 'areaid',
-      valueType: 'text',
-      align: 'center',
-      hideInSearch: true,
-    },
+   
 
     // {
     //   title: '操作',
@@ -208,11 +222,11 @@ const unscheduledComponent = ({
 
   const query = async (params, sorter, filter) => {
     const TableList = postListInit({
-      tsdate: params.tsdate,
+      employeeid: Number(params.employeeid) == null ? '' : Number(params.employeeid),
+      TSDate: params.TSDate,
       shiftid: params.shiftid[0] == "早班" ? 1 : Number(params.shiftid),
-      areaid: params.productareaid[0] == "NW" ? 30 : Number(params.productareaid),
       PageIndex: params.current,
-      PageSize: 10000,
+      PageSize: params.pageSize,
     })
     return TableList.then(function (value) {
       setDataList(value.list);
@@ -225,7 +239,7 @@ const unscheduledComponent = ({
       }
     });
   };
-
+ 
 
 
   // changeProduct = async (value) => {
@@ -349,30 +363,25 @@ const unscheduledComponent = ({
       for (let i in dataList) {
         let obj = {
           'OperatorName': dataList[i].OperatorName,
-          'LineID': dataList[i].LineID,
+          'linename': dataList[i].linename,
           'TSFrom':dataList[i].TSFrom,
           'TSTo':dataList[i].TSTo,
           'TSDate':dataList[i].TSDate,
-          'ShiftID':dataList[i].ShiftID,
-          'templateID':dataList[i].templateID,
-          'hourid':dataList[i].hourid,
+          'shift':dataList[i].shift,
           'period':dataList[i].period,
           'OperatorNO':dataList[i].OperatorNO,
-          'breakperiod':dataList[i].breakperiod,
-          'areaid':dataList[i].areaid,
+          'breakperiod':dataList[i].breakperiod
         };
         dataTable.push(obj);
       }
     }
-    option.fileName = '已登出未排班人员'
+    option.fileName = '员工考勤'
     option.datas = [
       {
         sheetData: dataTable,
         sheetName: 'sheet',
-        sheetFilter: ['OperatorName', 'LineID', 'TSFrom','TSTo','TSDate', 'ShiftID','templateID',
-      'hourid','period','OperatorNO','breakperiod','areaid'],
-        sheetHeader: ['姓名', '线体', '时间从', '时间至','日期','班次','版本','时间段','工时','工号','休息时间',
-      '区域'],
+        sheetFilter: ['OperatorName', 'linename', 'TSFrom','TSTo','TSDate', 'shift', ,'period','OperatorNo','breakperiod'],
+        sheetHeader: ['姓名', '线体', '时间从', '时间至','日期','班次', '工时','工号','休息时间'],
       }
     ];
     var toExcel = new ExportJsonExcel(option);
@@ -385,6 +394,7 @@ const unscheduledComponent = ({
         headerTitle="查询表格"
         actionRef={actionRef}
         scroll={{ y: 500 }}
+        pagination={false}
         rowKey="id"
         search={{
           labelWidth: 120,

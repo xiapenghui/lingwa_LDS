@@ -297,6 +297,7 @@ const productDataComponent = ({
         headerTitle="查询表格"
         actionRef={actionRef}
 scroll={{ y: 500 }}
+pagination={false}
         rowKey="row"
         search={{
           labelWidth: 120,
