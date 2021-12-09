@@ -252,6 +252,9 @@ const numberComponent = ({
           },
         ],
       },
+      render: (text) => {
+        return text + "%";
+      },
     },
 
     {
@@ -269,6 +272,9 @@ const numberComponent = ({
             message: '目标OEE不能为空!',
           },
         ],
+      },
+      render: (text) => {
+        return text + "%";
       },
     },
 
@@ -309,6 +315,9 @@ const numberComponent = ({
           },
         ],
       },
+      render: (text) => {
+        return text + "%";
+      },
     },
 
     {
@@ -346,9 +355,7 @@ const numberComponent = ({
           },
         ],
       },
-      render: (text) => {
-        return text + "%";
-      },
+     
     },
 
     {
@@ -384,9 +391,6 @@ const numberComponent = ({
             message: '目标最高效率不能为空!',
           },
         ],
-      },
-      render: (text) => {
-        return text + "%";
       },
     },
 
@@ -533,7 +537,7 @@ const numberComponent = ({
           'TargetSUR': dataList[i].TargetSUR  + '%',
           'TargetOEE': dataList[i].TargetOEE + '%',
           'Preference': dataList[i].Preference  + '%',
-          'TargetFPY': dataList[i].TargetFPY,
+          'TargetFPY': dataList[i].TargetFPY  + '%',
           'TargetMDR': dataList[i].TargetMDR,
           'TargetAvailability': dataList[i].TargetAvailability,
           'TargetQuality': dataList[i].TargetQuality,
@@ -567,7 +571,7 @@ const numberComponent = ({
         headerTitle="查询表格"
         actionRef={actionRef}
         scroll={{ y: 500 }}
-        // pagination={false}
+        pagination={false}
         rowKey="id"
         search={{
           labelWidth: 120,

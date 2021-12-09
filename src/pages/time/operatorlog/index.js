@@ -101,8 +101,8 @@ const unscheduledComponent = ({
     {
       title: '时间从',
       dataIndex: 'TSFrom',
-      // valueType: 'dateTime',
-      valueType: 'date',
+      valueType: 'dateTime',
+      // valueType: 'date',
       align: 'center',
       hideInSearch: true,
       initialValue: new Date()
@@ -111,8 +111,8 @@ const unscheduledComponent = ({
     {
       title: '时间至',
       dataIndex: 'TSTo',
-      // valueType: 'dateTime',
-      valueType: 'date',
+      valueType: 'dateTime',
+      // valueType: 'date',
       align: 'center',
       hideInSearch: true,
       initialValue: new Date()
@@ -193,6 +193,7 @@ const unscheduledComponent = ({
       dataIndex: 'breakperiod',
       valueType: 'text',
       align: 'center',
+      width:120,
       hideInSearch: true,
     },
 
@@ -394,7 +395,7 @@ const unscheduledComponent = ({
         headerTitle="查询表格"
         actionRef={actionRef}
         scroll={{ y: 500 }}
-        pagination={false}
+        // pagination={false}
         rowKey="id"
         search={{
           labelWidth: 120,

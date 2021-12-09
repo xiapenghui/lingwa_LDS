@@ -56,16 +56,13 @@ const productOeeComponent = ({ lineOee, dispatch }) => {
       align: "center",
       width: 100,
       fixed: "left",
+      render: (text, action) => {
+        if (action.shiftid == null) {
+          return (text = "-");
+        }
+      },
     },
     
-
-    {
-      title: "时间段",
-      dataIndex: "hourid",
-      align: "center",
-      width: 100,
-      fixed: "left",
-    },
 
     {
       title: "线体",
@@ -73,10 +70,11 @@ const productOeeComponent = ({ lineOee, dispatch }) => {
       align: "center",
       width: 100,
       fixed: "left",
+      
     },
 
     {
-      title: "ot",
+      title: "OT",
       dataIndex: "ot",
       align: "center",
       width: 100,
@@ -97,23 +95,81 @@ const productOeeComponent = ({ lineOee, dispatch }) => {
     },
 
     {
-      title: "产量",
-      dataIndex: "goodparts",
+      title: "OEE",
+      dataIndex: "OEE",
+      valueType: "text",
       align: "center",
-      width: 100,
+      width: 120,
+      hideInSearch: true,
+      render: (text, record) => {
+        let color =
+          parseInt(record.OEE * 100) < record.targetke ? "red" : "green";
+        if (parseInt(record.OEE * 100) < record.targetke) {
+          return (
+            <Tag color={color}>
+              {parseFloat((record.OEE * 100).toFixed(1)) + "%"}
+            </Tag>
+          );
+        } else {
+          return (
+            <span> {parseFloat((record.OEE * 100).toFixed(1)) + "%"}</span>
+          );
+        }
+      },
     },
 
-
     {
-      title: "日期",
-      dataIndex: "tsdate",
+      title: "NEE",
+      dataIndex: "NEE",
+      valueType: "text",
       align: "center",
-      width: 100,
+      width: 120,
+      hideInSearch: true,
+      render: (text, record) => {
+        let color =
+          parseInt(record.NEE * 100) < record.targetke ? "red" : "green";
+        if (parseInt(record.NEE * 100) < record.targetke) {
+          return (
+            <Tag color={color}>
+              {parseFloat((record.NEE * 100).toFixed(1)) + "%"}
+            </Tag>
+          );
+        } else {
+          return (
+            <span> {parseFloat((record.NEE * 100).toFixed(1)) + "%"}</span>
+          );
+        }
+      },
     },
 
     {
-      title: "目标KE",
-      dataIndex: "targetke",
+      title: "SUR",
+      dataIndex: "SUR",
+      valueType: "text",
+      align: "center",
+      width: 120,
+      hideInSearch: true,
+      render: (text, record) => {
+        let color =
+          parseInt(record.SUR * 100) < record.targetke ? "red" : "green";
+        if (parseInt(record.SUR * 100) < record.targetke) {
+          return (
+            <Tag color={color}>
+              {parseFloat((record.SUR * 100).toFixed(1)) + "%"}
+            </Tag>
+          );
+        } else {
+          return (
+            <span> {parseFloat((record.SUR * 100).toFixed(1)) + "%"}</span>
+          );
+        }
+      },
+    },
+
+ 
+    {
+      title: "目标OEE",
+      dataIndex: "targetoee",
       align: "center",
       width: 100,
       render: (text) => {
@@ -122,8 +178,8 @@ const productOeeComponent = ({ lineOee, dispatch }) => {
     },
 
     {
-      title: "目标IE",
-      dataIndex: "targetie",
+      title: "目标SUR",
+      dataIndex: "targetsur",
       align: "center",
       width: 100,
       render: (text) => {
@@ -141,6 +197,13 @@ const productOeeComponent = ({ lineOee, dispatch }) => {
       },
     },
  
+
+    {
+      title: "产量",
+      dataIndex: "goodparts",
+      align: "center",
+      width: 100,
+    },
 
     {
       title: "目标产量",
@@ -252,7 +315,7 @@ const productOeeComponent = ({ lineOee, dispatch }) => {
             newList.push({ key: key, label: value.text });
           }
           return (
-            <Select allowClear showSearch optionFilterProp="children">
+            <Select   showSearch optionFilterProp="children">
               {newList.map(function (item, index) {
                 return (
                   <Select.Option key={index} value={item.key}>
@@ -276,17 +339,6 @@ const productOeeComponent = ({ lineOee, dispatch }) => {
       fixed: "left",
       hideInSearch: true,
     },
-
-    {
-      title: "时间段",
-      dataIndex: "hourid",
-      align: "center",
-      width: 100,
-      fixed: "left",
-      hideInSearch: true,
-    },
-
-   
 
     {
       title: '线体',
@@ -332,7 +384,7 @@ const productOeeComponent = ({ lineOee, dispatch }) => {
 
 
     {
-      title: "ot",
+      title: "OT",
       dataIndex: "ot",
       align: "center",
       width: 100,
@@ -355,26 +407,92 @@ const productOeeComponent = ({ lineOee, dispatch }) => {
       hideInSearch: true,
     },
 
-    {
-      title: "产量",
-      dataIndex: "goodparts",
-      align: "center",
-      width: 100,
-      hideInSearch: true,
-    },
+  
 
     {
       title: "日期",
       dataIndex: "tsdate",
+      valueType: 'dateTime',
       align: "center",
       width: 100,
       hideInSearch: true,
     },
  
+    {
+      title: "OEE",
+      dataIndex: "OEE",
+      valueType: "text",
+      align: "center",
+      width: 120,
+      hideInSearch: true,
+      render: (text, record) => {
+        let color =
+          parseInt(record.OEE * 100) < record.targetke ? "red" : "green";
+        if (parseInt(record.OEE * 100) < record.targetke) {
+          return (
+            <Tag color={color}>
+              {parseFloat((record.OEE * 100).toFixed(1)) + "%"}
+            </Tag>
+          );
+        } else {
+          return (
+            <span> {parseFloat((record.OEE * 100).toFixed(1)) + "%"}</span>
+          );
+        }
+      },
+    },
 
     {
-      title: "目标KE",
-      dataIndex: "targetke",
+      title: "NEE",
+      dataIndex: "NEE",
+      valueType: "text",
+      align: "center",
+      width: 120,
+      hideInSearch: true,
+      render: (text, record) => {
+        let color =
+          parseInt(record.NEE * 100) < record.targetke ? "red" : "green";
+        if (parseInt(record.NEE * 100) < record.targetke) {
+          return (
+            <Tag color={color}>
+              {parseFloat((record.NEE * 100).toFixed(1)) + "%"}
+            </Tag>
+          );
+        } else {
+          return (
+            <span> {parseFloat((record.NEE * 100).toFixed(1)) + "%"}</span>
+          );
+        }
+      },
+    },
+
+    {
+      title: "SUR",
+      dataIndex: "SUR",
+      valueType: "text",
+      align: "center",
+      width: 120,
+      hideInSearch: true,
+      render: (text, record) => {
+        let color =
+          parseInt(record.SUR * 100) < record.targetke ? "red" : "green";
+        if (parseInt(record.SUR * 100) < record.targetke) {
+          return (
+            <Tag color={color}>
+              {parseFloat((record.SUR * 100).toFixed(1)) + "%"}
+            </Tag>
+          );
+        } else {
+          return (
+            <span> {parseFloat((record.SUR * 100).toFixed(1)) + "%"}</span>
+          );
+        }
+      },
+    },
+
+    {
+      title: "目标OEE",
+      dataIndex: "targetoee",
       align: "center",
       width: 100,
       hideInSearch: true,
@@ -384,8 +502,8 @@ const productOeeComponent = ({ lineOee, dispatch }) => {
     },
 
     {
-      title: "目标IE",
-      dataIndex: "targetie",
+      title: "目标SUR",
+      dataIndex: "targetsur",
       align: "center",
       width: 100,
       hideInSearch: true,
@@ -405,7 +523,13 @@ const productOeeComponent = ({ lineOee, dispatch }) => {
       },
     },
 
-     
+    {
+      title: "产量",
+      dataIndex: "goodparts",
+      align: "center",
+      width: 100,
+      hideInSearch: true,
+    },
 
     {
       title: "目标产量",
@@ -616,15 +740,17 @@ const productOeeComponent = ({ lineOee, dispatch }) => {
       for (let i in dataList) {
         let obj = {
           shiftname: dataList[i].shiftname,
-          hourid: dataList[i].hourid,
           linename: dataList[i].linename,
           ut: dataList[i].ut,
           dt: dataList[i].dt,
           ot: dataList[i].ot,
-          goodparts: dataList[i].goodparts,
-          targetke: parseInt(dataList[i].targetke) + "%",
-          targetie: parseInt(dataList[i].targetie) + "%",
+          OEE: parseInt(dataList[i].OEE * 100) + "%",
+          NEE: parseInt(dataList[i].NEE * 100) + "%",
+          SUR: parseInt(dataList[i].SUR * 100) + "%",
+          targetoee: parseInt(dataList[i].targetoee) + "%",
+          targetsur: parseInt(dataList[i].targetsur) + "%",
           ts: dataList[i].ts,
+          goodparts: dataList[i].goodparts,
           targetparts: dataList[i].targetparts,
           t0: dataList[i].t0,
           t1: dataList[i].t1,
@@ -643,11 +769,11 @@ const productOeeComponent = ({ lineOee, dispatch }) => {
         sheetData: dataTable,
         sheetName: "sheet",
         sheetFilter: [
-          "shiftname","hourid","linename","ut","dt","ot","goodparts","targetke","targetie","ts",
-          "targetparts","t0","t1","t2","t3","t4","t5","ke"
+          "shiftname","linename","ut","dt","ot", "OEE","NEE","SUR","targetoee","targetsur","ts",
+          "goodparts", "targetparts","t0","t1","t2","t3","t4","t5","ke"
         ],
-        sheetHeader: ["班次","时间段", "线体", "ut", "dt", "ot", "产量", "目标ke", "目标ie", "ts",
-        "目标产量", "t0", "t1", "t2", "t3", "t4", "t5", "ke",
+        sheetHeader: ["班次", "线体", "ut", "dt", "OT", "OEE","NEE","SUR", "目标OEE", "目标SUR", "ts",
+        "产量","目标产量", "t0", "t1", "t2", "t3", "t4", "t5", "ke",
         ],
       },
     ];

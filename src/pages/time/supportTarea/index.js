@@ -279,24 +279,7 @@ const supportInputComponent = ({
       },
     },
 
-
-    {
-      title: 'prodt4',
-      dataIndex: 'prodt4',
-      valueType: 'text',
-      align: 'center',
-      hideInSearch: true,
-      initialValue: IsUpdate ? UpdateDate.prodt4 : '',
-      formItemProps: {
-        rules: [
-          {
-            required: true,
-            message: 'prodt4不能为空!',
-          },
-        ],
-      },
-    },
-
+ 
  
 
     {
@@ -359,7 +342,6 @@ const supportInputComponent = ({
       t4: fields.t4,
       t5: fields.t5,
       ke: fields.ke,
-      prodt4: fields.prodt4,
       period: fields.period, 
     }
     try {
@@ -399,7 +381,6 @@ const supportInputComponent = ({
         t4: fields.t4,
         t5: fields.t5,
         ke: fields.ke,
-        prodt4: fields.prodt4,
       });
       if (data.status == '200') {
         hide();
@@ -462,7 +443,6 @@ const supportInputComponent = ({
             't4': dataList[i].t4,
             't5': dataList[i].t5,
             'ke': dataList[i].ke,
-            'prodt4': dataList[i].prodt4
           };
           dataTable.push(obj);
         }
@@ -472,8 +452,8 @@ const supportInputComponent = ({
         {
           sheetData: dataTable,
           sheetName: 'sheet',
-          sheetFilter: ['departmentshortname', 'tsdate','areaname','ts','gap','paidhour','t1','t4','t5', 'ke', 'prodt4'],
-          sheetHeader: ['部门', '日期', '区域', 'ts', 'gap', 'paidhour', 't1', 't4', 't5', 'ke', 'prodt4'],
+          sheetFilter: ['departmentshortname', 'tsdate','areaname','ts','gap','paidhour','t1','t4','t5', 'ke'],
+          sheetHeader: ['部门', '日期', '区域', 'ts', 'gap', 'paidhour', 't1', 't4', 't5', 'ke'],
         }
       ];
       var toExcel = new ExportJsonExcel(option);

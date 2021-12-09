@@ -341,7 +341,7 @@ const regionDataComponent = ({ regionData, dispatch }) => {
             newList.push({ key: key, label: value.text });
           }
           return (
-            <Select allowClear showSearch optionFilterProp="children">
+            <Select   showSearch optionFilterProp="children">
               {newList.map(function (item, index) {
                 return (
                   <Select.Option key={index} value={item.key}>

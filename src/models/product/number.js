@@ -18,7 +18,6 @@ const Model = {
   namespace: TableName,
   state: {
     TableList: [],
-    customerList: {},
     isNoList: {},
     ProductTypeList: {},
   },
@@ -101,7 +100,6 @@ const Model = {
         return {
           ...state,
           ...payload,
-          customerList: payload.data.customerList,
         };
       }
       else if (payload.type === "getProductType") {

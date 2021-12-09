@@ -53,7 +53,7 @@ const DetailForm = (props) => {
     //data.menuList所有的树结构
     //data.EditData.sysMenuIdList后端给的要展示的父子节点
     const result = [...new Set(requestList(data.menuList))].filter((item) =>
-        new Set(eval(data.EditData.sysMenuIdList)).has(item)
+        new Set(eval(data.DetailData.sysMenuIdList)).has(item)
     );
 
     useEffect(() => {
@@ -136,7 +136,7 @@ const DetailForm = (props) => {
                     </Form.Item>
                     <Form.Item
                         name="menu"
-                        label="角色对应的菜单"
+                        label="角色对应的权限"
                         hasFeedback
                         {...formItemLayout}
                     >

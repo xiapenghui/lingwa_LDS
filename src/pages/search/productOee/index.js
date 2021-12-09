@@ -1,4 +1,4 @@
-import { PlusOutlined ,UploadOutlined} from "@ant-design/icons";
+import { PlusOutlined, UploadOutlined } from "@ant-design/icons";
 import {
   Button,
   message,
@@ -71,14 +71,7 @@ const productOeeComponent = ({ productOee, dispatch }) => {
       fixed: "left",
     },
 
-    {
-      title: "日期",
-      dataIndex: "tsdate",
-      align: "center",
-      width: 100,
-      fixed: "left",
-    },
-
+ 
     {
       title: "UT",
       dataIndex: "ut",
@@ -116,32 +109,69 @@ const productOeeComponent = ({ productOee, dispatch }) => {
         let color =
           parseInt(record.OEE * 100) < record.targetke ? "red" : "green";
         if (parseInt(record.OEE * 100) < record.targetke) {
-          return <Tag color={color}> {parseFloat((record.OEE * 100).toFixed(1)) + "%"}</Tag>;
+          return (
+            <Tag color={color}>
+              {" "}
+              {parseFloat((record.OEE * 100).toFixed(1)) + "%"}
+            </Tag>
+          );
         } else {
-          return <span> {parseFloat((record.OEE * 100).toFixed(1)) + "%"}</span>;
+          return (
+            <span> {parseFloat((record.OEE * 100).toFixed(1)) + "%"}</span>
+          );
         }
       },
     },
 
     {
-      title: "IE",
-      dataIndex: "ie",
+      title: "NEE",
+      dataIndex: "NEE",
       align: "center",
       width: 100,
       render: (text, record) => {
         let color =
-          parseInt(record.ie * 100) < record.targetie ? "red" : "green";
-        if (parseInt(record.ie * 100) < record.targetie) {
-          return <Tag color={color}>{parseInt(record.ie * 100) + "%"}</Tag>;
+          parseInt(record.NEE * 100) < record.targetke ? "red" : "green";
+        if (parseInt(record.NEE * 100) < record.targetke) {
+          return (
+            <Tag color={color}>
+              {" "}
+              {parseFloat((record.NEE * 100).toFixed(1)) + "%"}
+            </Tag>
+          );
         } else {
-          return <span> {parseInt(text * 100) + "%"}</span>;
+          return (
+            <span> {parseFloat((record.NEE * 100).toFixed(1)) + "%"}</span>
+          );
         }
       },
     },
 
     {
-      title: "目标KE",
-      dataIndex: "targetke",
+      title: "SUR",
+      dataIndex: "SUR",
+      align: "center",
+      width: 100,
+      render: (text, record) => {
+        let color =
+          parseInt(record.SUR * 100) < record.targetke ? "red" : "green";
+        if (parseInt(record.SUR * 100) < record.targetke) {
+          return (
+            <Tag color={color}>
+              {" "}
+              {parseFloat((record.SUR * 100).toFixed(1)) + "%"}
+            </Tag>
+          );
+        } else {
+          return (
+            <span> {parseFloat((record.SUR * 100).toFixed(1)) + "%"}</span>
+          );
+        }
+      },
+    },
+
+    {
+      title: "目标OEE",
+      dataIndex: "targetoee",
       align: "center",
       width: 100,
       render: (text) => {
@@ -150,22 +180,12 @@ const productOeeComponent = ({ productOee, dispatch }) => {
     },
 
     {
-      title: "目标IE",
-      dataIndex: "targetie",
+      title: "目标SUR",
+      dataIndex: "targetsur",
       align: "center",
       width: 100,
       render: (text) => {
         return text + "%";
-      },
-    },
-
-    {
-      title: "KS",
-      dataIndex: "ks",
-      align: "center",
-      width: 100,
-      render: (text) => {
-        return parseInt(text * 100) + "%";
       },
     },
 
@@ -333,7 +353,7 @@ const productOeeComponent = ({ productOee, dispatch }) => {
             newList.push({ key: key, label: value.text });
           }
           return (
-            <Select allowClear showSearch optionFilterProp="children">
+            <Select   showSearch optionFilterProp="children">
               {newList.map(function (item, index) {
                 return (
                   <Select.Option key={index} value={item.key}>
@@ -456,30 +476,56 @@ const productOeeComponent = ({ productOee, dispatch }) => {
     },
 
     {
-      title: "IE",
-      dataIndex: "ie",
+      title: "NEE",
+      dataIndex: "NEE",
       valueType: "text",
       align: "center",
       width: 120,
       hideInSearch: true,
       render: (text, record) => {
         let color =
-          parseInt(record.ie * 100) < record.targetie ? "red" : "green";
-        if (parseInt(record.ie * 100) < record.targetie) {
+          parseInt(record.NEE * 100) < record.targetke ? "red" : "green";
+        if (parseInt(record.NEE * 100) < record.targetke) {
           return (
             <Tag color={color}>
-              {parseFloat((record.ie * 100).toFixed(1)) + "%"}
+              {parseFloat((record.NEE * 100).toFixed(1)) + "%"}
             </Tag>
           );
         } else {
-          return <span> {parseFloat((record.ie * 100).toFixed(1)) + "%"}</span>;
+          return (
+            <span> {parseFloat((record.NEE * 100).toFixed(1)) + "%"}</span>
+          );
         }
       },
     },
 
     {
-      title: "目标KE",
-      dataIndex: "targetke",
+      title: "SUR",
+      dataIndex: "SUR",
+      valueType: "text",
+      align: "center",
+      width: 120,
+      hideInSearch: true,
+      render: (text, record) => {
+        let color =
+          parseInt(record.SUR * 100) < record.targetke ? "red" : "green";
+        if (parseInt(record.SUR * 100) < record.targetke) {
+          return (
+            <Tag color={color}>
+              {parseFloat((record.SUR * 100).toFixed(1)) + "%"}
+            </Tag>
+          );
+        } else {
+          return (
+            <span> {parseFloat((record.SUR * 100).toFixed(1)) + "%"}</span>
+          );
+        }
+      },
+    },
+
+    {
+      title: "目标OEE",
+      dataIndex: "targetoee",
       valueType: "text",
       align: "center",
       width: 120,
@@ -490,26 +536,14 @@ const productOeeComponent = ({ productOee, dispatch }) => {
     },
 
     {
-      title: "目标IE",
-      dataIndex: "targetie",
+      title: "目标SUR",
+      dataIndex: "targetsur",
       valueType: "text",
       align: "center",
       width: 120,
       hideInSearch: true,
       render: (text) => {
         return text + "%";
-      },
-    },
-
-    {
-      title: "KS",
-      dataIndex: "ks",
-      valueType: "text",
-      align: "center",
-      width: 120,
-      hideInSearch: true,
-      render: (text) => {
-        return parseFloat((text * 100).toFixed(1)) + "%";
       },
     },
 
@@ -720,7 +754,6 @@ const productOeeComponent = ({ productOee, dispatch }) => {
     });
   };
 
-  
   /**
    * 添加节点
    * @param fields
@@ -802,33 +835,33 @@ const productOeeComponent = ({ productOee, dispatch }) => {
     if (dataList.length > 0) {
       for (let i in dataList) {
         let obj = {
-          'shiftname': dataList[i].shiftname,
-          'productarea': dataList[i].productarea,
-          'tsdate': dataList[i].tsdate,
-          'ut': dataList[i].ut,
-          'dt': dataList[i].dt,
-          'ot': dataList[i].ot,
-          'ts': dataList[i].ts,
-          'OEE': parseInt(dataList[i].OEE * 100) + "%",
-          'ie': parseInt(dataList[i].ie * 100) + "%",
-          'targetke': parseInt(dataList[i].targetke) + "%",
-          'targetie': parseInt(dataList[i].targetie) + "%",
-          'ks': parseInt(dataList[i].ks * 100) + "%",
-          'gap': dataList[i].gap,
-          'planot': dataList[i].planot,
-          'rot': dataList[i].rot,
-          'relax': dataList[i].relax,
-          'lend': dataList[i].lend,
-          'borrow': dataList[i].borrow,
-          'lbot': dataList[i].lbot,
-          't0': dataList[i].t0,
-          't1': dataList[i].t1,
-          't2': dataList[i].t2,
-          't3': dataList[i].t3,
-          't4': dataList[i].t4,
-          't5': dataList[i].t5,
-          'goodparts': dataList[i].goodparts,
-          'targetparts': dataList[i].targetparts,
+          shiftname: dataList[i].shiftname,
+          productarea: dataList[i].productarea,
+          tsdate: dataList[i].tsdate,
+          ut: dataList[i].ut,
+          dt: dataList[i].dt,
+          ot: dataList[i].ot,
+          ts: dataList[i].ts,
+          OEE: parseInt(dataList[i].OEE * 100) + "%",
+          NEE: parseInt(dataList[i].NEE * 100) + "%",
+          SUR: parseInt(dataList[i].SUR * 100) + "%",
+          targetoee: parseInt(dataList[i].targetoee) + "%",
+          targetsur: parseInt(dataList[i].targetsur) + "%",
+          gap: dataList[i].gap,
+          planot: dataList[i].planot,
+          rot: dataList[i].rot,
+          relax: dataList[i].relax,
+          lend: dataList[i].lend,
+          borrow: dataList[i].borrow,
+          lbot: dataList[i].lbot,
+          t0: dataList[i].t0,
+          t1: dataList[i].t1,
+          t2: dataList[i].t2,
+          t3: dataList[i].t3,
+          t4: dataList[i].t4,
+          t5: dataList[i].t5,
+          goodparts: dataList[i].goodparts,
+          targetparts: dataList[i].targetparts,
         };
         dataTable.push(obj);
       }
@@ -847,11 +880,11 @@ const productOeeComponent = ({ productOee, dispatch }) => {
           "ot",
           "ts",
           "OEE",
-          "ie",
-          "targetke",
-          "targetie",
+          "NEE",
+          "SUR",
+          "targetoee",
+          "targetsur",
           "gap",
-          "ks",
           "planot",
           "rot",
           "relax",
@@ -876,10 +909,10 @@ const productOeeComponent = ({ productOee, dispatch }) => {
           "OT",
           "TS",
           "OEE",
-          "IE",
-          "目标ke",
-          "目标ie",
-          "KS",
+          "NEE",
+          "SUR",
+          "目标OEE",
+          "目标SUR",
           "gap",
           "排班",
           "工作时间",
@@ -951,11 +984,10 @@ const productOeeComponent = ({ productOee, dispatch }) => {
           // <Button type="primary" onClick={() => handleModalVisible(true)}>
           //   <PlusOutlined /> 新建
           // </Button>,
-           <Button type="primary" onClick={() => downloadExcel()}>
-           <UploadOutlined /> 导出
-         </Button>,
+          <Button type="primary" onClick={() => downloadExcel()}>
+            <UploadOutlined /> 导出
+          </Button>,
         ]}
-
         request={(params, sorter, filter) => query(params, sorter, filter)}
         columns={getColumns()}
         rowSelection={{

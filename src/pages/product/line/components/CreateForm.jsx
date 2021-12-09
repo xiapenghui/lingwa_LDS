@@ -1,6 +1,5 @@
 import React from 'react';
-import { Modal } from 'antd';
-
+import { Modal, Row, Col, } from 'antd';
 const CreateForm = (props) => {
   const { modalVisible, onCancel } = props;
   return (
@@ -11,8 +10,13 @@ const CreateForm = (props) => {
       visible={modalVisible}
       onCancel={() => onCancel()}
       footer={null}
+      width={700}
     >
-      {props.children}
+     <Row gutter={16}>
+        <Col className="gutter-row  boxTbale" span={24}>
+          {props.children}
+        </Col>
+      </Row>
     </Modal>
   );
 };

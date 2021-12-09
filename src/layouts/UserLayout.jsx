@@ -49,7 +49,7 @@ const UserLayout = (props) => {
               <Link to="/">
 
                 {/* <span className={styles.title}>Lean Digitization System</span><br />
-                <span className={styles.title}>（SSPA 生产数字平台）</span> */}
+                <span className={styles.title}>（SSAM 生产数字平台）</span> */}
               </Link>
             </div>
           </div>

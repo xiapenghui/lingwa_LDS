@@ -26,6 +26,8 @@ const UpdateForm = (props) => {
       userIdList: values.user,
       sysMenuIdList: checkedMenu
     }
+
+    console.log('onSave-REX`2',params)
     props.dispatch({
       type: `${props.tableName}/updateRole`,
       payload: {
@@ -82,6 +84,7 @@ const UpdateForm = (props) => {
       console.log('result', result)
       // setCheckedKeys(data.EditData.sysMenuIdList)
       setCheckedKeys(result)
+      setCheckedMenu(data.EditData.sysMenuIdList)
       form.setFieldsValue({
         id: data.EditData.id,
         name: data.EditData.name,
@@ -94,7 +97,7 @@ const UpdateForm = (props) => {
       console.log('clean UpdateForm useEffect')
     }
   }, [updateModalVisible])
-
+  console.log('UpdateForm-',checkedMenu)
   return (
     <div>
       <Modal
@@ -182,7 +185,7 @@ const UpdateForm = (props) => {
           </Form.Item>
           <Form.Item
             name="menu"
-            label="角色对应的菜单"
+            label="角色对应的权限"
             hasFeedback
             {...formItemLayout}
           >

@@ -42,7 +42,7 @@ const LineForm = (props) => {
       }
     })
   }
-  console.log('test.', data.customerList)
+ 
   //取过来显示
   useEffect(() => {
     form.resetFields()

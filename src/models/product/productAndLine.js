@@ -19,7 +19,7 @@ const Model = {
   namespace: TableName,
   state: {
     TableList: [],
-    customerList: {},
+    
     isNoList: {},
     lineList: {},
     ProductTypeList: {},
@@ -127,7 +127,7 @@ const Model = {
         return {
           ...state,
           ...payload,
-          customerList: payload.data.customerList,
+          
         };
       }
       else if (payload.type === "getLine") {

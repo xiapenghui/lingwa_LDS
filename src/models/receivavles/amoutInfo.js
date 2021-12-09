@@ -292,7 +292,7 @@ const Model = {
       return {
         ...state, ...payload,
         selectDropDownData:payload.data,
-        customerList:payload.data.customerList,
+       
         nameList: payload.data.nameList,
         contractiList: payload.data.contractiList,
 

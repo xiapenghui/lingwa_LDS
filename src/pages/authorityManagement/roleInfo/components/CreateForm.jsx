@@ -152,7 +152,7 @@ const CreateForm = (props) => {
                     </Form.Item>
                     <Form.Item
                         name="menu"
-                        label="角色对应的菜单"
+                        label="角色对应的权限"
                         hasFeedback
                         {...formItemLayout}
                     >

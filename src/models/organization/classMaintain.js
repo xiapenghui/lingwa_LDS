@@ -17,7 +17,6 @@ const Model = {
   namespace: TableName,
   state: {
     TableList: [],
-    customerList: {},
     isNoList:{}
   },
 
@@ -80,7 +79,6 @@ const Model = {
       if (payload.type === 'getDropDownInit') {
         return {
           ...state, ...payload,
-          customerList: payload.data.customerList,
           isNoList:payload.data.isNoList
         }
       } else if (payload.type === 'postListInit') {

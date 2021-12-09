@@ -144,7 +144,7 @@ const Component = ({
   const query = async (params, sorter, filter) => {
     const TableList = postListInit({
       "pageNum": params.current,
-      "pageSize": 10000,
+      "pageSize": params.pageSize,
       "data": {
         name: params.name,
         cname: params.cname,
@@ -325,7 +325,7 @@ const Component = ({
         headerTitle="查询表格"
         actionRef={actionRef}
         scroll={{ y: 500 }}
-        pagination={false}
+        // pagination={false}
         rowKey="id"
         search={{
           labelWidth: 120,
