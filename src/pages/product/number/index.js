@@ -285,7 +285,7 @@ const numberComponent = ({
         headerTitle="查询表格"
         actionRef={actionRef}
         scroll={{ y: 500 }}
-        // pagination={false}
+        pagination={false}
         rowKey="productid"
         search={{
           labelWidth: 120,

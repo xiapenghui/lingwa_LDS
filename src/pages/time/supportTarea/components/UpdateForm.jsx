@@ -4,7 +4,7 @@ const UpdateForm = (props) => {
   const { modalVisible, onCancel } = props
   return (
     <Modal
-    maskClosable={false}
+      maskClosable={false}
       destroyOnClose
       title={props.title}
       visible={modalVisible}
