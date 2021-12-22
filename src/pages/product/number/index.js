@@ -76,56 +76,6 @@ const numberComponent = ({
 
 
     {
-      title: '产品类型',
-      dataIndex: 'producttypeid',
-      valueType: 'text',
-      align: 'center',
-      hideInSearch:true,
-      hideInTable:true,
-      valueEnum: ProductTypeList.length == 0 ? {} : ProductTypeList,
-      initialValue: !IsUpdate ? '' : (UpdateDate.producttypeid ? UpdateDate.producttypeid.toString() : ''),
-      renderFormItem: (_, { type, defaultRender, ...rest }, form) => {
-        debugger
-        if (type === 'form' || type === 'table') {
-          // 返回新的组件
-          let newList = []
-          for (let [key, value] of Object.entries(ProductTypeList)) {
-            newList.push({ key: key, label: value.text })
-          }
-          return <Select
-            allowClear
-            showSearch
-            optionFilterProp='children'
-          >
-            {newList.map(function (item, index) {
-              return <Select.Option key={index} value={item.key}>
-                {item.label}
-              </Select.Option>
-            })}
-          </Select>
-        }
-        return defaultRender(_);
-      },
-      formItemProps: {
-        rules: [
-          {
-            required: true,
-            message: '产品类型不能为空!',
-          },
-        ],
-      },
-    },
-
-    {
-      title: '产品类型',
-      dataIndex: 'producttype',
-      valueType: 'text',
-      align: 'center',
-      hideInSearch:true,
-      hideInForm:true,
-    },
-
-    {
       title: '备注',
       dataIndex: 'remark',
       valueType: 'textarea',
@@ -257,7 +207,6 @@ const numberComponent = ({
         let obj = {
           'productno': dataList[i].productno,
           'productname': dataList[i].productname,
-          'producttype': dataList[i].producttype,
           'remark':dataList[i].remark,
         }
         dataTable.push(obj);
@@ -268,8 +217,8 @@ const numberComponent = ({
       {
         sheetData: dataTable,
         sheetName: 'sheet',
-        sheetFilter: ['productno', 'productname','producttype','remark'],
-        sheetHeader: ['产品编号', '产品名称', '产品类型', '备注'],
+        sheetFilter: ['productno', 'productname','remark'],
+        sheetHeader: ['产品编号', '产品名称', '备注'],
       }
     ];
 

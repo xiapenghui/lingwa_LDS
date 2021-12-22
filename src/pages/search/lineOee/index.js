@@ -34,7 +34,7 @@ import {
 import { BackgroundColor } from "chalk";
 
 const productOeeComponent = ({ lineOee, dispatch }) => {
-  const { productList, areaList, shifList ,lineList} = lineOee;
+  const { productList, areaList, shifList, lineList } = lineOee;
   const [createModalVisible, handleModalVisible] = useState(false);
   const [updateModalVisible, handleUpdateModalVisible] = useState(false);
   const actionRef = useRef();
@@ -62,7 +62,6 @@ const productOeeComponent = ({ lineOee, dispatch }) => {
         }
       },
     },
-    
 
     {
       title: "线体",
@@ -70,7 +69,6 @@ const productOeeComponent = ({ lineOee, dispatch }) => {
       align: "center",
       width: 100,
       fixed: "left",
-      
     },
 
     {
@@ -102,19 +100,14 @@ const productOeeComponent = ({ lineOee, dispatch }) => {
       width: 120,
       hideInSearch: true,
       render: (text, record) => {
-        let color =
-          parseInt(record.OEE * 100) < record.targetke ? "red" : "green";
-        if (parseInt(record.OEE * 100) < record.targetke) {
           return (
-            <Tag color={color}>
-              {parseFloat((record.OEE * 100).toFixed(1)) + "%"}
-            </Tag>
+            <span>
+              {record.OEE === "NaN" || record.OEE === "Infinity"
+                ? "0" + "%"
+                : parseFloat((record.OEE * 100).toFixed(1)) + "%"}
+            </span>
           );
-        } else {
-          return (
-            <span> {parseFloat((record.OEE * 100).toFixed(1)) + "%"}</span>
-          );
-        }
+       
       },
     },
 
@@ -126,19 +119,13 @@ const productOeeComponent = ({ lineOee, dispatch }) => {
       width: 120,
       hideInSearch: true,
       render: (text, record) => {
-        let color =
-          parseInt(record.NEE * 100) < record.targetke ? "red" : "green";
-        if (parseInt(record.NEE * 100) < record.targetke) {
           return (
-            <Tag color={color}>
-              {parseFloat((record.NEE * 100).toFixed(1)) + "%"}
-            </Tag>
+            <span >
+              {record.NEE === "NaN" || record.NEE === "Infinity"
+                ? "0" + "%"
+                : parseFloat((record.NEE * 100).toFixed(1)) + "%"}
+            </span>
           );
-        } else {
-          return (
-            <span> {parseFloat((record.NEE * 100).toFixed(1)) + "%"}</span>
-          );
-        }
       },
     },
 
@@ -150,26 +137,19 @@ const productOeeComponent = ({ lineOee, dispatch }) => {
       width: 120,
       hideInSearch: true,
       render: (text, record) => {
-        let color =
-          parseInt(record.SUR * 100) < record.targetke ? "red" : "green";
-        if (parseInt(record.SUR * 100) < record.targetke) {
           return (
-            <Tag color={color}>
-              {parseFloat((record.SUR * 100).toFixed(1)) + "%"}
-            </Tag>
+            <span>
+              {record.SUR === "NaN" || record.SUR === "Infinity"
+                ? "0" + "%"
+                : parseFloat((record.SUR * 100).toFixed(1)) + "%"}
+            </span>
           );
-        } else {
-          return (
-            <span> {parseFloat((record.SUR * 100).toFixed(1)) + "%"}</span>
-          );
-        }
       },
     },
 
- 
     {
-      title: "目标OEE",
-      dataIndex: "targetoee",
+      title: "目标IE",
+      dataIndex: "targetie",
       align: "center",
       width: 100,
       render: (text) => {
@@ -178,8 +158,8 @@ const productOeeComponent = ({ lineOee, dispatch }) => {
     },
 
     {
-      title: "目标SUR",
-      dataIndex: "targetsur",
+      title: "目标KE",
+      dataIndex: "targetke",
       align: "center",
       width: 100,
       render: (text) => {
@@ -192,11 +172,14 @@ const productOeeComponent = ({ lineOee, dispatch }) => {
       dataIndex: "ts",
       align: "center",
       width: 100,
-      render: (text) => {
-        return parseInt(text * 100) + "%";
-      },
     },
- 
+
+    {
+      title: "SPT",
+      dataIndex: "SPT",
+      align: "center",
+      width: 100,
+    },
 
     {
       title: "产量",
@@ -211,8 +194,6 @@ const productOeeComponent = ({ lineOee, dispatch }) => {
       align: "center",
       width: 120,
     },
-
-    
 
     {
       title: "t0",
@@ -270,7 +251,6 @@ const productOeeComponent = ({ lineOee, dispatch }) => {
       align: "center",
       width: 100,
     },
-    
   ];
 
   const getColumns = () => [
@@ -315,7 +295,7 @@ const productOeeComponent = ({ lineOee, dispatch }) => {
             newList.push({ key: key, label: value.text });
           }
           return (
-            <Select   showSearch optionFilterProp="children">
+            <Select showSearch optionFilterProp="children">
               {newList.map(function (item, index) {
                 return (
                   <Select.Option key={index} value={item.key}>
@@ -330,7 +310,6 @@ const productOeeComponent = ({ lineOee, dispatch }) => {
       },
     },
 
-    
     {
       title: "班次",
       dataIndex: "shiftname",
@@ -341,33 +320,37 @@ const productOeeComponent = ({ lineOee, dispatch }) => {
     },
 
     {
-      title: '线体',
-      dataIndex: 'lineid',
-      valueType: 'text',
-      align: 'center',
+      title: "线体",
+      dataIndex: "lineid",
+      valueType: "text",
+      align: "center",
       width: 100,
-      hideInTable:true,
+      hideInTable: true,
       valueEnum: lineList.length == 0 ? {} : lineList,
       // initialValue: IsUpdate ? UpdateDate.lineid.toString() : '',
-      initialValue: !IsUpdate ? '' : (UpdateDate.lineid ? UpdateDate.lineid.toString() : ''),
+      initialValue: !IsUpdate
+        ? ""
+        : UpdateDate.lineid
+        ? UpdateDate.lineid.toString()
+        : "",
       renderFormItem: (_, { type, defaultRender, ...rest }, form) => {
-        if (type === 'form' || type === 'table') {
+        if (type === "form" || type === "table") {
           // 返回新的组件
-          let newList = []
+          let newList = [];
           for (let [key, value] of Object.entries(lineList)) {
-            newList.push({ key: key, label: value.text })
+            newList.push({ key: key, label: value.text });
           }
-          return <Select
-            allowClear
-            showSearch
-            optionFilterProp='children'
-          >
-            {newList.map(function (item, index) {
-              return <Select.Option key={index} value={item.key}>
-                {item.label}
-              </Select.Option>
-            })}
-          </Select>
+          return (
+            <Select allowClear showSearch optionFilterProp="children">
+              {newList.map(function (item, index) {
+                return (
+                  <Select.Option key={index} value={item.key}>
+                    {item.label}
+                  </Select.Option>
+                );
+              })}
+            </Select>
+          );
         }
         return defaultRender(_);
       },
@@ -381,7 +364,6 @@ const productOeeComponent = ({ lineOee, dispatch }) => {
       fixed: "left",
       hideInSearch: true,
     },
-
 
     {
       title: "OT",
@@ -407,17 +389,15 @@ const productOeeComponent = ({ lineOee, dispatch }) => {
       hideInSearch: true,
     },
 
-  
-
     {
       title: "日期",
       dataIndex: "tsdate",
-      valueType: 'dateTime',
+      valueType: "dateTime",
       align: "center",
       width: 100,
       hideInSearch: true,
     },
- 
+
     {
       title: "OEE",
       dataIndex: "OEE",
@@ -426,19 +406,13 @@ const productOeeComponent = ({ lineOee, dispatch }) => {
       width: 120,
       hideInSearch: true,
       render: (text, record) => {
-        let color =
-          parseInt(record.OEE * 100) < record.targetke ? "red" : "green";
-        if (parseInt(record.OEE * 100) < record.targetke) {
           return (
-            <Tag color={color}>
-              {parseFloat((record.OEE * 100).toFixed(1)) + "%"}
-            </Tag>
+            <span >
+              {record.OEE === "NaN" || record.OEE === "Infinity"
+                ? "0" + "%"
+                : parseFloat((record.OEE * 100).toFixed(1)) + "%"}
+            </span>
           );
-        } else {
-          return (
-            <span> {parseFloat((record.OEE * 100).toFixed(1)) + "%"}</span>
-          );
-        }
       },
     },
 
@@ -450,19 +424,13 @@ const productOeeComponent = ({ lineOee, dispatch }) => {
       width: 120,
       hideInSearch: true,
       render: (text, record) => {
-        let color =
-          parseInt(record.NEE * 100) < record.targetke ? "red" : "green";
-        if (parseInt(record.NEE * 100) < record.targetke) {
           return (
-            <Tag color={color}>
-              {parseFloat((record.NEE * 100).toFixed(1)) + "%"}
-            </Tag>
+            <span>
+              {record.NEE === "NaN" || record.NEE === "Infinity"
+                ? "0" + "%"
+                : parseFloat((record.NEE * 100).toFixed(1)) + "%"}
+            </span>
           );
-        } else {
-          return (
-            <span> {parseFloat((record.NEE * 100).toFixed(1)) + "%"}</span>
-          );
-        }
       },
     },
 
@@ -474,25 +442,19 @@ const productOeeComponent = ({ lineOee, dispatch }) => {
       width: 120,
       hideInSearch: true,
       render: (text, record) => {
-        let color =
-          parseInt(record.SUR * 100) < record.targetke ? "red" : "green";
-        if (parseInt(record.SUR * 100) < record.targetke) {
           return (
-            <Tag color={color}>
-              {parseFloat((record.SUR * 100).toFixed(1)) + "%"}
-            </Tag>
+            <span>
+              {record.SUR === "NaN" || record.SUR === "Infinity"
+                ? "0" + "%"
+                : parseFloat((record.SUR * 100).toFixed(1)) + "%"}
+            </span>
           );
-        } else {
-          return (
-            <span> {parseFloat((record.SUR * 100).toFixed(1)) + "%"}</span>
-          );
-        }
       },
     },
 
     {
-      title: "目标OEE",
-      dataIndex: "targetoee",
+      title: "目标IE",
+      dataIndex: "targetie",
       align: "center",
       width: 100,
       hideInSearch: true,
@@ -502,8 +464,8 @@ const productOeeComponent = ({ lineOee, dispatch }) => {
     },
 
     {
-      title: "目标SUR",
-      dataIndex: "targetsur",
+      title: "目标KE",
+      dataIndex: "targetke",
       align: "center",
       width: 100,
       hideInSearch: true,
@@ -518,9 +480,14 @@ const productOeeComponent = ({ lineOee, dispatch }) => {
       align: "center",
       width: 100,
       hideInSearch: true,
-      render: (text) => {
-        return parseInt(text * 100) + "%";
-      },
+    },
+
+    {
+      title: "SPT",
+      dataIndex: "SPT",
+      align: "center",
+      width: 100,
+      hideInSearch: true,
     },
 
     {
@@ -656,8 +623,6 @@ const productOeeComponent = ({ lineOee, dispatch }) => {
     });
   };
 
- 
-
   /**
    * 添加节点
    * @param fields
@@ -747,9 +712,10 @@ const productOeeComponent = ({ lineOee, dispatch }) => {
           OEE: parseInt(dataList[i].OEE * 100) + "%",
           NEE: parseInt(dataList[i].NEE * 100) + "%",
           SUR: parseInt(dataList[i].SUR * 100) + "%",
-          targetoee: parseInt(dataList[i].targetoee) + "%",
-          targetsur: parseInt(dataList[i].targetsur) + "%",
+          targetie: parseInt(dataList[i].targetie) + "%",
+          targetke: parseInt(dataList[i].targetke) + "%",
           ts: dataList[i].ts,
+          SPT: dataList[i].SPT,
           goodparts: dataList[i].goodparts,
           targetparts: dataList[i].targetparts,
           t0: dataList[i].t0,
@@ -769,11 +735,50 @@ const productOeeComponent = ({ lineOee, dispatch }) => {
         sheetData: dataTable,
         sheetName: "sheet",
         sheetFilter: [
-          "shiftname","linename","ut","dt","ot", "OEE","NEE","SUR","targetoee","targetsur","ts",
-          "goodparts", "targetparts","t0","t1","t2","t3","t4","t5","ke"
+          "shiftname",
+          "linename",
+          "ut",
+          "dt",
+          "ot",
+          "OEE",
+          "NEE",
+          "SUR",
+          "targetie",
+          "targetke",
+          "ts",
+          "SPT",
+          "goodparts",
+          "targetparts",
+          "t0",
+          "t1",
+          "t2",
+          "t3",
+          "t4",
+          "t5",
+          "ke",
         ],
-        sheetHeader: ["班次", "线体", "ut", "dt", "OT", "OEE","NEE","SUR", "目标OEE", "目标SUR", "ts",
-        "产量","目标产量", "t0", "t1", "t2", "t3", "t4", "t5", "ke",
+        sheetHeader: [
+          "班次",
+          "线体",
+          "ut",
+          "dt",
+          "OT",
+          "OEE",
+          "NEE",
+          "SUR",
+          "目标IE",
+          "目标KE",
+          "ts",
+          "SPT",
+          "产量",
+          "目标产量",
+          "t0",
+          "t1",
+          "t2",
+          "t3",
+          "t4",
+          "t5",
+          "ke",
         ],
       },
     ];
@@ -785,31 +790,31 @@ const productOeeComponent = ({ lineOee, dispatch }) => {
   return (
     <PageContainer>
       <ProTable
-        tableExtraRender={(_, data) => (
-          <>
-            <Card>
-              <Table
-                title={() => (
-                  <span style={{ fontSize: "17px" }}>
-                    列表求和
-                    <span
-                      style={{
-                        color: "red",
-                        fontSize: "15px",
-                        marginLeft: "10px",
-                      }}
-                    ></span>
-                  </span>
-                )}
-                scroll={{ x: 2500, y: 400 }}
-                rowSelection={{}}
-                columns={columns}
-                dataSource={dataSum}
-                pagination={false}
-              />
-            </Card>
-          </>
-        )}
+        // tableExtraRender={(_, data) => (
+        //   <>
+        //     <Card>P `
+        //       <Table
+        //         title={() => (
+        //           <span style={{ fontSize: "17px" }}>
+        //             列表求和
+        //             <span
+        //               style={{
+        //                 color: "red",
+        //                 fontSize: "15px",
+        //                 marginLeft: "10px",
+        //               }}
+        //             ></span>
+        //           </span>
+        //         )}
+        //         scroll={{ x: 2500, y: 400 }}
+        //         rowSelection={{}}
+        //         columns={columns}
+        //         dataSource={dataSum}
+        //         pagination={false}
+        //       />
+        //     </Card>
+        //   </>
+        // )}
         headerTitle={
           <>
             <span>查询表格</span>

@@ -58,6 +58,13 @@ const redOptionComponent = ({
       valueType: 'text',
       align: 'center',
       hideInSearch: true,
+      render: (text) => {
+        if (text == '') {
+         return  text = '-'
+         } else {
+          return text 
+        }
+      }
     },
 
     {
@@ -66,6 +73,13 @@ const redOptionComponent = ({
       valueType: 'text',
       align: 'center',
       hideInSearch: true,
+      render: (text) => {
+        if (text == '') {
+         return  text = '-'
+         } else {
+          return text 
+        }
+      }
     },
 
 
@@ -83,6 +97,13 @@ const redOptionComponent = ({
       valueType: 'text',
       align: 'center',
       hideInSearch: true,
+      render: (text) => {
+        if (text == '') {
+         return  text = '-'
+         } else {
+          return text 
+        }
+      }
     },
 
   ];

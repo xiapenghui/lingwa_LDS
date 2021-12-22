@@ -1,4 +1,4 @@
-import { PlusOutlined ,UploadOutlined } from "@ant-design/icons";
+import { PlusOutlined, UploadOutlined } from "@ant-design/icons";
 import {
   Button,
   message,
@@ -341,7 +341,7 @@ const regionDataComponent = ({ regionData, dispatch }) => {
             newList.push({ key: key, label: value.text });
           }
           return (
-            <Select   showSearch optionFilterProp="children">
+            <Select showSearch optionFilterProp="children">
               {newList.map(function (item, index) {
                 return (
                   <Select.Option key={index} value={item.key}>
@@ -472,9 +472,13 @@ const regionDataComponent = ({ regionData, dispatch }) => {
         let color =
           parseInt(record.ie * 100) < record.targetie ? "red" : "green";
         if (parseInt(record.ie * 100) < record.targetie) {
-          return <Tag color={color}>{record.ie * 100 + "%"}</Tag>;
+          return (
+            <Tag color={color}>
+              {parseFloat((record.ie * 100).toFixed(1)) + "%"}
+            </Tag>
+          );
         } else {
-          return <span> {text * 100 + "%"}</span>;
+          return <span> {parseFloat((record.ie * 100).toFixed(1)) + "%"}</span>;
         }
       },
     },
@@ -722,7 +726,6 @@ const regionDataComponent = ({ regionData, dispatch }) => {
       };
     });
   };
- 
 
   /**
    * 添加节点
@@ -805,33 +808,33 @@ const regionDataComponent = ({ regionData, dispatch }) => {
     if (dataList.length > 0) {
       for (let i in dataList) {
         let obj = {
-          'shiftname': dataList[i].shiftname,
-          'productarea': dataList[i].productarea,
-          'tsdate': dataList[i].tsdate,
-          'ut': dataList[i].ut,
-          'dt': dataList[i].dt,
-          'ot': dataList[i].ot,
-          'ts': dataList[i].ts,
-          'ke': parseInt(dataList[i].ke * 100) + "%",
-          'ie': parseInt(dataList[i].ie * 100) + "%",
-          'targetke': parseInt(dataList[i].targetke) + "%",
-          'targetie': parseInt(dataList[i].targetie) + "%",
-          'ks': parseInt(dataList[i].ks * 100) + "%",
-          'gap': dataList[i].gap,
-          'planot': dataList[i].planot,
-          'rot': dataList[i].rot,
-          'relax': dataList[i].relax,
-          'lend': dataList[i].lend,
-          'borrow': dataList[i].borrow,
-          'lbot': dataList[i].lbot,
-          't0': dataList[i].t0,
-          't1': dataList[i].t1,
-          't2': dataList[i].t2,
-          't3': dataList[i].t3,
-          't4': dataList[i].t4,
-          't5': dataList[i].t5,
-          'goodparts': dataList[i].goodparts,
-          'targetparts': dataList[i].targetparts,
+          shiftname: dataList[i].shiftname,
+          productarea: dataList[i].productarea,
+          tsdate: dataList[i].tsdate,
+          ut: dataList[i].ut,
+          dt: dataList[i].dt,
+          ot: dataList[i].ot,
+          ts: dataList[i].ts,
+          ke: parseInt(dataList[i].ke * 100) + "%",
+          ie: parseInt(dataList[i].ie * 100) + "%",
+          targetke: parseInt(dataList[i].targetke) + "%",
+          targetie: parseInt(dataList[i].targetie) + "%",
+          ks: parseInt(dataList[i].ks * 100) + "%",
+          gap: dataList[i].gap,
+          planot: dataList[i].planot,
+          rot: dataList[i].rot,
+          relax: dataList[i].relax,
+          lend: dataList[i].lend,
+          borrow: dataList[i].borrow,
+          lbot: dataList[i].lbot,
+          t0: dataList[i].t0,
+          t1: dataList[i].t1,
+          t2: dataList[i].t2,
+          t3: dataList[i].t3,
+          t4: dataList[i].t4,
+          t5: dataList[i].t5,
+          goodparts: dataList[i].goodparts,
+          targetparts: dataList[i].targetparts,
         };
         dataTable.push(obj);
       }
@@ -922,7 +925,9 @@ const regionDataComponent = ({ regionData, dispatch }) => {
                         fontSize: "15px",
                         marginLeft: "10px",
                       }}
-                    > *OT=考勤工时 - 休息时间 - LDS的T4, 工作时间=考勤工时 + T5
+                    >
+                      {" "}
+                      *OT=考勤工时 - 休息时间 - LDS的T4, 工作时间=考勤工时 + T5
                     </span>
                   </span>
                 )}
@@ -958,11 +963,9 @@ const regionDataComponent = ({ regionData, dispatch }) => {
           //   <PlusOutlined /> 新建
           // </Button>,
           <Button type="primary" onClick={() => downloadExcel()}>
-          <UploadOutlined /> 导出
-        </Button>,
+            <UploadOutlined /> 导出
+          </Button>,
         ]}
-        
-
         request={(params, sorter, filter) => query(params, sorter, filter)}
         columns={getColumns()}
         rowSelection={{
