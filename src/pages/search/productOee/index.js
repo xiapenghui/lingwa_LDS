@@ -71,127 +71,19 @@ const productOeeComponent = ({ productOee, dispatch }) => {
       fixed: "left",
     },
 
-    {
-      title: "UT",
-      dataIndex: "ut",
-      align: "center",
-      width: 100,
-    },
 
+ 
     {
-      title: "DT",
-      dataIndex: "dt",
+      title: "日期",
+      dataIndex: "tsdate",
+      valueType: "date",
       align: "center",
-      width: 100,
-    },
-
-    {
-      title: "OT",
-      dataIndex: "ot",
-      align: "center",
-      width: 100,
-    },
-
-    {
-      title: "TS",
-      dataIndex: "ts",
-      align: "center",
-      width: 100,
-    },
-
-    {
-      title: "SPT",
-      dataIndex: "SPT",
-      align: "center",
-      width: 100,
-    },
-
-    {
-      title: "OEE",
-      dataIndex: "OEE",
-      align: "center",
-      width: 100,
-      render: (text, record) => {
-        let color =
-          parseInt(record.OEE * 100) < record.targetke ? "red" : "green";
-        if (parseInt(record.OEE * 100) < record.targetke) {
-          return (
-            <Tag color={color}>
-              {" "}
-              {record.OEE === "NaN" || record.OEE === "Infinity"
-                ? "0" + "%"
-                : parseFloat((record.OEE * 100).toFixed(1)) + "%"}
-            </Tag>
-          );
-        } else {
-          return (
-            <span>
-              {" "}
-              {record.OEE === "NaN" || record.OEE === "Infinity"
-                ? "0" + "%"
-                : parseFloat((record.OEE * 100).toFixed(1)) + "%"}
-            </span>
-          );
-        }
-      },
-    },
-
-    {
-      title: "NEE",
-      dataIndex: "NEE",
-      align: "center",
-      width: 100,
-      render: (text, record) => {
-        let color =
-          parseInt(record.NEE * 100) < record.targetke ? "red" : "green";
-        if (parseInt(record.NEE * 100) < record.targetke) {
-          return (
-            <Tag color={color}>
-              {" "}
-              {record.NEE === "NaN" || record.NEE === "Infinity"
-                ? "0" + "%"
-                : parseFloat((record.NEE * 100).toFixed(1)) + "%"}
-            </Tag>
-          );
-        } else {
-          return (
-            <span>
-              {" "}
-              {record.NEE === "NaN" || record.NEE === "Infinity"
-                ? "0" + "%"
-                : parseFloat((record.NEE * 100).toFixed(1)) + "%"}
-            </span>
-          );
-        }
-      },
-    },
-
-    {
-      title: "SUR",
-      dataIndex: "SUR",
-      align: "center",
-      width: 100,
-      render: (text, record) => {
-        let color =
-          parseInt(record.SUR * 100) < record.targetke ? "red" : "green";
-        if (parseInt(record.SUR * 100) < record.targetke) {
-          return (
-            <Tag color={color}>
-              {" "}
-              {record.SUR === "NaN" || record.SUR === "Infinity"
-                ? "0" + "%"
-                : parseFloat((record.SUR * 100).toFixed(1)) + "%"}
-            </Tag>
-          );
-        } else {
-          return (
-            <span>
-              {" "}
-              {record.SUR === "NaN" || record.SUR === "Infinity"
-                ? "0" + "%"
-                : parseFloat((record.SUR * 100).toFixed(1)) + "%"}
-            </span>
-          );
+      hideInSearch: true,
+      width: 120,
+      fixed: "left",
+      render: (text, action) => {
+        if (action.tsdate == null) {
+          return (text = "-");
         }
       },
     },
@@ -199,8 +91,10 @@ const productOeeComponent = ({ productOee, dispatch }) => {
     {
       title: "目标OEE",
       dataIndex: "targetoee",
+      valueType: "text",
       align: "center",
-      width: 100,
+      width: 120,
+      hideInSearch: true,
       render: (text) => {
         return text + "%";
       },
@@ -209,18 +103,146 @@ const productOeeComponent = ({ productOee, dispatch }) => {
     {
       title: "目标SUR",
       dataIndex: "targetsur",
+      valueType: "text",
       align: "center",
-      width: 100,
+      width: 120,
+      hideInSearch: true,
       render: (text) => {
         return text + "%";
       },
     },
+  
+    
+    {
+      title: "OT",
+      dataIndex: "ot",
+      valueType: "text",
+      align: "center",
+      width: 120,
+      hideInSearch: true,
+    },
+
+    {
+      title: "DT",
+      dataIndex: "dt",
+      valueType: "text",
+      align: "center",
+      width: 120,
+      hideInSearch: true,
+    },
+
+    {
+      title: "UT",
+      dataIndex: "ut",
+      valueType: "text",
+      align: "center",
+      width: 120,
+      hideInSearch: true,
+    },
+
+    {
+      title: "SPT",
+      dataIndex: "SPT",
+      valueType: "text",
+      align: "center",
+      width: 120,
+      hideInSearch: true,
+    },
+
+    {
+      title: "TS",
+      dataIndex: "ts",
+      valueType: "text",
+      align: "center",
+      width: 120,
+      hideInSearch: true,
+    },
+
+    {
+      title: "OEE",
+      dataIndex: "OEE",
+      valueType: "text",
+      align: "center",
+      width: 120,
+      hideInSearch: true,
+      render: (text, record) => {
+          return (
+            <span>
+              {record.OEE === "NaN" || record.OEE === "Infinity"
+                ? "0" + "%"
+                : parseFloat((record.OEE * 100).toFixed(1)) + "%"}
+            </span>
+          );
+         
+      },
+    },
+
+    {
+      title: "NEE",
+      dataIndex: "NEE",
+      valueType: "text",
+      align: "center",
+      width: 120,
+      hideInSearch: true,
+      render: (text, record) => {
+          return (
+            <span>
+              {record.NEE === "NaN" || record.NEE === "Infinity"
+                ? "0" + "%"
+                : parseFloat((record.NEE * 100).toFixed(1)) + "%"}
+            </span>
+          );
+     
+      },
+    },
+
+    {
+      title: "SUR",
+      dataIndex: "SUR",
+      valueType: "text",
+      align: "center",
+      width: 120,
+      hideInSearch: true,
+      render: (text, record) => {
+          return (
+            <span>
+              {record.SUR === "NaN" || record.SUR === "Infinity"
+                ? "0" + "%"
+                : parseFloat((record.SUR * 100).toFixed(1)) + "%"}
+            </span>
+          )
+      },
+    },
+
+    {
+      title: "产量",
+      dataIndex: "goodparts",
+      valueType: "text",
+      align: "center",
+      width: 120,
+      hideInSearch: true,
+    },
+
+    {
+      title: "目标产量",
+      dataIndex: "targetparts",
+      valueType: "text",
+      align: "center",
+      width: 120,
+      hideInSearch: true,
+      // render: (text) => {
+      //   return parseInt(text * 100) + '%';
+      // }
+    },
+
 
     {
       title: "gap",
       dataIndex: "gap",
+      valueType: "text",
       align: "center",
-      width: 100,
+      width: 120,
+      hideInSearch: true,
       render: (text) => {
         let color = text < 0 ? "red" : "green";
         if (text < 0) {
@@ -234,108 +256,108 @@ const productOeeComponent = ({ productOee, dispatch }) => {
     {
       title: "排班",
       dataIndex: "planot",
+      valueType: "text",
       align: "center",
-      width: 100,
+      width: 120,
+      hideInSearch: true,
     },
 
     {
       title: "工作时间",
       dataIndex: "rot",
+      valueType: "text",
       align: "center",
-      width: 100,
+      width: 120,
+      hideInSearch: true,
     },
 
     {
       title: "休假",
       dataIndex: "relax",
+      valueType: "text",
       align: "center",
-      width: 100,
+      width: 120,
+      hideInSearch: true,
     },
 
     {
       title: "借入",
       dataIndex: "borrow",
+      valueType: "text",
       align: "center",
-      width: 100,
+      width: 120,
+      hideInSearch: true,
     },
 
     {
       title: "借出",
       dataIndex: "lend",
+      valueType: "text",
       align: "center",
-      width: 100,
+      width: 120,
+      hideInSearch: true,
     },
 
     {
       title: "领班T4",
       dataIndex: "lbot",
-      align: "center",
-      width: 100,
-    },
-
-    {
-      title: "t0",
-      dataIndex: "t0",
-      align: "center",
-      width: 100,
-      render: (text) => {
-        let color = text < 0 || text != 0 ? "red" : "green";
-        if (text < 0 || text != 0) {
-          return <Tag color={color}>{text}</Tag>;
-        } else {
-          return <span> {text}</span>;
-        }
-      },
-    },
-
-    {
-      title: "t1",
-      dataIndex: "t1",
-      align: "center",
-      width: 100,
-    },
-
-    {
-      title: "t2",
-      dataIndex: "t2",
-      align: "center",
-      width: 100,
-    },
-
-    {
-      title: "t3",
-      dataIndex: "t3",
-      align: "center",
-      width: 100,
-    },
-
-    {
-      title: "t4",
-      dataIndex: "t4",
-      align: "center",
-      width: 100,
-    },
-
-    {
-      title: "t5",
-      dataIndex: "t5",
-      align: "center",
-      width: 100,
-    },
-
-    {
-      title: "产量",
-      dataIndex: "goodparts",
+      valueType: "text",
       align: "center",
       width: 120,
+      hideInSearch: true,
     },
 
-    {
-      title: "目标产量",
-      dataIndex: "targetparts",
-      align: "center",
-      width: 120,
-    },
+    // {
+    //   title: "t0",
+    //   dataIndex: "t0",
+    //   align: "center",
+    //   width: 100,
+    //   render: (text) => {
+    //     let color = text < 0 || text != 0 ? "red" : "green";
+    //     if (text < 0 || text != 0) {
+    //       return <Tag color={color}>{text}</Tag>;
+    //     } else {
+    //       return <span> {text}</span>;
+    //     }
+    //   },
+    // },
+
+    // {
+    //   title: "t1",
+    //   dataIndex: "t1",
+    //   align: "center",
+    //   width: 100,
+    // },
+
+    // {
+    //   title: "t2",
+    //   dataIndex: "t2",
+    //   align: "center",
+    //   width: 100,
+    // },
+
+    // {
+    //   title: "t3",
+    //   dataIndex: "t3",
+    //   align: "center",
+    //   width: 100,
+    // },
+
+    // {
+    //   title: "t4",
+    //   dataIndex: "t4",
+    //   align: "center",
+    //   width: 100,
+    // },
+
+    // {
+    //   title: "t5",
+    //   dataIndex: "t5",
+    //   align: "center",
+    //   width: 100,
+    // },
+
+    
   ];
 
   const getColumns = () => [
@@ -394,6 +416,7 @@ const productOeeComponent = ({ productOee, dispatch }) => {
         return defaultRender(_);
       },
     },
+    
 
     {
       title: "产品族",
@@ -407,8 +430,8 @@ const productOeeComponent = ({ productOee, dispatch }) => {
       initialValue: !IsUpdate
         ? ""
         : UpdateDate.productareaid
-        ? UpdateDate.productareaid.toString()
-        : "",
+          ? UpdateDate.productareaid.toString()
+          : "",
       renderFormItem: (_, { type, defaultRender, ...rest }, form) => {
         if (type === "form" || type === "table") {
           // 返回新的组件
@@ -443,144 +466,6 @@ const productOeeComponent = ({ productOee, dispatch }) => {
     },
 
     {
-      title: "UT",
-      dataIndex: "ut",
-      valueType: "text",
-      align: "center",
-      width: 120,
-      hideInSearch: true,
-    },
-
-    {
-      title: "DT",
-      dataIndex: "dt",
-      valueType: "text",
-      align: "center",
-      width: 120,
-      hideInSearch: true,
-    },
-
-    {
-      title: "OT",
-      dataIndex: "ot",
-      valueType: "text",
-      align: "center",
-      width: 120,
-      hideInSearch: true,
-    },
-
-    {
-      title: "TS",
-      dataIndex: "ts",
-      valueType: "text",
-      align: "center",
-      width: 120,
-      hideInSearch: true,
-    },
-
-    {
-      title: "SPT",
-      dataIndex: "SPT",
-      valueType: "text",
-      align: "center",
-      width: 120,
-      hideInSearch: true,
-    },
-
-    {
-      title: "OEE",
-      dataIndex: "OEE",
-      valueType: "text",
-      align: "center",
-      width: 120,
-      hideInSearch: true,
-      render: (text, record) => {
-        let color =
-          parseInt(record.OEE * 100) < record.targetke ? "red" : "green";
-        if (parseInt(record.OEE * 100) < record.targetke) {
-          return (
-            <Tag color={color}>
-              {record.OEE === "NaN" || record.OEE === "Infinity"
-                ? "0" + "%"
-                : parseFloat((record.OEE * 100).toFixed(1)) + "%"}
-            </Tag>
-          );
-        } else {
-          return (
-            <span>
-              {" "}
-              {record.OEE === "NaN" || record.OEE === "Infinity"
-                ? "0" + "%"
-                : parseFloat((record.OEE * 100).toFixed(1)) + "%"}
-            </span>
-          );
-        }
-      },
-    },
-
-    {
-      title: "NEE",
-      dataIndex: "NEE",
-      valueType: "text",
-      align: "center",
-      width: 120,
-      hideInSearch: true,
-      render: (text, record) => {
-        let color =
-          parseInt(record.NEE * 100) < record.targetke ? "red" : "green";
-        if (parseInt(record.NEE * 100) < record.targetke) {
-          return (
-            <Tag color={color}>
-              {record.NEE === "NaN" || record.NEE === "Infinity"
-                ? "0" + "%"
-                : parseFloat((record.NEE * 100).toFixed(1)) + "%"}
-            </Tag>
-          );
-        } else {
-          return (
-            <span>
-              {" "}
-              {record.NEE === "NaN" || record.NEE === "Infinity"
-                ? "0" + "%"
-                : parseFloat((record.NEE * 100).toFixed(1)) + "%"}
-            </span>
-          );
-        }
-      },
-    },
-
-    {
-      title: "SUR",
-      dataIndex: "SUR",
-      valueType: "text",
-      align: "center",
-      width: 120,
-      hideInSearch: true,
-      render: (text, record) => {
-        let color =
-          parseInt(record.SUR * 100) < record.targetke ? "red" : "green";
-        if (parseInt(record.SUR * 100) < record.targetke) {
-          return (
-            <Tag color={color}>
-              {record.SUR === "NaN" || record.SUR === "Infinity"
-                ? "0" + "%"
-                : parseFloat((record.SUR * 100).toFixed(1)) + "%"}
-            </Tag>
-          );
-        } else {
-          return (
-            <span>
-              {" "}
-              {record.SUR === "NaN" || record.SUR === "Infinity"
-                ? "0" + "%"
-                : parseFloat((record.SUR * 100).toFixed(1)) + "%"}
-            </span>
-          );
-        }
-      },
-    },
-
-    {
       title: "目标OEE",
       dataIndex: "targetoee",
       valueType: "text",
@@ -603,6 +488,128 @@ const productOeeComponent = ({ productOee, dispatch }) => {
         return text + "%";
       },
     },
+  
+    
+    {
+      title: "OT",
+      dataIndex: "ot",
+      valueType: "text",
+      align: "center",
+      width: 120,
+      hideInSearch: true,
+    },
+
+    {
+      title: "DT",
+      dataIndex: "dt",
+      valueType: "text",
+      align: "center",
+      width: 120,
+      hideInSearch: true,
+    },
+
+    {
+      title: "UT",
+      dataIndex: "ut",
+      valueType: "text",
+      align: "center",
+      width: 120,
+      hideInSearch: true,
+    },
+
+    {
+      title: "SPT",
+      dataIndex: "SPT",
+      valueType: "text",
+      align: "center",
+      width: 120,
+      hideInSearch: true,
+    },
+
+    {
+      title: "TS",
+      dataIndex: "ts",
+      valueType: "text",
+      align: "center",
+      width: 120,
+      hideInSearch: true,
+    },
+
+    {
+      title: "OEE",
+      dataIndex: "OEE",
+      valueType: "text",
+      align: "center",
+      width: 120,
+      hideInSearch: true,
+      render: (text, record) => {
+          return (
+            <span>
+              {record.OEE === "NaN" || record.OEE === "Infinity"
+                ? "0" + "%"
+                : parseFloat((record.OEE * 100).toFixed(1)) + "%"}
+            </span>
+          )
+      },
+    },
+
+    {
+      title: "NEE",
+      dataIndex: "NEE",
+      valueType: "text",
+      align: "center",
+      width: 120,
+      hideInSearch: true,
+      render: (text, record) => {
+          return (
+            <span>
+              {record.NEE === "NaN" || record.NEE === "Infinity"
+                ? "0" + "%"
+                : parseFloat((record.NEE * 100).toFixed(1)) + "%"}
+            </span>
+          )
+      },
+    },
+
+    {
+      title: "SUR",
+      dataIndex: "SUR",
+      valueType: "text",
+      align: "center",
+      width: 120,
+      hideInSearch: true,
+      render: (text, record) => {
+          return (
+            <span>
+              {record.SUR === "NaN" || record.SUR === "Infinity"
+                ? "0" + "%"
+                : parseFloat((record.SUR * 100).toFixed(1)) + "%"}
+            </span>
+          )
+      },
+    },
+
+    {
+      title: "产量",
+      dataIndex: "goodparts",
+      valueType: "text",
+      align: "center",
+      width: 120,
+      hideInSearch: true,
+    },
+
+    {
+      title: "目标产量",
+      dataIndex: "targetparts",
+      valueType: "text",
+      align: "center",
+      width: 120,
+      hideInSearch: true,
+      // render: (text) => {
+      //   return parseInt(text * 100) + '%';
+      // }
+    },
+
 
     {
       title: "gap",
@@ -675,88 +682,69 @@ const productOeeComponent = ({ productOee, dispatch }) => {
       hideInSearch: true,
     },
 
-    {
-      title: "t0",
-      dataIndex: "t0",
-      valueType: "text",
-      align: "center",
-      width: 120,
-      hideInSearch: true,
-      render: (text) => {
-        let color = text < 0 || text != 0 ? "red" : "green";
-        if (text < 0 || text != 0) {
-          return <Tag color={color}>{text}</Tag>;
-        } else {
-          return <span> {text}</span>;
-        }
-      },
-    },
+    // {
+    //   title: "t0",
+    //   dataIndex: "t0",
+    //   valueType: "text",
+    //   align: "center",
+    //   width: 120,
+    //   hideInSearch: true,
+    //   render: (text) => {
+    //     let color = text < 0 || text != 0 ? "red" : "green";
+    //     if (text < 0 || text != 0) {
+    //       return <Tag color={color}>{text}</Tag>;
+    //     } else {
+    //       return <span> {text}</span>;
+    //     }
+    //   },
+    // },
 
-    {
-      title: "t1",
-      dataIndex: "t1",
-      valueType: "text",
-      align: "center",
-      width: 120,
-      hideInSearch: true,
-    },
+    // {
+    //   title: "t1",
+    //   dataIndex: "t1",
+    //   valueType: "text",
+    //   align: "center",
+    //   width: 120,
+    //   hideInSearch: true,
+    // },
 
-    {
-      title: "t2",
-      dataIndex: "t2",
-      valueType: "text",
-      align: "center",
-      width: 120,
-      hideInSearch: true,
-    },
+    // {
+    //   title: "t2",
+    //   dataIndex: "t2",
+    //   valueType: "text",
+    //   align: "center",
+    //   width: 120,
+    //   hideInSearch: true,
+    // },
 
-    {
-      title: "t3",
-      dataIndex: "t3",
-      valueType: "text",
-      align: "center",
-      width: 120,
-      hideInSearch: true,
-    },
+    // {
+    //   title: "t3",
+    //   dataIndex: "t3",
+    //   valueType: "text",
+    //   align: "center",
+    //   width: 120,
+    //   hideInSearch: true,
+    // },
 
-    {
-      title: "t4",
-      dataIndex: "t4",
-      valueType: "text",
-      align: "center",
-      width: 120,
-      hideInSearch: true,
-    },
+    // {
+    //   title: "t4",
+    //   dataIndex: "t4",
+    //   valueType: "text",
+    //   align: "center",
+    //   width: 120,
+    //   hideInSearch: true,
+    // },
 
-    {
-      title: "t5",
-      dataIndex: "t5",
-      valueType: "text",
-      align: "center",
-      width: 120,
-      hideInSearch: true,
-    },
+    // {
+    //   title: "t5",
+    //   dataIndex: "t5",
+    //   valueType: "text",
+    //   align: "center",
+    //   width: 120,
+    //   hideInSearch: true,
+    // },
 
-    {
-      title: "产量",
-      dataIndex: "goodparts",
-      valueType: "text",
-      align: "center",
-      width: 120,
-      hideInSearch: true,
-    },
-
-    {
-      title: "目标产量",
-      dataIndex: "targetparts",
-      valueType: "text",
-      align: "center",
-      width: 120,
-      hideInSearch: true,
-      // render: (text) => {
-      //   return parseInt(text * 100) + '%';
-      // }
-    },
+    
 
     // {
     //   title: '目标PRR',
@@ -900,11 +888,11 @@ const productOeeComponent = ({ productOee, dispatch }) => {
           ot: dataList[i].ot,
           ts: dataList[i].ts,
           SPT: dataList[i].SPT,
-          OEE: parseInt(dataList[i].OEE * 100) + "%",
-          NEE: parseInt(dataList[i].NEE * 100) + "%",
-          SUR: parseInt(dataList[i].SUR * 100) + "%",
-          targetoee: parseInt(dataList[i].targetoee) + "%",
-          targetsur: parseInt(dataList[i].targetsur) + "%",
+          OEE: dataList[i].OEE === "NaN" ? 0 + '%' : parseInt(dataList[i].OEE * 100) + "%",
+          NEE: dataList[i].NEE === "NaN" ? 0 + '%' : parseInt(dataList[i].NEE * 100) + "%",
+          SUR: dataList[i].SUR === "NaN" ? 0 + '%' : parseInt(dataList[i].SUR * 100) + "%",
+          targetoee: dataList[i].targetoee === "NaN" ? 0 + '%' : parseInt(dataList[i].targetoee) + "%",
+          targetsur: dataList[i].targetsur === "NaN" ? 0 + '%' : parseInt(dataList[i].targetsur) + "%",
           gap: dataList[i].gap,
           planot: dataList[i].planot,
           rot: dataList[i].rot,
@@ -912,19 +900,19 @@ const productOeeComponent = ({ productOee, dispatch }) => {
           lend: dataList[i].lend,
           borrow: dataList[i].borrow,
           lbot: dataList[i].lbot,
-          t0: dataList[i].t0,
-          t1: dataList[i].t1,
-          t2: dataList[i].t2,
-          t3: dataList[i].t3,
-          t4: dataList[i].t4,
-          t5: dataList[i].t5,
+          // t0: dataList[i].t0,
+          // t1: dataList[i].t1,
+          // t2: dataList[i].t2,
+          // t3: dataList[i].t3,
+          // t4: dataList[i].t4,
+          // t5: dataList[i].t5,
           goodparts: dataList[i].goodparts,
           targetparts: dataList[i].targetparts,
         };
         dataTable.push(obj);
       }
     }
-    option.fileName = "产品族OEE查询";
+    option.fileName = "区域OEE查询";
     option.datas = [
       {
         sheetData: dataTable,
@@ -950,18 +938,18 @@ const productOeeComponent = ({ productOee, dispatch }) => {
           "lend",
           "borrow",
           "lbot",
-          "t0",
-          "t1",
-          "t2",
-          "t3",
-          "t4",
-          "t5",
+          // "t0",
+          // "t1",
+          // "t2",
+          // "t3",
+          // "t4",
+          // "t5",
           "goodparts",
           "targetparts",
         ],
         sheetHeader: [
           "班次",
-          "产品族",
+          "区域",
           "日期",
           "UT",
           "DT",
@@ -980,12 +968,12 @@ const productOeeComponent = ({ productOee, dispatch }) => {
           "借入",
           "借出",
           "领班T4",
-          "t0",
-          "t1",
-          "t2",
-          "t3",
-          "t4",
-          "t5",
+          // "t0",
+          // "t1",
+          // "t2",
+          // "t3",
+          // "t4",
+          // "t5",
           "产量",
           "目标产量",
         ],

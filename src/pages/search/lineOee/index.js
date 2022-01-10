@@ -71,6 +71,9 @@ const productOeeComponent = ({ lineOee, dispatch }) => {
       fixed: "left",
     },
 
+
+    
+
     {
       title: "OT",
       dataIndex: "ot",
@@ -148,8 +151,8 @@ const productOeeComponent = ({ lineOee, dispatch }) => {
     },
 
     {
-      title: "目标IE",
-      dataIndex: "targetie",
+      title: "目标OEE",
+      dataIndex: "targetoee",
       align: "center",
       width: 100,
       render: (text) => {
@@ -158,8 +161,8 @@ const productOeeComponent = ({ lineOee, dispatch }) => {
     },
 
     {
-      title: "目标KE",
-      dataIndex: "targetke",
+      title: "目标SUR",
+      dataIndex: "targetsur",
       align: "center",
       width: 100,
       render: (text) => {
@@ -243,14 +246,7 @@ const productOeeComponent = ({ lineOee, dispatch }) => {
       dataIndex: "t5",
       align: "center",
       width: 100,
-    },
-
-    {
-      title: "ke",
-      dataIndex: "ke",
-      align: "center",
-      width: 100,
-    },
+    }
   ];
 
   const getColumns = () => [
@@ -365,6 +361,40 @@ const productOeeComponent = ({ lineOee, dispatch }) => {
       hideInSearch: true,
     },
 
+
+    {
+      title: "日期",
+      dataIndex: "tsdate",
+      valueType: "date",
+      align: "center",
+      width: 100,
+      hideInSearch: true,
+    },
+
+    
+    {
+      title: "目标OEE",
+      dataIndex: "targetoee",
+      align: "center",
+      width: 100,
+      hideInSearch: true,
+      render: (text) => {
+        return text + "%";
+      },
+    },
+
+    {
+      title: "目标SUR",
+      dataIndex: "targetsur",
+      align: "center",
+      width: 100,
+      hideInSearch: true,
+      render: (text) => {
+        return text + "%";
+      },
+    },
+
+
     {
       title: "OT",
       dataIndex: "ot",
@@ -374,7 +404,7 @@ const productOeeComponent = ({ lineOee, dispatch }) => {
     },
 
     {
-      title: "ut",
+      title: "UT",
       dataIndex: "ut",
       align: "center",
       width: 100,
@@ -382,17 +412,25 @@ const productOeeComponent = ({ lineOee, dispatch }) => {
     },
 
     {
-      title: "dt",
+      title: "DT",
       dataIndex: "dt",
       align: "center",
       width: 100,
       hideInSearch: true,
     },
 
+    
     {
-      title: "日期",
-      dataIndex: "tsdate",
-      valueType: "dateTime",
+      title: "SPT",
+      dataIndex: "SPT",
+      align: "center",
+      width: 100,
+      hideInSearch: true,
+    },
+
+    {
+      title: "TS",
+      dataIndex: "ts",
       align: "center",
       width: 100,
       hideInSearch: true,
@@ -453,44 +491,6 @@ const productOeeComponent = ({ lineOee, dispatch }) => {
     },
 
     {
-      title: "目标IE",
-      dataIndex: "targetie",
-      align: "center",
-      width: 100,
-      hideInSearch: true,
-      render: (text) => {
-        return text + "%";
-      },
-    },
-
-    {
-      title: "目标KE",
-      dataIndex: "targetke",
-      align: "center",
-      width: 100,
-      hideInSearch: true,
-      render: (text) => {
-        return text + "%";
-      },
-    },
-
-    {
-      title: "ts",
-      dataIndex: "ts",
-      align: "center",
-      width: 100,
-      hideInSearch: true,
-    },
-
-    {
-      title: "SPT",
-      dataIndex: "SPT",
-      align: "center",
-      width: 100,
-      hideInSearch: true,
-    },
-
-    {
       title: "产量",
       dataIndex: "goodparts",
       align: "center",
@@ -506,69 +506,63 @@ const productOeeComponent = ({ lineOee, dispatch }) => {
       hideInSearch: true,
     },
 
-    {
-      title: "t0",
-      dataIndex: "t0",
-      align: "center",
-      width: 100,
-      hideInSearch: true,
-      render: (text) => {
-        let color = text < 0 || text != 0 ? "red" : "green";
-        if (text < 0 || text != 0) {
-          return <Tag color={color}>{text}</Tag>;
-        } else {
-          return <span> {text}</span>;
-        }
-      },
-    },
+    // {
+    //   title: "t0",
+    //   dataIndex: "t0",
+    //   align: "center",
+    //   width: 100,
+    //   hideInSearch: true,
+    //   render: (text) => {
+    //     let color = text < 0 || text != 0 ? "red" : "green";
+    //     if (text < 0 || text != 0) {
+    //       return <Tag color={color}>{text}</Tag>;
+    //     } else {
+    //       return <span> {text}</span>;
+    //     }
+    //   },
+    // },
 
-    {
-      title: "t1",
-      dataIndex: "t1",
-      align: "center",
-      width: 100,
-      hideInSearch: true,
-    },
+    // {
+    //   title: "t1",
+    //   dataIndex: "t1",
+    //   align: "center",
+    //   width: 100,
+    //   hideInSearch: true,
+    // },
 
-    {
-      title: "t2",
-      dataIndex: "t2",
-      align: "center",
-      width: 100,
-      hideInSearch: true,
-    },
+    // {
+    //   title: "t2",
+    //   dataIndex: "t2",
+    //   align: "center",
+    //   width: 100,
+    //   hideInSearch: true,
+    // },
 
-    {
-      title: "t3",
-      dataIndex: "t3",
-      align: "center",
-      width: 100,
-      hideInSearch: true,
-    },
+    // {
+    //   title: "t3",
+    //   dataIndex: "t3",
+    //   align: "center",
+    //   width: 100,
+    //   hideInSearch: true,
+    // },
 
-    {
-      title: "t4",
-      dataIndex: "t4",
-      align: "center",
-      width: 100,
-      hideInSearch: true,
-    },
+    // {
+    //   title: "t4",
+    //   dataIndex: "t4",
+    //   align: "center",
+    //   width: 100,
+    //   hideInSearch: true,
+    // },
 
-    {
-      title: "t5",
-      dataIndex: "t5",
-      align: "center",
-      width: 100,
-      hideInSearch: true,
-    },
+    // {
+    //   title: "t5",
+    //   dataIndex: "t5",
+    //   align: "center",
+    //   width: 100,
+    //   hideInSearch: true,
+    // },
 
-    {
-      title: "ke",
-      dataIndex: "ke",
-      align: "center",
-      width: 100,
-      hideInSearch: true,
-    },
+ 
 
     // {
     //   title: '目标PRR',
@@ -709,22 +703,21 @@ const productOeeComponent = ({ lineOee, dispatch }) => {
           ut: dataList[i].ut,
           dt: dataList[i].dt,
           ot: dataList[i].ot,
-          OEE: parseInt(dataList[i].OEE * 100) + "%",
-          NEE: parseInt(dataList[i].NEE * 100) + "%",
-          SUR: parseInt(dataList[i].SUR * 100) + "%",
-          targetie: parseInt(dataList[i].targetie) + "%",
-          targetke: parseInt(dataList[i].targetke) + "%",
+          OEE: dataList[i].OEE === "NaN" ? 0 + '%' : parseInt(dataList[i].OEE * 100) + "%",
+          NEE: dataList[i].NEE === "NaN" ? 0 + '%' : parseInt(dataList[i].NEE * 100) + "%",
+          SUR: dataList[i].SUR === "NaN" ? 0 + '%' : parseInt(dataList[i].SUR * 100) + "%",
+          targetoee: dataList[i].targetoee === "NaN" ? 0 + '%' : parseInt(dataList[i].targetoee) + "%",
+          targetsur: dataList[i].targetsur === "NaN" ? 0 + '%' : parseInt(dataList[i].targetsur) + "%",
           ts: dataList[i].ts,
           SPT: dataList[i].SPT,
           goodparts: dataList[i].goodparts,
           targetparts: dataList[i].targetparts,
-          t0: dataList[i].t0,
-          t1: dataList[i].t1,
-          t2: dataList[i].t2,
-          t3: dataList[i].t3,
-          t4: dataList[i].t4,
-          t5: dataList[i].t5,
-          ke: parseInt(dataList[i].ke * 100) + "%",
+          // t0: dataList[i].t0,
+          // t1: dataList[i].t1,
+          // t2: dataList[i].t2,
+          // t3: dataList[i].t3,
+          // t4: dataList[i].t4,
+          // t5: dataList[i].t5
         };
         dataTable.push(obj);
       }
@@ -743,42 +736,40 @@ const productOeeComponent = ({ lineOee, dispatch }) => {
           "OEE",
           "NEE",
           "SUR",
-          "targetie",
-          "targetke",
+          "targetoee",
+          "targetsur",
           "ts",
           "SPT",
           "goodparts",
           "targetparts",
-          "t0",
-          "t1",
-          "t2",
-          "t3",
-          "t4",
-          "t5",
-          "ke",
+          // "t0",
+          // "t1",
+          // "t2",
+          // "t3",
+          // "t4",
+          // "t5",
         ],
         sheetHeader: [
           "班次",
           "线体",
-          "ut",
-          "dt",
+          "UT",
+          "DT",
           "OT",
           "OEE",
           "NEE",
           "SUR",
-          "目标IE",
-          "目标KE",
-          "ts",
+          "目标OEE",
+          "目标SUR",
+          "TS",
           "SPT",
           "产量",
           "目标产量",
-          "t0",
-          "t1",
-          "t2",
-          "t3",
-          "t4",
-          "t5",
-          "ke",
+          // "t0",
+          // "t1",
+          // "t2",
+          // "t3",
+          // "t4",
+          // "t5",
         ],
       },
     ];

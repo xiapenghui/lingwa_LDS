@@ -3,7 +3,6 @@ import { history } from "umi";
 import {
   getDropDownInit,
   postListInit,
-  getProductType,
   deleted,
   getAddDropDownInit,
   addPost,
@@ -31,10 +30,6 @@ const Model = {
             payload: {},
           });
 
-          dispatch({
-            type: "getProductType",
-            payload: {},
-          });
         }
       });
     },
@@ -61,22 +56,6 @@ const Model = {
       }
     },
 
-    //获取产品类型信息
-    *getProductType({ payload }, { call, put, select }) {
-      const data = yield call(getProductType);
-      if (data.status !== "200") {
-        return message.error(data.message);
-      } else if (data.status == "200") {
-        yield put({
-          type: "querySuccessed",
-          payload: {
-            type: "getProductType",
-            data: data.list,
-          },
-        });
-        return message.success(data.message);
-      }
-    },
 
     *query({ payload }, { call, put, select }) {
       const data = yield call(postListInit, payload);
@@ -101,12 +80,6 @@ const Model = {
           ...state,
           ...payload,
         };
-      }
-      else if (payload.type === "getProductType") {
-        return {
-          ...state, ...payload,
-          ProductTypeList: payload.data
-        }
       }
       else if (payload.type === "postListInit") {
         return {
