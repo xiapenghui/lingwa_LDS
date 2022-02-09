@@ -151,6 +151,21 @@ export default defineConfig({
                   icon: 'smile',
                   component: '../pages/product/number',
                 },
+
+                {
+                  path: '/product/productType',
+                  name: '产品类型',
+                  icon: 'smile',
+                  component: '../pages/product/productType',
+                },
+
+                {
+                  path: '/product/productAndLine',
+                  name: '产品与线体关系',
+                  icon: 'smile',
+                  component: '../pages/product/productAndLine',
+                },
+
                 {
                   path: '/product/productGroup',
                   name: '工厂信息',
@@ -159,7 +174,7 @@ export default defineConfig({
                 },
                 {
                   path: '/product/region',
-                  name: '产品族信息',
+                  name: '区域信息',
                   icon: 'smile',
                   component: '../pages/product/region',
                 },
@@ -201,7 +216,7 @@ export default defineConfig({
 
                 {
                   path: '/time/productKpi',
-                  name: '产品族KPI管理',
+                  name: '区域KPI管理',
                   icon: 'smile',
                   component: '../pages/time/productKpi',
                 },
@@ -221,11 +236,26 @@ export default defineConfig({
                 },
 
                 {
+                  path: '/time/supportTarea',
+                  name: '支持时间区域录入',
+                  icon: 'smile',
+                  component: '../pages/time/supportTarea',
+                },
+
+                {
                   path: '/time/unscheduled',
                   name: '已登录未排版人员',
                   icon: 'smile',
                   component: '../pages/time/unscheduled',
                 },
+
+                {
+                  path: '/time/operatorlog',
+                  name: '员工考勤',
+                  icon: 'smile',
+                  component: '../pages/time/operatorlog',
+                },
+
                 {
                   path: '/time/classMain',
                   name: '班别班次维护',
@@ -269,14 +299,14 @@ export default defineConfig({
                 },
                 {
                   path: '/search/regionData',
-                  name: '产品族查询',
+                  name: '区域KE查询',
                   icon: 'smile',
                   component: '../pages/search/regionData',
                 },
 
                 {
                   path: '/search/lineData',
-                  name: '线体查询',
+                  name: '线体KE查询',
                   icon: 'smile',
                   component: '../pages/search/lineData',
                 },
@@ -293,7 +323,26 @@ export default defineConfig({
                   icon: 'smile',
                   component: '../pages/search/workHours',
                 },
+                {
+                  path: '/search/personnelNum',
+                  name: '人员统计查询',
+                  icon: 'smile',
+                  component: '../pages/search/personnelNum',
+                },
 
+                {
+                  path: '/search/productOee',
+                  name: '区域OEE查询',
+                  icon: 'smile',
+                  component: '../pages/search/productOee',
+                },
+
+                {
+                  path: '/search/lineOee',
+                  name: '线体OEE查询',
+                  icon: 'smile',
+                  component: '../pages/search/lineOee',
+                },
               ],
             },
 
