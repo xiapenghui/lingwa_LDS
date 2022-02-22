@@ -78,8 +78,8 @@ const personnelComponent = ({ personnel, dispatch }) => {
       initialValue: !IsUpdate
         ? ""
         : UpdateDate.departmentid
-        ? UpdateDate.departmentid.toString()
-        : "",
+          ? UpdateDate.departmentid.toString()
+          : "",
 
       renderFormItem: (_, { type, defaultRender, ...rest }, form) => {
         if (type === "form" || type === "table") {
@@ -124,8 +124,8 @@ const personnelComponent = ({ personnel, dispatch }) => {
       initialValue: !IsUpdate
         ? ""
         : UpdateDate.areaid
-        ? UpdateDate.areaid.toString()
-        : "",
+          ? UpdateDate.areaid.toString()
+          : "",
       renderFormItem: (_, { type, defaultRender, ...rest }, form) => {
         if (type === "form" || type === "table") {
           // 返回新的组件
@@ -160,8 +160,8 @@ const personnelComponent = ({ personnel, dispatch }) => {
       initialValue: !IsUpdate
         ? ""
         : UpdateDate.defaultlineid
-        ? UpdateDate.defaultlineid.toString()
-        : "",
+          ? UpdateDate.defaultlineid.toString()
+          : "",
       renderFormItem: (_, { type, defaultRender, ...rest }, form) => {
         if (type === "form" || type === "table") {
           // 返回新的组件
@@ -195,8 +195,8 @@ const personnelComponent = ({ personnel, dispatch }) => {
       initialValue: !IsUpdate
         ? ""
         : UpdateDate.defaultshiftclass
-        ? UpdateDate.defaultshiftclass.toString()
-        : "",
+          ? UpdateDate.defaultshiftclass.toString()
+          : "",
       renderFormItem: (_, { type, defaultRender, ...rest }, form) => {
         if (type === "form" || type === "table") {
           // 返回新的组件
@@ -238,8 +238,8 @@ const personnelComponent = ({ personnel, dispatch }) => {
       initialValue: !IsUpdate
         ? ""
         : UpdateDate.pattributes
-        ? UpdateDate.pattributes.toString()
-        : "",
+          ? UpdateDate.pattributes.toString()
+          : "",
       renderFormItem: (_, { type, defaultRender, ...rest }, form) => {
         if (type === "form" || type === "table") {
           // 返回新的组件
@@ -281,8 +281,8 @@ const personnelComponent = ({ personnel, dispatch }) => {
       initialValue: !IsUpdate
         ? ""
         : UpdateDate.state
-        ? UpdateDate.state.toString()
-        : "",
+          ? UpdateDate.state.toString()
+          : "",
       renderFormItem: (_, { type, defaultRender, ...rest }, form) => {
         if (type === "form" || type === "table") {
           // 返回新的组件
@@ -368,7 +368,7 @@ const personnelComponent = ({ personnel, dispatch }) => {
     });
   };
 
- 
+
   /**
    * 添加节点
    * @param fields
@@ -425,8 +425,8 @@ const personnelComponent = ({ personnel, dispatch }) => {
         areaid: Number(fields.areaid),
         defaultlineid: Number(fields.defaultlineid),
         defaultshiftclass: Number(fields.defaultshiftclass),
-        state: Number(fields.state),
-        pattributes: Number(fields.pattributes),
+        state:  /^[\u4e00-\u9fa5]+$/i.test(fields.state) == true ? UpdateDate.stateid : fields.state ,
+        pattributes:  /^[\u4e00-\u9fa5]+$/i.test(fields.pattributes) == true ? UpdateDate.pattributesid : fields.pattributes,
         remark: fields.remark,
       });
       if (data.status == "200") {
