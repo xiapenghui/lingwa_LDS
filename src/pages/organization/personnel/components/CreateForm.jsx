@@ -1,6 +1,6 @@
-import React from 'react';
-import { Modal, Row, Col, } from 'antd';
-import '../../../../../src/assets/commonStyle.css'
+import React from "react";
+import { Modal, Row, Col } from "antd";
+// import '../../../../../src/assets/commonStyle.css'
 const CreateForm = (props) => {
   const { modalVisible, onCancel } = props;
   return (
@@ -18,7 +18,6 @@ const CreateForm = (props) => {
           {props.children}
         </Col>
       </Row>
-
     </Modal>
   );
 };

@@ -51,10 +51,10 @@ const workHoursComponent = ({ workHours, dispatch }) => {
   const [hours, setHours] = useState(0);
   const [average, setAverage] = useState(0);
   const [numCol, setNumCol] = useState(0);
-  const [cvalue, setCvalue] = useState(0);
+  const [dataDataList, setDataDataList] = useState(0);
 
   const { Option } = Select;
-  const getColumns = () => [
+  const getColumns = [
     // {
     //   title: '年',
     //   dataIndex: 'yearth',
@@ -226,6 +226,9 @@ const workHoursComponent = ({ workHours, dispatch }) => {
       hideInSearch: true,
       fixed: "left",
       width: 100,
+      render: (text) => {
+        return text.toFixed(2);
+      },
     },
 
     {
@@ -236,6 +239,9 @@ const workHoursComponent = ({ workHours, dispatch }) => {
       hideInSearch: true,
       fixed: "left",
       width: 100,
+      render: (text) => {
+        return text.toFixed(2);
+      },
     },
 
     {
@@ -247,14 +253,14 @@ const workHoursComponent = ({ workHours, dispatch }) => {
       hideInSearch: true,
       width: 120,
       // render: (text) => {
-      //   return  text;
+      //   return  text.toFixed(2);
       // },
       render: (text, record) => {
         let color = record.overwork >= 50 ? "red" : "";
-        if (record.overwork >= 50) {
-          return <Tag color={color}>{record.overwork}</Tag>;
+        if (record.overwork.toFixed(2) >= 50) {
+          return <Tag color={color}>{record.overwork.toFixed(2)}</Tag>;
         } else {
-          return <span> {record.overwork}</span>;
+          return <span> {record.overwork.toFixed(2)}</span>;
         }
       },
     },
@@ -319,6 +325,9 @@ const workHoursComponent = ({ workHours, dispatch }) => {
       valueType: "text",
       align: "center",
       hideInSearch: true,
+      render: (text) => {
+        return text.toFixed(2);
+      },
     },
 
     {
@@ -327,6 +336,9 @@ const workHoursComponent = ({ workHours, dispatch }) => {
       valueType: "text",
       align: "center",
       hideInSearch: true,
+      render: (text) => {
+        return text.toFixed(2);
+      },
     },
 
     {
@@ -335,6 +347,9 @@ const workHoursComponent = ({ workHours, dispatch }) => {
       valueType: "text",
       align: "center",
       hideInSearch: true,
+      render: (text) => {
+        return text.toFixed(2);
+      },
     },
 
     {
@@ -343,6 +358,9 @@ const workHoursComponent = ({ workHours, dispatch }) => {
       valueType: "text",
       align: "center",
       hideInSearch: true,
+      render: (text) => {
+        return text.toFixed(2);
+      },
     },
 
     {
@@ -351,6 +369,9 @@ const workHoursComponent = ({ workHours, dispatch }) => {
       valueType: "text",
       align: "center",
       hideInSearch: true,
+      render: (text) => {
+        return text.toFixed(2);
+      },
     },
 
     {
@@ -359,6 +380,9 @@ const workHoursComponent = ({ workHours, dispatch }) => {
       valueType: "text",
       align: "center",
       hideInSearch: true,
+      render: (text) => {
+        return text.toFixed(2);
+      },
     },
 
     {
@@ -367,6 +391,9 @@ const workHoursComponent = ({ workHours, dispatch }) => {
       valueType: "text",
       align: "center",
       hideInSearch: true,
+      render: (text) => {
+        return text.toFixed(2);
+      },
     },
 
     {
@@ -375,6 +402,9 @@ const workHoursComponent = ({ workHours, dispatch }) => {
       valueType: "text",
       align: "center",
       hideInSearch: true,
+      render: (text) => {
+        return text.toFixed(2);
+      },
     },
 
     {
@@ -383,6 +413,9 @@ const workHoursComponent = ({ workHours, dispatch }) => {
       valueType: "text",
       align: "center",
       hideInSearch: true,
+      render: (text) => {
+        return text.toFixed(2);
+      },
     },
 
     {
@@ -391,6 +424,9 @@ const workHoursComponent = ({ workHours, dispatch }) => {
       valueType: "text",
       align: "center",
       hideInSearch: true,
+      render: (text) => {
+        return text.toFixed(2);
+      },
     },
 
     {
@@ -399,6 +435,9 @@ const workHoursComponent = ({ workHours, dispatch }) => {
       valueType: "text",
       align: "center",
       hideInSearch: true,
+      render: (text) => {
+        return text.toFixed(2);
+      },
     },
 
     {
@@ -407,6 +446,9 @@ const workHoursComponent = ({ workHours, dispatch }) => {
       valueType: "text",
       align: "center",
       hideInSearch: true,
+      render: (text) => {
+        return text.toFixed(2);
+      },
     },
 
     {
@@ -415,6 +457,9 @@ const workHoursComponent = ({ workHours, dispatch }) => {
       valueType: "text",
       align: "center",
       hideInSearch: true,
+      render: (text) => {
+        return text.toFixed(2);
+      },
     },
 
     {
@@ -423,6 +468,9 @@ const workHoursComponent = ({ workHours, dispatch }) => {
       valueType: "text",
       align: "center",
       hideInSearch: true,
+      render: (text) => {
+        return text.toFixed(2);
+      },
     },
 
     {
@@ -431,6 +479,9 @@ const workHoursComponent = ({ workHours, dispatch }) => {
       valueType: "text",
       align: "center",
       hideInSearch: true,
+      render: (text) => {
+        return text.toFixed(2);
+      },
     },
 
     {
@@ -439,6 +490,9 @@ const workHoursComponent = ({ workHours, dispatch }) => {
       valueType: "text",
       align: "center",
       hideInSearch: true,
+      render: (text) => {
+        return text.toFixed(2);
+      },
     },
 
     {
@@ -447,6 +501,9 @@ const workHoursComponent = ({ workHours, dispatch }) => {
       valueType: "text",
       align: "center",
       hideInSearch: true,
+      render: (text) => {
+        return text.toFixed(2);
+      },
     },
 
     {
@@ -455,6 +512,9 @@ const workHoursComponent = ({ workHours, dispatch }) => {
       valueType: "text",
       align: "center",
       hideInSearch: true,
+      render: (text) => {
+        return text.toFixed(2);
+      },
     },
 
     {
@@ -463,6 +523,9 @@ const workHoursComponent = ({ workHours, dispatch }) => {
       valueType: "text",
       align: "center",
       hideInSearch: true,
+      render: (text) => {
+        return text.toFixed(2);
+      },
     },
     {
       title: "20",
@@ -470,6 +533,9 @@ const workHoursComponent = ({ workHours, dispatch }) => {
       valueType: "text",
       align: "center",
       hideInSearch: true,
+      render: (text) => {
+        return text.toFixed(2);
+      },
     },
 
     {
@@ -478,6 +544,9 @@ const workHoursComponent = ({ workHours, dispatch }) => {
       valueType: "text",
       align: "center",
       hideInSearch: true,
+      render: (text) => {
+        return text.toFixed(2);
+      },
     },
 
     {
@@ -486,6 +555,9 @@ const workHoursComponent = ({ workHours, dispatch }) => {
       valueType: "text",
       align: "center",
       hideInSearch: true,
+      render: (text) => {
+        return text.toFixed(2);
+      },
     },
 
     {
@@ -494,6 +566,9 @@ const workHoursComponent = ({ workHours, dispatch }) => {
       valueType: "text",
       align: "center",
       hideInSearch: true,
+      render: (text) => {
+        return text.toFixed(2);
+      },
     },
 
     {
@@ -502,6 +577,9 @@ const workHoursComponent = ({ workHours, dispatch }) => {
       valueType: "text",
       align: "center",
       hideInSearch: true,
+      render: (text) => {
+        return text.toFixed(2);
+      },
     },
 
     {
@@ -510,6 +588,9 @@ const workHoursComponent = ({ workHours, dispatch }) => {
       valueType: "text",
       align: "center",
       hideInSearch: true,
+      render: (text) => {
+        return text.toFixed(2);
+      },
     },
 
     {
@@ -518,6 +599,9 @@ const workHoursComponent = ({ workHours, dispatch }) => {
       valueType: "text",
       align: "center",
       hideInSearch: true,
+      render: (text) => {
+        return text.toFixed(2);
+      },
     },
 
     {
@@ -526,6 +610,9 @@ const workHoursComponent = ({ workHours, dispatch }) => {
       valueType: "text",
       align: "center",
       hideInSearch: true,
+      render: (text) => {
+        return text.toFixed(2);
+      },
     },
 
     {
@@ -534,6 +621,9 @@ const workHoursComponent = ({ workHours, dispatch }) => {
       valueType: "text",
       align: "center",
       hideInSearch: true,
+      render: (text) => {
+        return text.toFixed(2);
+      },
     },
 
     {
@@ -542,6 +632,9 @@ const workHoursComponent = ({ workHours, dispatch }) => {
       valueType: "text",
       align: "center",
       hideInSearch: true,
+      render: (text) => {
+        return text.toFixed(2);
+      },
     },
 
     {
@@ -550,6 +643,9 @@ const workHoursComponent = ({ workHours, dispatch }) => {
       valueType: "text",
       align: "center",
       hideInSearch: true,
+      render: (text) => {
+        return text.toFixed(2);
+      },
     },
 
     {
@@ -558,6 +654,9 @@ const workHoursComponent = ({ workHours, dispatch }) => {
       valueType: "text",
       align: "center",
       hideInSearch: true,
+      render: (text) => {
+        return text.toFixed(2);
+      },
     },
 
     {
@@ -569,26 +668,10 @@ const workHoursComponent = ({ workHours, dispatch }) => {
       fixed: "right",
       width: 120,
     },
-
-    {
-      title: "确认状态",
-      dataIndex: "confirmstate",
-      valueType: "text",
-      align: "center",
-      hideInSearch: true,
-      fixed: "right",
-      width: 120,
-      render: (_, text) => {
-        if (text.confirmstate == 1) {
-          return (text = "已确认");
-        } else {
-          return (text = "未确认");
-        }
-      },
-    },
   ];
 
   const query = async (params, sorter, filter) => {
+    debugger;
     const TableList = postListInit({
       yearth: params.yearth.substring(0, 4),
       month: params.month.substring(5, 7),
@@ -604,17 +687,13 @@ const workHoursComponent = ({ workHours, dispatch }) => {
     });
     return TableList.then(function (value) {
       setDataList(value.list);
-
-      // var num = 0;
-      // value.list.map((item) => {
-      //   num = item.overwork + num;
-      //   setHours(num);
-      //   setAverage(num / value.list.length);
-      // });
-
-      setHours(value.list[0].sumoverwork);
-      setAverage((value.list[0].sumoverwork / value.list.length).toFixed(2));
-      setCvalue(value.list[0].cvalue);
+      setNumCol(value.list.length);
+      var num = 0;
+      value.list.map((item) => {
+        num = item.overwork + num;
+        setHours(num);
+        setAverage(num / value.list.length);
+      });
 
       return {
         data: value.list,
@@ -626,6 +705,16 @@ const workHoursComponent = ({ workHours, dispatch }) => {
     });
   };
 
+  const search = async () => {
+    let data = await postListInit({
+      yearth: 2022,
+      month: 9,
+    });
+    if (data.status == 200) {
+      setDataDataList(data.list);
+    }
+  };
+
   // 导出
   const downloadExcel = async () => {
     var option = {};
@@ -635,42 +724,42 @@ const workHoursComponent = ({ workHours, dispatch }) => {
         let obj = {
           employeeno: dataList[i].employeeno,
           employeename: dataList[i].employeename,
-          hour: dataList[i].hour,
-          periodtime: dataList[i].periodtime,
-          relax: dataList[i].relax,
-          overwork: dataList[i].overwork,
+          hour: dataList[i].hour.toFixed(2),
+          periodtime: dataList[i].periodtime.toFixed(2),
+          relax: dataList[i].relax.toFixed(2),
+          overwork: dataList[i].overwork.toFixed(2),
           class: dataList[i].class,
-          d01: dataList[i].d01,
-          d02: dataList[i].d02,
-          d03: dataList[i].d03,
-          d04: dataList[i].d04,
-          d05: dataList[i].d05,
-          d06: dataList[i].d06,
-          d07: dataList[i].d07,
-          d08: dataList[i].d08,
-          d09: dataList[i].d09,
-          d10: dataList[i].d10,
-          d11: dataList[i].d11,
-          d12: dataList[i].d12,
-          d13: dataList[i].d13,
-          d14: dataList[i].d14,
-          d15: dataList[i].d15,
-          d16: dataList[i].d16,
-          d17: dataList[i].d17,
-          d18: dataList[i].d18,
-          d19: dataList[i].d19,
-          d20: dataList[i].d20,
-          d21: dataList[i].d21,
-          d22: dataList[i].d22,
-          d23: dataList[i].d23,
-          d24: dataList[i].d24,
-          d25: dataList[i].d25,
-          d26: dataList[i].d26,
-          d27: dataList[i].d27,
-          d28: dataList[i].d28,
-          d29: dataList[i].d29,
-          d30: dataList[i].d30,
-          d31: dataList[i].d31,
+          d01: dataList[i].d01.toFixed(2),
+          d02: dataList[i].d02.toFixed(2),
+          d03: dataList[i].d03.toFixed(2),
+          d04: dataList[i].d04.toFixed(2),
+          d05: dataList[i].d05.toFixed(2),
+          d06: dataList[i].d06.toFixed(2),
+          d07: dataList[i].d07.toFixed(2),
+          d08: dataList[i].d08.toFixed(2),
+          d09: dataList[i].d09.toFixed(2),
+          d10: dataList[i].d10.toFixed(2),
+          d11: dataList[i].d11.toFixed(2),
+          d12: dataList[i].d12.toFixed(2),
+          d13: dataList[i].d13.toFixed(2),
+          d14: dataList[i].d14.toFixed(2),
+          d15: dataList[i].d15.toFixed(2),
+          d16: dataList[i].d16.toFixed(2),
+          d17: dataList[i].d17.toFixed(2),
+          d18: dataList[i].d18.toFixed(2),
+          d19: dataList[i].d19.toFixed(2),
+          d20: dataList[i].d20.toFixed(2),
+          d21: dataList[i].d21.toFixed(2),
+          d22: dataList[i].d22.toFixed(2),
+          d23: dataList[i].d23.toFixed(2),
+          d24: dataList[i].d24.toFixed(2),
+          d25: dataList[i].d25.toFixed(2),
+          d26: dataList[i].d26.toFixed(2),
+          d27: dataList[i].d27.toFixed(2),
+          d28: dataList[i].d28.toFixed(2),
+          d29: dataList[i].d29.toFixed(2),
+          d30: dataList[i].d30.toFixed(2),
+          d31: dataList[i].d31.toFixed(2),
         };
         dataTable.push(obj);
       }
@@ -769,109 +858,10 @@ const workHoursComponent = ({ workHours, dispatch }) => {
 
   return (
     <PageContainer>
-      <ProTable
-        // headerTitle="查询表格"
-        headerTitle={
-          <>
-            <span>查询表格</span>
-            <span
-              style={{ color: "red", fontSize: "16px", marginLeft: "10px" }}
-            >
-              {/* *列表行数&nbsp;{numCol}&nbsp;行，加班总时长&nbsp;{hours}&nbsp;小时,平均加班工时&nbsp;{average}&nbsp;小时 */}
-              *加班总时长&nbsp;{hours}&nbsp;小时,平均加班工时&nbsp;{average}
-              &nbsp;小时, 薪资系数&nbsp;{cvalue}
-            </span>
-          </>
-        }
-        actionRef={actionRef}
-        // manualRequest={true}
-        scroll={{ x: 2500, y: 500 }}
-        pagination={false}
-        rowKey="employeeno"
-        search={{
-          labelWidth: 120,
-          defaultCollapsed: false,
-        }}
-        toolBarRender={() => [
-          <Button type="primary" onClick={() => downloadExcel()}>
-            <UploadOutlined /> 导出
-          </Button>,
-        ]}
-        request={(params, sorter, filter) => query(params, sorter, filter)}
-        columns={getColumns()}
-        rowSelection={{
-          onChange: (_, selectedRows) => setSelectedRows(selectedRows),
-        }}
-      />
-      {selectedRowsState?.length > 0 && (
-        <FooterToolbar
-          extra={
-            <div>
-              已选择{" "}
-              <a
-                style={{
-                  fontWeight: 600,
-                }}
-              >
-                {selectedRowsState.length}
-              </a>{" "}
-              项&nbsp;&nbsp;
-              <span></span>
-            </div>
-          }
-        ></FooterToolbar>
-      )}
-      <CreateForm
-        onCancel={() => handleModalVisible(false)}
-        modalVisible={createModalVisible}
-        title="新建"
-      >
-        <ProTable
-          onSubmit={async (value) => {
-            const success = await handleAdd(value);
-
-            if (success) {
-              handleModalVisible(false);
-
-              if (actionRef.current) {
-                actionRef.current.reload();
-              }
-            }
-          }}
-          rowKey="employeeno"
-          type="form"
-          columns={getColumns()}
-        />
-      </CreateForm>
-      {UpdateDate && Object.keys(UpdateDate).length ? (
-        <UpdateForm
-          onCancel={() => {
-            setUpdateDate({}); //编辑modal一旦关闭就必须setUpdateDate
-            setIsUpdate(false);
-            handleUpdateModalVisible(false);
-          }}
-          modalVisible={updateModalVisible}
-          title="编辑"
-        >
-          <ProTable
-            onSubmit={async (value) => {
-              const success = await handleUpdate(value);
-
-              if (success) {
-                handleUpdateModalVisible(false);
-                setUpdateDate({});
-                setIsUpdate(false);
-                if (actionRef.current) {
-                  actionRef.current.reload();
-                }
-              }
-            }}
-            rowKey="employeeno"
-            type="form"
-            columns={getColumns()}
-          />
-        </UpdateForm>
-      ) : null}
+      <>
+        <Button onClick={() => search()}>查询</Button>
+        <Table dataSource={dataDataList} columns={getColumns} />
+      </>
     </PageContainer>
   );
 };

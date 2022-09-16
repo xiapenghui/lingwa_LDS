@@ -1,8 +1,8 @@
-import React from 'react';
-import { Modal, Row, Col, } from 'antd';
-import '../../../../../src/assets/commonStyle.css'
+import React from "react";
+import { Modal, Row, Col } from "antd";
+// import '../../../../../src/assets/commonStyle.css'
 const UpdateForm = (props) => {
-  const { modalVisible, onCancel } = props
+  const { modalVisible, onCancel } = props;
   return (
     <Modal
       maskClosable={false}

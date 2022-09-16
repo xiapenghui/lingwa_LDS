@@ -1,5 +1,5 @@
-import { stringify } from 'querystring';
-import { history } from 'umi';
+import { stringify } from "querystring";
+import { history } from "umi";
 import {
   getDepartement,
   postListInit,
@@ -15,14 +15,14 @@ import {
   deleted,
   getAddDropDownInit,
   addPost,
-} from '@/services/search/workHours';
-import { setAuthority } from '@/utils/authority';
-import { getPageQuery } from '@/utils/utils';
-import { message } from 'antd';
-import { resolve } from 'path';
-import Item from 'antd/lib/list/Item';
+} from "@/services/search/workHours";
+import { setAuthority } from "@/utils/authority";
+import { getPageQuery } from "@/utils/utils";
+import { message } from "antd";
+import { resolve } from "path";
+import Item from "antd/lib/list/Item";
 
-const TableName = 'workHours'
+const TableName = "workHours";
 const Model = {
   namespace: TableName,
   state: {
@@ -34,61 +34,56 @@ const Model = {
     shiftTypeList: {},
     areaList: {},
     lineList: {},
-    personnelList:{}
+    personnelList: {},
   },
 
   subscriptions: {
     setup({ dispatch, history }) {
       history.listen((location) => {
-
         if (location.pathname == `/search/${TableName}`) {
+          // dispatch({
+          //   type: 'getDepartement',
+          //   payload: {}
+          // })
+
+          // dispatch({
+          //   type: 'getProduct',
+          //   payload: {}
+          // })
+
+          // dispatch({
+          //   type: 'getPerson',
+          //   payload: {
+          //     departmentid: 0
+          //   }
+          // })
+
+          // dispatch({
+          //   type: 'getShif',
+          //   payload: {}
+          // })
 
           dispatch({
-            type: 'getDepartement',
-            payload: {}
-          })
+            type: "getShiftType",
+            payload: {},
+          });
+
+          // dispatch({
+          //   type: 'getArea',
+          //   payload: {}
+          // })
+
+          // dispatch({
+          //   type: 'getLine',
+          //   payload: {}
+          // })
 
           dispatch({
-            type: 'getProduct',
-            payload: {}
-          })
-
-          dispatch({
-            type: 'getPerson',
-            payload: {
-              departmentid: 0
-            }
-          })
-
-          dispatch({
-            type: 'getShif',
-            payload: {}
-          })
-
-          dispatch({
-            type: 'getShiftType',
-            payload: {}
-          })
-
-          dispatch({
-            type: 'getArea',
-            payload: {}
-          })
-
-          dispatch({
-            type: 'getLine',
-            payload: {}
-          })
-
-          
-          dispatch({
-            type: 'getPersonnel',
-            payload: {}
-          })
-
-
+            type: "getPersonnel",
+            payload: {},
+          });
         }
-      })
+      });
     },
   },
   effects: {
@@ -99,276 +94,229 @@ const Model = {
      */
 
     // 部门
-    * getDepartement({
-      payload,
-    }, { call, put, select }) {
-
-      const data = yield call(getDepartement)
-      if (data.status !== '200') {
+    *getDepartement({ payload }, { call, put, select }) {
+      const data = yield call(getDepartement);
+      if (data.status !== "200") {
         return message.error(data.message);
-      } else if (data.status == '200') {
-
+      } else if (data.status == "200") {
         yield put({
-          type: 'querySuccessed',
+          type: "querySuccessed",
           payload: {
-            type: 'getDepartement',
+            type: "getDepartement",
             data: data.list,
-          }
-        })
+          },
+        });
         // return message.success(data.message);
       }
     },
-
 
     // 员工
-    * getPerson({
-      payload,
-    }, { call, put, select }) {
-
-      const data = yield call(getPerson, payload)
-      if (data.status !== '200') {
+    *getPerson({ payload }, { call, put, select }) {
+      const data = yield call(getPerson, payload);
+      if (data.status !== "200") {
         return message.error(data.message);
-      } else if (data.status == '200') {
-
+      } else if (data.status == "200") {
         yield put({
-          type: 'querySuccessed',
+          type: "querySuccessed",
           payload: {
-            type: 'getPerson',
+            type: "getPerson",
             data: data.list,
-          }
-        })
+          },
+        });
         // return message.success(data.message);
       }
     },
-
 
     // 班次
-    * getShif({
-      payload,
-    }, { call, put, select }) {
-
-      const data = yield call(getShif)
-      if (data.status !== '200') {
+    *getShif({ payload }, { call, put, select }) {
+      const data = yield call(getShif);
+      if (data.status !== "200") {
         return message.error(data.message);
-      } else if (data.status == '200') {
-
+      } else if (data.status == "200") {
         yield put({
-          type: 'querySuccessed',
+          type: "querySuccessed",
           payload: {
-            type: 'getShif',
+            type: "getShif",
             data: data.list,
-          }
-        })
+          },
+        });
         // return message.success(data.message);
       }
     },
-
 
     //班别
-    * getShiftType({
-      payload,
-    }, { call, put, select }) {
-
-      const data = yield call(getShiftType)
-      if (data.status !== '200') {
+    *getShiftType({ payload }, { call, put, select }) {
+      const data = yield call(getShiftType);
+      if (data.status !== "200") {
         return message.error(data.message);
-      } else if (data.status == '200') {
-
+      } else if (data.status == "200") {
         yield put({
-          type: 'querySuccessed',
+          type: "querySuccessed",
           payload: {
-            type: 'getShiftType',
+            type: "getShiftType",
             data: data.list,
-          }
-        })
+          },
+        });
         // return message.success(data.message);
       }
     },
 
-
-       //员工属性
-       * getPersonnel({
-       payload,
-     }, { call, put, select }) {
-       const data = yield call(getPersonnel)
-       if (data.status !== '200') {
-         return message.error(data.message);
-       } else if (data.status == '200') {
- 
-         yield put({
-           type: 'querySuccessed',
-           payload: {
-             type: 'getPersonnel',
-             data: data.list,
-           }
-         })
-         // return message.success(data.message);
-       }
-     },
-
-
-
-
-
+    //员工属性
+    *getPersonnel({ payload }, { call, put, select }) {
+      const data = yield call(getPersonnel);
+      if (data.status !== "200") {
+        return message.error(data.message);
+      } else if (data.status == "200") {
+        yield put({
+          type: "querySuccessed",
+          payload: {
+            type: "getPersonnel",
+            data: data.list,
+          },
+        });
+        // return message.success(data.message);
+      }
+    },
 
     // 查询工厂名称信息
-    * getProduct({
-      payload,
-    }, { call, put, select }) {
-      const data = yield call(getProduct)
-      if (data.status !== '200') {
-
+    *getProduct({ payload }, { call, put, select }) {
+      const data = yield call(getProduct);
+      if (data.status !== "200") {
         return message.error(data.message);
-      } else if (data.status == '200') {
-
+      } else if (data.status == "200") {
         yield put({
-          type: 'querySuccessed',
+          type: "querySuccessed",
           payload: {
-            type: 'getProduct',
+            type: "getProduct",
             data: data.list,
-          }
-        })
+          },
+        });
         // return message.success(data.message);
       }
     },
 
     // 区域信息
-    * getArea({
-      payload,
-    }, { call, put, select }) {
-      const data = yield call(getArea)
-      if (data.status !== '200') {
+    *getArea({ payload }, { call, put, select }) {
+      const data = yield call(getArea);
+      if (data.status !== "200") {
         return message.error(data.message);
-      } else if (data.status == '200') {
+      } else if (data.status == "200") {
         yield put({
-          type: 'querySuccessed',
+          type: "querySuccessed",
           payload: {
-            type: 'getArea',
+            type: "getArea",
             data: data.list,
-          }
-        })
+          },
+        });
         // return message.success(data.message);
       }
     },
-
 
     // 线体信息
-    * getLine({
-      payload,
-    }, { call, put, select }) {
-      const data = yield call(getLine)
-      if (data.status !== '200') {
+    *getLine({ payload }, { call, put, select }) {
+      const data = yield call(getLine);
+      if (data.status !== "200") {
         return message.error(data.message);
-      } else if (data.status == '200') {
+      } else if (data.status == "200") {
         yield put({
-          type: 'querySuccessed',
+          type: "querySuccessed",
           payload: {
-            type: 'getLine',
+            type: "getLine",
             data: data.list,
-          }
-        })
+          },
+        });
         // return message.success(data.message);
       }
     },
 
-
-
-
-
-    * query({
-      payload,
-    }, { call, put, select }) {
-      const data = yield call(postListInit, payload)
-      if (data.status !== '200') {
+    *query({ payload }, { call, put, select }) {
+      const data = yield call(postListInit, payload);
+      if (data.status !== "200") {
         return message.error(data.message);
-      } else if (data.status == '200') {
+      } else if (data.status == "200") {
         yield put({
-          type: 'querySuccessed',
+          type: "querySuccessed",
           payload: {
-            type: 'postListInit',
-            data: data.list
-          }
-        })
+            type: "postListInit",
+            data: data.list,
+          },
+        });
         return message.success(data.message);
       }
     },
   },
   reducers: {
     querySuccessed(state, { payload }) {
-      if (payload.type === 'getDepartement') {
-        
-        return {
-          ...state, ...payload,
-          departmentList: payload.data,
-        }
-
-      } else if (payload.type === "getPerson") {
-
-        return {
-          ...state, ...payload,
-          personList: payload.data
-        }
-      }
-
-      else if (payload.type === "getProduct") {
-
-        return {
-          ...state, ...payload,
-          productList: payload.data
-        }
-      }
-
-      else if (payload.type === "getShif") {
-
-        return {
-          ...state, ...payload,
-          shifList: payload.data
-        }
-      }
-
-      else if (payload.type === "getShiftType") {
-
-        return {
-          ...state, ...payload,
-          shiftTypeList: payload.data
-        }
-      }
-
-      else if (payload.type === "getArea") {
-
-        return {
-          ...state, ...payload,
-          areaList: payload.data
-        }
-      }
-      else if (payload.type === "getLine") {
-        return {
-          ...state, ...payload,
-          lineList: payload.data
-        }
-      }
-       
-      else if (payload.type === "getPersonnel") {
-        return {
-          ...state, ...payload,
-          personnelList: payload.data
-        }
-      }
-      else if (payload.type === 'postListInit') {
+      if (payload.type === "getDepartement") {
         return {
           ...state,
-          TableList: new Promise(resolve => {
+          ...payload,
+          departmentList: payload.data,
+        };
+      } else if (payload.type === "getPerson") {
+        return {
+          ...state,
+          ...payload,
+          personList: payload.data,
+        };
+      } else if (payload.type === "getProduct") {
+        return {
+          ...state,
+          ...payload,
+          productList: payload.data,
+        };
+      } else if (payload.type === "getShif") {
+        return {
+          ...state,
+          ...payload,
+          shifList: payload.data,
+        };
+      } else if (payload.type === "getShiftType") {
+        // let newList = []
+        // for (let [key, value] of Object.entries(payload.data)) {
+        //   newList.push({ key: key, label: value.text })
+        // }
+        return {
+          ...state,
+          ...payload,
+          shiftTypeList: payload.data,
+        };
+      } else if (payload.type === "getArea") {
+        return {
+          ...state,
+          ...payload,
+          areaList: payload.data,
+        };
+      } else if (payload.type === "getLine") {
+        return {
+          ...state,
+          ...payload,
+          lineList: payload.data,
+        };
+      } else if (payload.type === "getPersonnel") {
+        // let newList = []
+        // for (let [key, value] of Object.entries(payload.data)) {
+        //   newList.push({ key: key, label: value.text })
+        // }
+        return {
+          ...state,
+          ...payload,
+          personnelList: payload.data,
+        };
+      } else if (payload.type === "postListInit") {
+        return {
+          ...state,
+          TableList: new Promise((resolve) => {
             resolve({
               data: payload.data.list,
               current: payload.data.pageNum,
               pageSize: payload.data.pageSize,
               success: true,
-              total: payload.data.total
-            })
-          })
+              total: payload.data.total,
+            });
+          }),
         };
       }
-
     },
   },
 };
