@@ -131,6 +131,7 @@ const workHoursComponent = ({ workHours, dispatch }) => {
       dataIndex: "classtype",
       valueType: "text",
       align: "center",
+      width: 150,
       // hideInTable: true,
       valueEnum: shiftTypeList.length == 0 ? {} : shiftTypeList,
       render: (_, text) => {
@@ -153,18 +154,19 @@ const workHoursComponent = ({ workHours, dispatch }) => {
       dataIndex: "employeename",
       valueType: "text",
       align: "center",
-      hideInSearch: true,
+      // hideInSearch: true,
       fixed: "left",
       width: 150,
     },
 
     // {
-    //   title: '员工',
+    //   title: '员工姓名',
     //   dataIndex: 'employeeid',
     //   valueType: 'text',
     //   align: 'center',
     //   width: 150,
     //   fixed: 'left',
+    //   hideInTable: true,
     //   valueEnum: personList.length == 0 ? {} : personList,
     //   initialValue: !IsUpdate ? '' : (UpdateDate.employeeid ? UpdateDate.employeeid.toString() : ''),
     //   renderFormItem: (_, { type, defaultRender, ...rest }, form) => {
@@ -319,6 +321,7 @@ const workHoursComponent = ({ workHours, dispatch }) => {
       valueType: "text",
       align: "center",
       hideInSearch: true,
+      width: 80,
     },
 
     {
@@ -327,6 +330,7 @@ const workHoursComponent = ({ workHours, dispatch }) => {
       valueType: "text",
       align: "center",
       hideInSearch: true,
+      width: 80,
     },
 
     {
@@ -335,6 +339,7 @@ const workHoursComponent = ({ workHours, dispatch }) => {
       valueType: "text",
       align: "center",
       hideInSearch: true,
+      width: 80,
     },
 
     {
@@ -343,6 +348,7 @@ const workHoursComponent = ({ workHours, dispatch }) => {
       valueType: "text",
       align: "center",
       hideInSearch: true,
+      width: 80,
     },
 
     {
@@ -351,6 +357,7 @@ const workHoursComponent = ({ workHours, dispatch }) => {
       valueType: "text",
       align: "center",
       hideInSearch: true,
+      width: 80,
     },
 
     {
@@ -359,6 +366,7 @@ const workHoursComponent = ({ workHours, dispatch }) => {
       valueType: "text",
       align: "center",
       hideInSearch: true,
+      width: 80,
     },
 
     {
@@ -367,6 +375,7 @@ const workHoursComponent = ({ workHours, dispatch }) => {
       valueType: "text",
       align: "center",
       hideInSearch: true,
+      width: 80,
     },
 
     {
@@ -375,6 +384,7 @@ const workHoursComponent = ({ workHours, dispatch }) => {
       valueType: "text",
       align: "center",
       hideInSearch: true,
+      width: 80,
     },
 
     {
@@ -383,6 +393,7 @@ const workHoursComponent = ({ workHours, dispatch }) => {
       valueType: "text",
       align: "center",
       hideInSearch: true,
+      width: 80,
     },
 
     {
@@ -391,6 +402,7 @@ const workHoursComponent = ({ workHours, dispatch }) => {
       valueType: "text",
       align: "center",
       hideInSearch: true,
+      width: 80,
     },
 
     {
@@ -399,6 +411,7 @@ const workHoursComponent = ({ workHours, dispatch }) => {
       valueType: "text",
       align: "center",
       hideInSearch: true,
+      width: 80,
     },
 
     {
@@ -407,6 +420,7 @@ const workHoursComponent = ({ workHours, dispatch }) => {
       valueType: "text",
       align: "center",
       hideInSearch: true,
+      width: 80,
     },
 
     {
@@ -415,6 +429,7 @@ const workHoursComponent = ({ workHours, dispatch }) => {
       valueType: "text",
       align: "center",
       hideInSearch: true,
+      width: 80,
     },
 
     {
@@ -423,6 +438,7 @@ const workHoursComponent = ({ workHours, dispatch }) => {
       valueType: "text",
       align: "center",
       hideInSearch: true,
+      width: 80,
     },
 
     {
@@ -431,6 +447,7 @@ const workHoursComponent = ({ workHours, dispatch }) => {
       valueType: "text",
       align: "center",
       hideInSearch: true,
+      width: 80,
     },
 
     {
@@ -439,6 +456,7 @@ const workHoursComponent = ({ workHours, dispatch }) => {
       valueType: "text",
       align: "center",
       hideInSearch: true,
+      width: 80,
     },
 
     {
@@ -447,6 +465,7 @@ const workHoursComponent = ({ workHours, dispatch }) => {
       valueType: "text",
       align: "center",
       hideInSearch: true,
+      width: 80,
     },
 
     {
@@ -455,6 +474,7 @@ const workHoursComponent = ({ workHours, dispatch }) => {
       valueType: "text",
       align: "center",
       hideInSearch: true,
+      width: 80,
     },
 
     {
@@ -463,6 +483,7 @@ const workHoursComponent = ({ workHours, dispatch }) => {
       valueType: "text",
       align: "center",
       hideInSearch: true,
+      width: 80,
     },
     {
       title: "20",
@@ -470,6 +491,7 @@ const workHoursComponent = ({ workHours, dispatch }) => {
       valueType: "text",
       align: "center",
       hideInSearch: true,
+      width: 80,
     },
 
     {
@@ -478,6 +500,7 @@ const workHoursComponent = ({ workHours, dispatch }) => {
       valueType: "text",
       align: "center",
       hideInSearch: true,
+      width: 80,
     },
 
     {
@@ -486,6 +509,7 @@ const workHoursComponent = ({ workHours, dispatch }) => {
       valueType: "text",
       align: "center",
       hideInSearch: true,
+      width: 80,
     },
 
     {
@@ -494,6 +518,7 @@ const workHoursComponent = ({ workHours, dispatch }) => {
       valueType: "text",
       align: "center",
       hideInSearch: true,
+      width: 80,
     },
 
     {
@@ -502,6 +527,7 @@ const workHoursComponent = ({ workHours, dispatch }) => {
       valueType: "text",
       align: "center",
       hideInSearch: true,
+      width: 80,
     },
 
     {
@@ -510,6 +536,7 @@ const workHoursComponent = ({ workHours, dispatch }) => {
       valueType: "text",
       align: "center",
       hideInSearch: true,
+      width: 80,
     },
 
     {
@@ -518,6 +545,7 @@ const workHoursComponent = ({ workHours, dispatch }) => {
       valueType: "text",
       align: "center",
       hideInSearch: true,
+      width: 80,
     },
 
     {
@@ -526,6 +554,7 @@ const workHoursComponent = ({ workHours, dispatch }) => {
       valueType: "text",
       align: "center",
       hideInSearch: true,
+      width: 80,
     },
 
     {
@@ -534,6 +563,7 @@ const workHoursComponent = ({ workHours, dispatch }) => {
       valueType: "text",
       align: "center",
       hideInSearch: true,
+      width: 80,
     },
 
     {
@@ -542,6 +572,7 @@ const workHoursComponent = ({ workHours, dispatch }) => {
       valueType: "text",
       align: "center",
       hideInSearch: true,
+      width: 80,
     },
 
     {
@@ -550,6 +581,7 @@ const workHoursComponent = ({ workHours, dispatch }) => {
       valueType: "text",
       align: "center",
       hideInSearch: true,
+      width: 80,
     },
 
     {
@@ -558,6 +590,7 @@ const workHoursComponent = ({ workHours, dispatch }) => {
       valueType: "text",
       align: "center",
       hideInSearch: true,
+      width: 80,
     },
 
     {
@@ -594,7 +627,7 @@ const workHoursComponent = ({ workHours, dispatch }) => {
       month: params.month.substring(5, 7),
       departmentid: Number(params.departmentid),
       employeeno: params.employeeno,
-      employeeid: Number(params.employeeid),
+      employeename: params.employeename,
       areaid: Number(params.areaid),
       // defalutshifttypeid: Number(params.defalutshifttypeid),
       classtype: params.classtype,
@@ -604,7 +637,6 @@ const workHoursComponent = ({ workHours, dispatch }) => {
     });
     return TableList.then(function (value) {
       setDataList(value.list);
-
       // var num = 0;
       // value.list.map((item) => {
       //   num = item.overwork + num;
@@ -612,9 +644,13 @@ const workHoursComponent = ({ workHours, dispatch }) => {
       //   setAverage(num / value.list.length);
       // });
 
-      setHours(value.list[0].sumoverwork);
-      setAverage((value.list[0].sumoverwork / value.list.length).toFixed(2));
-      setCvalue(value.list[0].cvalue);
+      setHours(value.list.length == 0 ? 0 : value.list[0].sumoverwork);
+      setAverage(
+        value.list.length == 0
+          ? 0
+          : (value.list[0].sumoverwork / value.list.length).toFixed(2)
+      );
+      setCvalue(value.list.length == 0 ? 0 : value.list[0].cvalue);
 
       return {
         data: value.list,
