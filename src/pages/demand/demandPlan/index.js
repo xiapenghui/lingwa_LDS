@@ -1,7 +1,14 @@
-import React, { useState } from "react";
-import { Card, Col, Row, Table } from "antd";
+import React, { useState, useEffect } from "react";
+import { Card, Col, Row, Table, Form, DatePicker, Button, message } from "antd";
+import { SearchOutlined } from "@ant-design/icons";
 import { Link, connect } from "umi";
 import { PageContainer, FooterToolbar } from "@ant-design/pro-layout";
+import globalConfig from "../../../../config/defaultSettings";
+import moment from "moment";
+import { postListInit } from "@/services/demand/demandPlan";
+import "../index.less";
+const formItemLayout = globalConfig.table.formItemLayout;
+
 const spanStyle = {
   color: "green",
   fontSize: "28px",
@@ -38,19 +45,48 @@ const columns = [
 ];
 
 const Components = ({ demandPlan, dispatch }) => {
+  const [form] = Form.useForm();
   const { TableList } = demandPlan;
-  const dataSource = TableList;
+  const [dataSourceInfo, setDataSourceInfo] = useState([]);
   var newHopeNum = 0;
   var newPeopleRequire = 0;
   var newShiftNums = 0;
-  TableList.map((item) => {
+  var newDemandSpillover = 0;
+  var newCUseWorker =0 ;
+  dataSourceInfo.map((item) => {
     newHopeNum += item.Requirement;
     newPeopleRequire += item.PeopleRequire;
     newShiftNums += item.ShiftNums;
+    newCUseWorker += item.CUseWorker;
+    if (item.OutFlag == 1) {
+      newDemandSpillover++;
+    }
   });
 
-  const test = (val) => {
-    debugger;
+  useEffect(() => {
+    handSearch();
+  }, []);
+
+  const handSearch = (e) => {
+    form.validateFields().then(async (values) => {
+      let data = await postListInit({
+        Time: moment(values.Time).format(
+          globalConfig.form.onlyDateFormat
+        ),
+      });
+      if (data.status === "200") {
+        setDataSourceInfo(data.list);
+        message.success("查询成功!");
+      }
+    });
+  };
+
+  const disStyle = (record) => {
+    if (record.OutFlag == 1) {
+      return "diffRow";
+    } else {
+      return "";
+    }
   };
 
   return (
@@ -58,40 +94,73 @@ const Components = ({ demandPlan, dispatch }) => {
       <div className="homeBox">
         <div className="handBox">
           <Row gutter={16}>
-            <Col span={6}>
+            <Col span={4}>
               <Card title="需求量" bordered={false}>
                 <span style={spanStyle}>{newHopeNum}</span>PCS
               </Card>
             </Col>
-            <Col span={6}>
+            <Col span={4}>
               <Card title="需求人数" bordered={false}>
                 <span style={spanStyle}>{newPeopleRequire}</span>人
               </Card>
             </Col>
-            <Col span={6}>
+            <Col span={4}>
+              <Card title="需求溢出数" bordered={false}>
+                <span style={spanStyle}>{newDemandSpillover}</span>条
+              </Card>
+            </Col>
+            <Col span={4}>
               <Card title="批次量" bordered={false}>
                 <span style={spanStyle}>{newShiftNums}</span>班
               </Card>
             </Col>
-            <Col span={6}>
+            <Col span={4}>
               <Card title="可用人数" bordered={false}>
-                <span style={spanStyle}>0</span>人
+                <span style={spanStyle}>{newCUseWorker}</span>人
               </Card>
             </Col>
           </Row>
         </div>
 
+        <div
+          style={{
+            margin: "20px 0",
+            padding: "20px 10px 0 10px",
+            background: "#fff",
+          }}
+        >
+          <Form
+            className="ant-advanced-search-form"
+            form={form}
+            name="form_in_modal"
+            onFinish={handSearch}
+          >
+            <Row gutter={40}>
+              <Col span={6} style={{ display: "block" }}>
+                <Form.Item name="Time" label="选择日期" {...formItemLayout}>
+                  <DatePicker
+                    style={{ width: "100%" }}
+                    format={globalConfig.form.onlyDateFormat}
+                    defaultValue={moment()}
+                  />
+                </Form.Item>
+              </Col>
+
+              <Col span={18} style={{ textAlign: "right" }}>
+                <Button type="primary" htmlType="submit">
+                  <SearchOutlined />
+                  查询
+                </Button>
+              </Col>
+            </Row>
+          </Form>
+        </div>
+
         <div style={{ width: "100%", background: "#fff", marginTop: "20px" }}>
           <Table
-            onRow={(record) => {
-              return {
-                onClick: (event) => {
-                  test(record);
-                }, // 点击行
-              };
-            }}
-            dataSource={dataSource}
+            dataSource={dataSourceInfo}
             columns={columns}
+            rowClassName={disStyle}
           />
         </div>
       </div>

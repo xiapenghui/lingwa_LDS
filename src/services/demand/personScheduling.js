@@ -1,7 +1,7 @@
 import request from "@/utils/request";
 import globalConfig from "../../../config/defaultSettings";
-// const ip = `${globalConfig.ip}:${globalConfig.port.yshyerp_adm}/yshyerp-adm/api/customer`
 const ip = `${globalConfig.ip}:${globalConfig.port.yshyerp_sspa}`;
+// const ip = `http://smartflow.diskstation.me:8107`;
 
 /**
  * 查询条件初始化
@@ -25,6 +25,49 @@ export async function getProduct() {
  */
 export async function postListInit(params) {
   return request(`${ip}/WebAPI/api/AutoClassDisPatch/List`, {
+    method: "POST",
+    data: { ...params },
+  });
+}
+
+// 线体接口
+export async function getLine(params) {
+  return request(`${ip}/WebAPI/api/Common/GetProductLineTextIdText`, {
+    method: 'POST',
+    data: { ...params }
+  });
+}
+
+
+// 成员
+export async function EmployeeNoList(params) {
+  return request(`${ip}/WebAPI/api/AutoClassDisPatch/EmployeeNoList`, {
+    method: "POST",
+    data: { ...params },
+  });
+}
+ 
+//编辑
+export async function Modify(params) {
+  return request(`${ip}/WebAPI/api/AutoClassDisPatch/Modify`, {
+    method: "POST",
+    data: { ...params },
+  });
+}
+ 
+ 
+//产线
+export async function LineInfo(params) {
+  return request(`${ip}/WebAPI/api/AutoClassDisPatch/LineInfo`, {
+    method: "POST",
+    data: { ...params },
+  });
+}
+
+
+// 可用人员
+export async function ClassCUseWorker(params) {
+  return request(`${ip}/WebAPI/api/AutoClassDisPatch/ClassCUseWorker`, {
     method: "POST",
     data: { ...params },
   });

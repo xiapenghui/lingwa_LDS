@@ -27,8 +27,8 @@ const Model = {
     },
   },
   effects: {
-    *query({ payload }, { call, put, select }) {
-      const data = yield call(postListInit, payload);
+    *query({ call, put, select }) {
+      const data = yield call(postListInit);
       if (data.status !== "200") {
         return message.error(data.message);
       } else if (data.status == "200") {
