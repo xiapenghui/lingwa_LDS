@@ -13,6 +13,7 @@ import {
   Select,
   Tag,
   Input,
+  Radio,
 } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 import { Link, connect } from "umi";
@@ -41,7 +42,13 @@ const Components = ({ personScheduling, dispatch }) => {
   const [peopleData, setPeopleData] = useState([]);
   const [morning, setMorning] = useState(0);
   const [noon, setNoon] = useState(0);
+  const [lineMeter, setLineMeter] = useState("");
+  const [classMeter, setClassMeter] = useState("");
 
+  const [dataSource2, setDataSource2] = useState([]);
+  const [peoName, setPeoName] = useState("");
+  const [lineId, setLineId] = useState(0);
+  const [shiftId, setShiftId] = useState(0);
   const [shiftList, setShiftList] = useState([
     {
       value: "早班",
@@ -100,7 +107,7 @@ const Components = ({ personScheduling, dispatch }) => {
         return list.map((item) => (
           <Tag color="success">
             <Space size="middle">
-              <a onClick={() => handModal(item)}>{item}</a>
+              <a onClick={() => handModal(item, record)}>{item}</a>
             </Space>
           </Tag>
         ));
@@ -117,6 +124,39 @@ const Components = ({ personScheduling, dispatch }) => {
     //     </Space>
     //   ),
     // },
+  ];
+
+  const columns2 = [
+    {
+      title: "姓名",
+      dataIndex: "EmployeeName",
+      key: "EmployeeName",
+    },
+    {
+      title: "产线",
+      dataIndex: "lineName",
+      key: "lineName",
+    },
+    {
+      title: "班次",
+      dataIndex: "shiftName",
+      key: "shiftName",
+    },
+    // {
+    //   title: "产线",
+    //   dataIndex: "LineId",
+    //   key: "LineId",
+    // },
+    // {
+    //   title: "班次",
+    //   dataIndex: "ShiftId",
+    //   key: "ShiftId",
+    // },
+    {
+      title: "日期",
+      dataIndex: "Time",
+      key: "Time",
+    },
   ];
 
   useEffect(() => {
@@ -136,7 +176,6 @@ const Components = ({ personScheduling, dispatch }) => {
       //获取列表
       let data = await postListInit({
         Time: moment(values.Time).format(globalConfig.form.onlyDateFormat),
-        // Time: '2022-11-25',
         ShiftName: newShiftId,
       });
       if (data.status === "200") {
@@ -157,6 +196,7 @@ const Components = ({ personScheduling, dispatch }) => {
 
   //保存数据
   const onSave = async (values) => {
+    debugger;
     setIsModalOpen(false);
     let newShift;
     if (values.ShiftName == "早班") {
@@ -167,19 +207,19 @@ const Components = ({ personScheduling, dispatch }) => {
       newShift = 3;
     }
     let data = await Modify({
-      ShiftId: values.ShiftId,
-      EmployeeNo: values.EmployeeNo,
-      LineId: values.LineId,
+      ShiftId: classMeter,
+      EmployeeName: values.EmployeeName,
+      LineId: lineMeter,
       ModifyLineId: values.LineName,
       ModifyShiftId: newShift,
-      Time: document.getElementById("DatePicker").value + " " + "00:00:00",
-      // lineName:
+      Time: document.getElementById("DatePicker2").value + " " + "00:00:00",
+      ClassState: 2,
+      ModiData: dataSource2,
     });
     if (data.status == "200") {
       handSearch();
       message.success(data.message);
     } else {
-      debugger;
       message.error(data.message);
     }
   };
@@ -188,21 +228,16 @@ const Components = ({ personScheduling, dispatch }) => {
     setIsModalOpen(false);
   };
 
-  const handModal = async (val) => {
-    //打开弹窗获取人员
-    // let data = await EmployeeNoList({
-    //   LineId: val.LineId,
-    //   Time: document.getElementById("DatePicker").value,
-    //   // Time: '2022-11-25',
-    //   ShiftNum: val.ShiftName,
-    // });
-    // if (data.status === "200") {
-    //   setPeopleData(data.list);
-    // }
+  //点击行获取数据
+  const test = (val) => {
+    setLineMeter(val.LineId);
+    setClassMeter(val.ShiftName);
+  };
 
+  const handModal = async (val) => {
+    setPeoName(val);
     //打开弹窗获取线体
     let dataLine = await LineInfo({
-      // Time: moment(),
       Time: document.getElementById("DatePicker").value,
     });
     if (dataLine.status === "200") {
@@ -219,17 +254,59 @@ const Components = ({ personScheduling, dispatch }) => {
     }
 
     setIsModalOpen(true);
+    setDataSource2([]);
     formModel.setFieldsValue({
       // LineName: val.LineName,
+      EmployeeName: val,
       LineName: "",
       ShiftName: "",
       // ShiftName: newShiftName,
       // people: val.PartsWorker,
-
-      ShiftId: val.ShiftName,
-      EmployeeNo: val.EmployeeNo,
-      LineId: val.LineId,
+      // ShiftId: val.ShiftName,
+      // LineId: val.LineId,
     });
+  };
+
+  //排班撤销
+  var newJson = [];
+  var arr = [];
+  const isOk = (value) => {
+    if (value == "2") {
+      newJson.push({
+        EmployeeName: peoName,
+        lineName: document.getElementsByClassName(
+          "ant-select-item-option-active"
+        )[0]?.title,
+        shiftName: document.getElementsByClassName(
+          "ant-select-item-option-active"
+        )[1]?.title,
+        Time: document.getElementById("DatePicker2").value,
+        ShiftId: shiftId,
+        LineId: lineId,
+        ClassState: 2,
+      });
+      arr = [...dataSource2, newJson];
+      setDataSource2(arr.flat());
+    } else {
+      setDataSource2([]);
+    }
+  };
+
+  //线体下拉
+  const handLine = (value) => {
+    setLineId(value);
+  };
+
+  //班次下拉
+  const handShift = (value) => {
+    if (value == "早班") {
+      value = 1;
+    } else if (value == "中班") {
+      value = 2;
+    } else {
+      value = 3;
+    }
+    setShiftId(value);
   };
 
   return (
@@ -374,7 +451,17 @@ const Components = ({ personScheduling, dispatch }) => {
         </div>
 
         <div style={{ width: "100%", background: "#fff", marginTop: "20px" }}>
-          <Table dataSource={dataSourceInfo} columns={columns} />
+          <Table
+            dataSource={dataSourceInfo}
+            columns={columns}
+            onRow={(record) => {
+              return {
+                onClick: (event) => {
+                  test(record);
+                }, // 点击行
+              };
+            }}
+          />
         </div>
 
         {/* //弹出框 */}
@@ -392,6 +479,7 @@ const Components = ({ personScheduling, dispatch }) => {
               });
           }}
           onCancel={handleCancel}
+          okText={"提交"}
         >
           <Form
             form={formModel}
@@ -403,6 +491,37 @@ const Components = ({ personScheduling, dispatch }) => {
             // }}
           >
             <Row gutter={40}>
+              <Col span={24} style={{ display: "block" }}>
+                <Form.Item
+                  name="EmployeeName"
+                  label="姓名"
+                  hasFeedback
+                  {...formItemLayout}
+                >
+                  <Input disabled />
+                </Form.Item>
+              </Col>
+
+              <Col span={24} style={{ display: "block" }}>
+                <Form.Item name="Time" label="日期" 
+                  hasFeedback
+                  {...formItemLayout}
+                  rules={[
+                    {
+                      required: true,
+                      message: "请选择日期",
+                    },
+                  ]}
+                >
+                  <DatePicker
+                    style={{ width: "100%" }}
+                    format={globalConfig.form.onlyDateFormat}
+                    defaultValue={moment()}
+                    id="DatePicker2"
+                  />
+                </Form.Item>
+              </Col>
+
               <Col span={24} style={{ display: "block" }}>
                 <Form.Item
                   name="LineName"
@@ -419,9 +538,7 @@ const Components = ({ personScheduling, dispatch }) => {
                     allowClear
                     showSearch
                     optionFilterProp="children"
-
-                    // onFocus={() => handLine()
-                    // }
+                    onChange={handLine}
                   >
                     {newList.map(function (item, index) {
                       return (
@@ -433,7 +550,6 @@ const Components = ({ personScheduling, dispatch }) => {
                   </Select>
                 </Form.Item>
               </Col>
-
               <Col span={24} style={{ display: "block" }}>
                 <Form.Item
                   name="ShiftName"
@@ -448,7 +564,7 @@ const Components = ({ personScheduling, dispatch }) => {
                     },
                   ]}
                 >
-                  <Select allowClear showSearch>
+                  <Select allowClear showSearch onChange={handShift}>
                     {shiftList.map(function (item, index) {
                       return (
                         <Select.Option key={index} value={item.value}>
@@ -460,33 +576,34 @@ const Components = ({ personScheduling, dispatch }) => {
                 </Form.Item>
               </Col>
 
+
+              
+
+
               <Col span={24} style={{ display: "block" }}>
                 <Form.Item
-                  name="EmployeeNo"
-                  label="成员"
+                  name="ClassState"
+                  label="状态"
                   hasFeedback
                   {...formItemLayout}
-                  rules={[
-                    {
-                      type: "string",
-                      required: true,
-                      message: "请选择成员",
-                    },
-                  ]}
                 >
-                  <Select allowClear showSearch>
-                    {peopleData.map(function (item, index) {
-                      return (
-                        <Select.Option key={index} value={item.EmployeeNo}>
-                          {item.EmployeeName}
-                        </Select.Option>
-                      );
-                    })}
-                  </Select>
+                  <Button onClick={() => isOk(2)}  type="primary">排班</Button>
+                  <Button type="primary" danger
+                    onClick={() => isOk(0)}
+                    style={{ marginLeft: "10px" }}
+                  >
+                    撤销
+                  </Button>
                 </Form.Item>
               </Col>
-
-              <Col span={24} style={{ display: "none" }}>
+              <Col span={24} style={{ display: "block" }}>
+                <Table
+                  dataSource={dataSource2}
+                  columns={columns2}
+                  pagination={false}
+                />
+              </Col>
+              {/* <Col span={24} style={{ display: "none" }}>
                 <Form.Item
                   name="ShiftId"
                   label="ShiftId"
@@ -506,7 +623,7 @@ const Components = ({ personScheduling, dispatch }) => {
                 >
                   <Input />;
                 </Form.Item>
-              </Col>
+              </Col> */}
             </Row>
           </Form>
         </Modal>
