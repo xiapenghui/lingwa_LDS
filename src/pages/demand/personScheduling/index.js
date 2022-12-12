@@ -20,6 +20,8 @@ import { Link, connect } from "umi";
 import { PageContainer, FooterToolbar } from "@ant-design/pro-layout";
 import globalConfig from "../../../../config/defaultSettings";
 import moment from "moment";
+import "../index.less";
+
 import {
   postListInit,
   getLine,
@@ -41,7 +43,11 @@ const Components = ({ personScheduling, dispatch }) => {
   const [newList, setNewList] = useState([]);
   const [peopleData, setPeopleData] = useState([]);
   const [morning, setMorning] = useState(0);
+  const [morningPeo, setMorningPeo] = useState('');
   const [noon, setNoon] = useState(0);
+  const [noonPeo, setNoonPeo] = useState('');
+  const [night, setNight] = useState(0);
+  const [nightPeo, setNightPeo] = useState('');
   const [lineMeter, setLineMeter] = useState("");
   const [classMeter, setClassMeter] = useState("");
 
@@ -71,6 +77,26 @@ const Components = ({ personScheduling, dispatch }) => {
       key: "LineName",
       width: 200,
     },
+
+    {
+      title: "CAMA",
+      dataIndex: "cama",
+      key: "cama",
+    },
+
+
+    {
+      title: "需求数量",
+      dataIndex: "Requirement",
+      key: "Requirement",
+    },
+
+    {
+      title: "目标产能",
+      dataIndex: "OptiamlProduce",
+      key: "OptiamlProduce",
+    },
+
     {
       title: "班次",
       dataIndex: "ShiftName",
@@ -137,6 +163,8 @@ const Components = ({ personScheduling, dispatch }) => {
       dataIndex: "lineName",
       key: "lineName",
     },
+
+
     {
       title: "班次",
       dataIndex: "shiftName",
@@ -147,11 +175,23 @@ const Components = ({ personScheduling, dispatch }) => {
     //   dataIndex: "LineId",
     //   key: "LineId",
     // },
-    // {
-    //   title: "班次",
-    //   dataIndex: "ShiftId",
-    //   key: "ShiftId",
-    // },
+    {
+      title: "状态",
+      dataIndex: "classstate",
+      key: "classstate",
+      render: (text, record) => {
+        if (record.ClassState == '排班') {
+          return <Tag color="success">
+            排班
+          </Tag>
+        } else {
+          return <Tag color="error">
+            撤销
+          </Tag>
+        }
+      },
+
+    },
     {
       title: "日期",
       dataIndex: "Time",
@@ -177,6 +217,7 @@ const Components = ({ personScheduling, dispatch }) => {
       let data = await postListInit({
         Time: moment(values.Time).format(globalConfig.form.onlyDateFormat),
         ShiftName: newShiftId,
+        LineId: values.LineName
       });
       if (data.status === "200") {
         setDataSourceInfo(data.list);
@@ -188,15 +229,19 @@ const Components = ({ personScheduling, dispatch }) => {
         Time: document.getElementById("DatePicker").value,
       });
       if (dataPeople.status === "200") {
-        setMorning(dataPeople.list[0]?.ClassCUseWorker);
-        setNoon(dataPeople.list[1]?.ClassCUseWorker);
+        setMorning(dataPeople.list.length == 0 ? 0 : dataPeople.list[1]?.ClassCUseWorker);
+        setMorningPeo(dataPeople.list[1]?.ClassCUseWorkerInfo);
+        setNoon(dataPeople.list.length == 0 ? 0 : dataPeople.list[2]?.ClassCUseWorker);
+        setNoonPeo(dataPeople.list[2]?.ClassCUseWorkerInfo);
+        setNight(dataPeople.list.length == 0 ? 0 : dataPeople.list[0]?.ClassCUseWorker);
+        setNightPeo(dataPeople.list[0]?.ClassCUseWorkerInfo);
+
       }
     });
   };
 
   //保存数据
   const onSave = async (values) => {
-    debugger;
     setIsModalOpen(false);
     let newShift;
     if (values.ShiftName == "早班") {
@@ -213,7 +258,7 @@ const Components = ({ personScheduling, dispatch }) => {
       ModifyLineId: values.LineName,
       ModifyShiftId: newShift,
       Time: document.getElementById("DatePicker2").value + " " + "00:00:00",
-      ClassState: 2,
+      // ClassState: 2,
       ModiData: dataSource2,
     });
     if (data.status == "200") {
@@ -232,6 +277,16 @@ const Components = ({ personScheduling, dispatch }) => {
   const test = (val) => {
     setLineMeter(val.LineId);
     setClassMeter(val.ShiftName);
+  };
+
+  const handLineSearch = async () => {
+    //打开弹窗获取线体
+    let dataLine = await LineInfo({
+      Time: document.getElementById("DatePicker").value,
+    });
+    if (dataLine.status === "200") {
+      setNewList(dataLine.list);
+    }
   };
 
   const handModal = async (val) => {
@@ -283,12 +338,27 @@ const Components = ({ personScheduling, dispatch }) => {
         Time: document.getElementById("DatePicker2").value,
         ShiftId: shiftId,
         LineId: lineId,
-        ClassState: 2,
+        ClassState:'排班',
       });
       arr = [...dataSource2, newJson];
       setDataSource2(arr.flat());
     } else {
-      setDataSource2([]);
+      // setDataSource2([]);
+      newJson.push({
+        EmployeeName: peoName,
+        lineName: document.getElementsByClassName(
+          "ant-select-item-option-active"
+        )[0]?.title,
+        shiftName: document.getElementsByClassName(
+          "ant-select-item-option-active"
+        )[1]?.title,
+        Time: document.getElementById("DatePicker2").value,
+        ShiftId: shiftId,
+        LineId: lineId,
+        ClassState: '撤销',
+      });
+      arr = [...dataSource2, newJson];
+      setDataSource2(arr.flat());
     }
   };
 
@@ -312,74 +382,87 @@ const Components = ({ personScheduling, dispatch }) => {
   return (
     <PageContainer>
       <div className="homeBox">
-        <div className="handBox">
+        <div className="handBox handBoxNo">
           <Row gutter={16}>
-            <Col span={6}>
+            <Col span={8}>
               <Card
                 title={
                   <>
                     <span>早班可用人员</span>
-                    {/* <span>（0）人</span> */}
-                  </>
+                    <span style={{
+                      fontSize: "20px",
+                      fontWeight: "bold",
+                      marginLeft: "10px",
+                    }}
+                    >
+                      （{morning}）</span>人 </>
                 }
                 bordered={false}
               >
-                <span
-                  style={{
-                    fontSize: "20px",
-                    fontWeight: "bold",
-                    marginRight: "10px",
-                  }}
-                >
-                  {morning}
-                </span>
-                人
+                {
+                  morningPeo?.split(",").map((item) => (
+                    <Tag color="success">
+                      <Space size="middle">
+                        {item}
+                      </Space>
+                    </Tag>
+                  ))
+                }
               </Card>
             </Col>
-            <Col span={6}>
+            <Col span={8}>
               <Card
                 title={
                   <>
                     <span>中班班可用人员</span>
-                    {/* <span>（0）人</span> */}
+                    <span style={{
+                      fontSize: "20px",
+                      fontWeight: "bold",
+                      marginLeft: "10px",
+                    }}
+                    >（{noon}）</span>人
                   </>
                 }
                 bordered={false}
               >
-                <span
-                  style={{
-                    fontSize: "20px",
-                    fontWeight: "bold",
-                    marginRight: "10px",
-                  }}
-                >
-                  {noon}
-                </span>
-                人
+                {
+                  noonPeo?.split(",").map((item) => (
+                    <Tag color="success">
+                      <Space size="middle">
+                        {item}
+                      </Space>
+                    </Tag>
+                  ))
+                }
               </Card>
             </Col>
-            <Col span={6}>
+            <Col span={8}>
               <Card
-                extra={
-                  <>
-                    <a href="#" style={{ marginRight: "30px" }}>
-                      释放
-                    </a>
-                    <a href="#">重置</a>
-                  </>
-                }
                 title={
                   <>
-                    <span>待加入人员</span>
-                    <span>（0）人</span>
+                    <span>晚班可用人员</span>
+                    <span style={{
+                      fontSize: "20px",
+                      fontWeight: "bold",
+                      marginLeft: "10px",
+                    }}
+                    >（{night}）</span>人
                   </>
                 }
                 bordered={false}
               >
-                Card content
+                {
+                  nightPeo?.split(",").map((item) => (
+                    <Tag color="success">
+                      <Space size="middle">
+                        {item}
+                      </Space>
+                    </Tag>
+                  ))
+                }
               </Card>
             </Col>
-            <Col span={6}>
+            {/* <Col span={6}>
               <Card
                 extra={<a href="#">重置</a>}
                 title={
@@ -392,7 +475,7 @@ const Components = ({ personScheduling, dispatch }) => {
               >
                 Card content
               </Card>
-            </Col>
+            </Col> */}
           </Row>
         </div>
 
@@ -440,7 +523,27 @@ const Components = ({ personScheduling, dispatch }) => {
                 </Form.Item>
               </Col>
 
-              <Col span={12} style={{ textAlign: "right" }}>
+              <Col span={6} style={{ display: "block" }}>
+                <Form.Item
+                  name="LineName"
+                  label="产线"
+                  hasFeedback
+                  {...formItemLayout}
+                  onFocus={handLineSearch}
+                >
+                  <Select allowClear showSearch>
+                    {newList.map(function (item, index) {
+                      return (
+                        <Select.Option key={index} value={item.LineId}>
+                          {item.LineName}
+                        </Select.Option>
+                      );
+                    })}
+                  </Select>
+                </Form.Item>
+              </Col>
+
+              <Col span={4} style={{ textAlign: "right" }}>
                 <Button type="primary" htmlType="submit">
                   <SearchOutlined />
                   查询
@@ -484,11 +587,11 @@ const Components = ({ personScheduling, dispatch }) => {
           <Form
             form={formModel}
             name="ModalValueForm"
-            // initialValues={{
-            //   LineName: LineNamedata,
-            //   ShiftName: shiftData,
-            //   people: peopleData,
-            // }}
+          // initialValues={{
+          //   LineName: LineNamedata,
+          //   ShiftName: shiftData,
+          //   people: peopleData,
+          // }}
           >
             <Row gutter={40}>
               <Col span={24} style={{ display: "block" }}>
@@ -503,7 +606,9 @@ const Components = ({ personScheduling, dispatch }) => {
               </Col>
 
               <Col span={24} style={{ display: "block" }}>
-                <Form.Item name="Time" label="日期" 
+                <Form.Item
+                  name="Time"
+                  label="日期"
                   hasFeedback
                   {...formItemLayout}
                   rules={[
@@ -516,7 +621,7 @@ const Components = ({ personScheduling, dispatch }) => {
                   <DatePicker
                     style={{ width: "100%" }}
                     format={globalConfig.form.onlyDateFormat}
-                    defaultValue={moment()}
+                    // defaultValue={moment()}
                     id="DatePicker2"
                   />
                 </Form.Item>
@@ -576,10 +681,6 @@ const Components = ({ personScheduling, dispatch }) => {
                 </Form.Item>
               </Col>
 
-
-              
-
-
               <Col span={24} style={{ display: "block" }}>
                 <Form.Item
                   name="ClassState"
@@ -587,8 +688,12 @@ const Components = ({ personScheduling, dispatch }) => {
                   hasFeedback
                   {...formItemLayout}
                 >
-                  <Button onClick={() => isOk(2)}  type="primary">排班</Button>
-                  <Button type="primary" danger
+                  <Button onClick={() => isOk(2)} type="primary">
+                    排班
+                  </Button>
+                  <Button
+                    type="primary"
+                    danger
                     onClick={() => isOk(0)}
                     style={{ marginLeft: "10px" }}
                   >

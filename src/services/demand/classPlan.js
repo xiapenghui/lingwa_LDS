@@ -7,7 +7,7 @@ const ip = `${globalConfig.ip}:${globalConfig.port.yshyerp_sspa}`;
 /**
  * 查询
  */
-export async function postListInit(params) {
+export async function echartsInit(params) {
   return request(`${ip}/WebAPI/api/AutoClassPlanShow/List`, {
     method: "POST",
     data: { ...params },

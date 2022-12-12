@@ -5,7 +5,7 @@ import { Link, connect } from "umi";
 import { PageContainer, FooterToolbar } from "@ant-design/pro-layout";
 import globalConfig from "../../../../config/defaultSettings";
 import moment from "moment";
-import { postListInit } from "@/services/demand/demandPlan";
+import { postListInit,ParamShow } from "@/services/demand/demandPlan";
 import "../index.less";
 const formItemLayout = globalConfig.table.formItemLayout;
 
@@ -48,23 +48,19 @@ const Components = ({ demandPlan, dispatch }) => {
   const [form] = Form.useForm();
   const { TableList } = demandPlan;
   const [dataSourceInfo, setDataSourceInfo] = useState([]);
-  var newHopeNum = 0;
-  var newPeopleRequire = 0;
-  var newShiftNums = 0;
-  var newDemandSpillover = 0;
-  var newCUseWorker =0 ;
-  dataSourceInfo.map((item) => {
-    newHopeNum += item.Requirement;
-    newPeopleRequire += item.PeopleRequire;
-    newShiftNums += item.ShiftNums;
-    newCUseWorker += item.CUseWorker;
-    if (item.OutFlag == 1) {
-      newDemandSpillover++;
-    }
-  });
+  const [newHopeNum, setnewHopeNum] = useState(0);
+  const [newPeopleRequire, setnewPeopleRequire] = useState(0);
+  const [newShiftNums, setnewShiftNums] = useState(0);
+  const [newDemandSpillover, setnewDemandSpillover] = useState(0);
+  const [newCUseWorker, setnewCUseWorker] = useState(0);
+  const [newGAP, setnewGAP] = useState(0);
+
 
   useEffect(() => {
     handSearch();
+    setTimeout(()=>{
+      numList()
+    },1000)
   }, []);
 
   const handSearch = (e) => {
@@ -76,10 +72,33 @@ const Components = ({ demandPlan, dispatch }) => {
       });
       if (data.status === "200") {
         setDataSourceInfo(data.list);
+        numList();
         message.success("查询成功!");
       }
     });
   };
+
+  //求和
+  const numList = async () => {
+    let data = await ParamShow({
+      Time: document.getElementById("DatePicker3").value,
+    });
+    if (data.status === "200") {
+      setnewHopeNum(data.list[0]?.Requirement)
+      setnewPeopleRequire(data.list[0]?.PeopleRequire)
+      setnewShiftNums(data.list[0]?.ShiftNums)
+      setnewDemandSpillover(data.list[0].RequirementOut)
+      setnewCUseWorker(data.list[0].CUseWorker)
+      setnewGAP(data.list[0].GAP)
+    }else{
+      setnewHopeNum(0)
+      setnewPeopleRequire(0)
+      setnewShiftNums(0)
+      setnewDemandSpillover(0)
+      setnewCUseWorker(0)
+      setnewGAP(0)
+    }
+  }
 
   const disStyle = (record) => {
     if (record.OutFlag == 1) {
@@ -119,6 +138,11 @@ const Components = ({ demandPlan, dispatch }) => {
                 <span style={spanStyle}>{newCUseWorker}</span>人
               </Card>
             </Col>
+            <Col span={4}>
+              <Card title="GAP" bordered={false}>
+                <span style={spanStyle}>{newGAP}</span>人
+              </Card>
+            </Col>
           </Row>
         </div>
 
@@ -142,6 +166,7 @@ const Components = ({ demandPlan, dispatch }) => {
                     style={{ width: "100%" }}
                     format={globalConfig.form.onlyDateFormat}
                     defaultValue={moment()}
+                    id="DatePicker3"
                   />
                 </Form.Item>
               </Col>

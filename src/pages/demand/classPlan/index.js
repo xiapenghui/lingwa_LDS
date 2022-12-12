@@ -17,87 +17,88 @@ import globalConfig from "../../../../config/defaultSettings";
 import { SearchOutlined } from "@ant-design/icons";
 import moment from "moment";
 const formItemLayout = globalConfig.table.formItemLayout;
-import { postListInit } from "@/services/demand/classPlan";
+import { echartsInit } from "@/services/demand/classPlan"
+import Highcharts from 'highcharts';
+import BarChart from '../../../../src/components/Chart/BarChart'
+import "../index.less";
 
-const columns = [
-  {
-    title: "产线",
-    dataIndex: "LineName",
-    key: "LineName",
-  },
-  {
-    title: "班次",
-    dataIndex: "ShiftName",
-    key: "ShiftName",
-    render: (text) => {
-      if (text == "1") {
-        return (text = "早班");
-      } else if (text == "2") {
-        return (text = "中班");
-      } else {
-        return (text = "晚班");
-      }
-    },
-  },
-  {
-    title: "人数",
-    dataIndex: "LineCountPeople",
-    key: "LineCountPeople",
-  },
-  {
-    title: "成员",
-    dataIndex: "PartsWorker",
-    key: "PartsWorker",
-    render: (text) => {
-      let list = text.split(",");
-      return list.map((item) => <Tag color="success">{item}</Tag>);
-    },
-  },
-];
 
 const Components = ({ classPlan, dispatch }) => {
   const [form] = Form.useForm();
   const [dataSourceInfo, setDataSourceInfo] = useState([]);
-  const [shiftList, setShiftList] = useState([
-    {
-      value: "早班",
-      label: "早班",
-    },
-    {
-      value: "中班",
-      label: "中班",
-    },
-    {
-      value: "晚班",
-      label: "晚班",
-    },
-  ]);
+
 
   useEffect(() => {
     handSearch();
   }, []);
 
+
+
+  const barChartData = {
+    credits: {////去掉版权logo水印
+      enabled: false,
+    },
+    exporting: {
+      enabled: true,
+    },
+    chart: {
+      type: 'column',
+      height: 630,
+    },
+    title: {
+      text: '人力需求',
+      y: 20,
+
+    },
+    xAxis: {
+      categories: [
+        '一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'
+      ],
+      crosshair: true
+    },
+    yAxis: {
+      min: 0,
+      title: {
+        text: '人数 (个)'
+      }
+    },
+    tooltip: {
+      // head + 每个 point + footer 拼接成完整的 table
+      headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+      pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+        '<td style="padding:0"><b>{point.y:.1f} mm</b></td></tr>',
+      footerFormat: '</table>',
+      shared: true,
+      useHTML: true
+    },
+    plotOptions: {
+      column: {
+         pointWidth:20
+      }
+    },
+    series: [{
+      name: '月份',
+      data: dataSourceInfo
+    }]
+  }
+
+
   const handSearch = (e) => {
     form.validateFields().then(async (values) => {
-      let newShiftId;
-      if (values.ShiftName == "早班") {
-        newShiftId = "1";
-      } else if (values.ShiftName == "中班") {
-        newShiftId = "2";
-      } else if (values.ShiftName == "晚班") {
-        newShiftId = "3";
-      } 
-      let data = await postListInit({
-          Time: moment(values.Time).format(globalConfig.form.onlyDateFormat),
-          shiftId: newShiftId,
+      let data = await echartsInit({
+        Year: moment(values.Year).format('YYYY'),
       });
       if (data.status === "200") {
-        debugger
-        setDataSourceInfo(data.list);
+        let newList= Object.values(data.list[0]) 
+        setDataSourceInfo(newList);
         message.success("查询成功!");
+      }else{
+        setDataSourceInfo([]);
+        message.error(data.message);
       }
     });
   };
+
 
   return (
     <PageContainer>
@@ -113,39 +114,22 @@ const Components = ({ classPlan, dispatch }) => {
           form={form}
           name="form_in_modal"
           onFinish={handSearch}
+          initialValues={{
+            Year: moment(),
+          }}
         >
           <Row gutter={40}>
             <Col span={6} style={{ display: "block" }}>
-              <Form.Item name="Time" label="选择日期" {...formItemLayout}>
+              <Form.Item name="Year" label="选择日期" {...formItemLayout}>
                 <DatePicker
                   style={{ width: "100%" }}
-                  format={globalConfig.form.onlyDateFormat}
-                  defaultValue={moment()}
+                  // format={globalConfig.form.onlyDateFormat}
+                  picker="year" 
+                  // defaultValue={moment()}
                 />
               </Form.Item>
             </Col>
 
-            {/* <Col span={6} style={{ display: "block" }}>
-              <Form.Item
-                name="ShiftName"
-                label="班次"
-                hasFeedback
-                {...formItemLayout}
-              >
-                <Select
-                  allowClear
-                  showSearch
-                >
-                  {shiftList.map(function (item, index) {
-                    return (
-                      <Select.Option key={index} value={item.value}>
-                        {item.label}
-                      </Select.Option>
-                    );
-                  })}
-                </Select>
-              </Form.Item>
-            </Col> */}
 
             <Col span={18} style={{ textAlign: "right" }}>
               <Button type="primary" htmlType="submit">
@@ -157,11 +141,14 @@ const Components = ({ classPlan, dispatch }) => {
         </Form>
       </div>
 
-      <div className="homeBox">
-        <div style={{ width: "100%", background: "#fff" }}>
-          <Table dataSource={dataSourceInfo} columns={columns} />
-        </div>
+
+      <div style={{ width: "100%", height: '650px', background: "#fff" }}>
+        <BarChart
+          options={barChartData}
+        />
       </div>
+
+
     </PageContainer>
   );
 };

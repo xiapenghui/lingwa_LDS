@@ -1,4 +1,4 @@
-import { PlusOutlined, UploadOutlined } from "@ant-design/icons";
+import { PlusOutlined, UploadOutlined,ClockCircleOutlined} from "@ant-design/icons";
 import { Button, message, DatePicker, Select, Input, Table, Tag } from "antd";
 import ProForm, { ProFormDatePicker } from "@ant-design/pro-form";
 import React, { useState, useRef, useEffect } from "react";
@@ -252,9 +252,9 @@ const workHoursComponent = ({ workHours, dispatch }) => {
       //   return  text;
       // },
       render: (text, record) => {
-        let color = record.overwork >= 50 ? "red" : "";
-        if (record.overwork >= 50) {
-          return <Tag color={color}>{record.overwork}</Tag>;
+        let color = record.overwork >= 42 ? "red" : "";
+        if (record.overwork >= 42) {
+          return <Tag color={color} style={{width:'50px'}}>{record.overwork}</Tag>;
         } else {
           return <span> {record.overwork}</span>;
         }
@@ -314,6 +314,26 @@ const workHoursComponent = ({ workHours, dispatch }) => {
         ],
       },
     },
+
+    {
+      title: '',
+      dataIndex: "dddd",
+      valueType: "text",
+      align: "center",
+      // hideInSearch: true,
+      renderFormItem: (_, { type, defaultRender, ...rest }, form) => {
+        if (type === "form" || type === "table") {
+          // 返回新的组件
+          return (
+            <Tag icon={<ClockCircleOutlined />} olor="default" style={{'fontSize':'16px','marginLeft':'80px'}}>
+            平均加班工时:<b style={{'margin':'0 5px'}}>{average}</b>小时
+          </Tag>
+          );
+        }
+        return defaultRender(_);
+      },
+    },
+
 
     {
       title: "1",
@@ -814,8 +834,7 @@ const workHoursComponent = ({ workHours, dispatch }) => {
               style={{ color: "red", fontSize: "16px", marginLeft: "10px" }}
             >
               {/* *列表行数&nbsp;{numCol}&nbsp;行，加班总时长&nbsp;{hours}&nbsp;小时,平均加班工时&nbsp;{average}&nbsp;小时 */}
-              *加班总时长&nbsp;{hours}&nbsp;小时,平均加班工时&nbsp;{average}
-              &nbsp;小时, 薪资系数&nbsp;{cvalue}
+              *加班总时长&nbsp;{hours}&nbsp;小时, 薪资系数&nbsp;{cvalue}
             </span>
           </>
         }

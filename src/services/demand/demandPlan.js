@@ -24,4 +24,12 @@ export async function postListInit(params) {
   });
 }
 
+//求和
+export async function ParamShow(params) {
+  return request(`${ip}/WebAPI/api/AutoClassShowInfo/ParamShow`, {
+    method: "POST",
+    data: { ...params },
+  });
+}
 
+ 
