@@ -13,3 +13,29 @@ export async function echartsInit(params) {
     data: { ...params },
   });
 }
+
+//求和
+export async function tableShow(params) {
+  return request(`${ip}/WebAPI/api/AutoClassPlanShow/ListInfo`, {
+    method: "POST",
+    data: { ...params },
+  });
+}
+
+
+//折线
+export async function ListLine(params) {
+  return request(`${ip}/WebAPI/api/AutoClassPlanShow/ListLine`, {
+    method: "POST",
+    data: { ...params },
+  });
+}
+
+ 
+//折线
+export async function Modify(params) {
+  return request(`${ip}/WebAPI/api/AutoClassPlanShow/Modify`, {
+    method: "POST",
+    data: { ...params },
+  });
+}

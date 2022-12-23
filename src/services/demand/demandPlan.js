@@ -9,7 +9,7 @@ const ip = `${globalConfig.ip}:${globalConfig.port.yshyerp_sspa}`;
 
 //工厂名称接口
 export async function getProduct() {
-  return request(`${ip}/WebAPI/api/Common/GetProductFamilyIdText`, {
+  return request(`${ip}/webApi/api/Common/GetProductFamilyIdText`, {
     method: "POST",
   });
 }

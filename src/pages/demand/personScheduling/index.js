@@ -92,9 +92,9 @@ const Components = ({ personScheduling, dispatch }) => {
     },
 
     {
-      title: "目标产能",
-      dataIndex: "OptiamlProduce",
-      key: "OptiamlProduce",
+      title: "最优产能",
+      dataIndex: "OptimalWorker", 
+      key: "OptimalWorker",
     },
 
     {
@@ -229,12 +229,12 @@ const Components = ({ personScheduling, dispatch }) => {
         Time: document.getElementById("DatePicker").value,
       });
       if (dataPeople.status === "200") {
-        setMorning(dataPeople.list.length == 0 ? 0 : dataPeople.list[1]?.ClassCUseWorker);
-        setMorningPeo(dataPeople.list[1]?.ClassCUseWorkerInfo);
-        setNoon(dataPeople.list.length == 0 ? 0 : dataPeople.list[2]?.ClassCUseWorker);
-        setNoonPeo(dataPeople.list[2]?.ClassCUseWorkerInfo);
-        setNight(dataPeople.list.length == 0 ? 0 : dataPeople.list[0]?.ClassCUseWorker);
-        setNightPeo(dataPeople.list[0]?.ClassCUseWorkerInfo);
+        setMorning(dataPeople.list.length == 0 ? 0 : dataPeople.list[0]?.ClassCUseWorker);
+        setMorningPeo(dataPeople.list[0]?.ClassCUseWorkerInfo);
+        setNoon(dataPeople.list.length == 0 ? 0 : dataPeople.list[1]?.ClassCUseWorker);
+        setNoonPeo(dataPeople.list[1]?.ClassCUseWorkerInfo);
+        // setNight(dataPeople.list.length == 0 ? 0 : dataPeople.list[0]?.ClassCUseWorker);
+        // setNightPeo(dataPeople.list[0]?.ClassCUseWorkerInfo);
 
       }
     });
@@ -251,12 +251,13 @@ const Components = ({ personScheduling, dispatch }) => {
     } else {
       newShift = 3;
     }
+    
     let data = await Modify({
-      ShiftId: classMeter,
+      // ShiftId: classMeter,
       EmployeeName: values.EmployeeName,
-      LineId: lineMeter,
+      // LineId: lineMeter,
       ModifyLineId: values.LineName,
-      ModifyShiftId: newShift,
+      ModifyShiftId: values.ShiftName,
       Time: document.getElementById("DatePicker2").value + " " + "00:00:00",
       // ClassState: 2,
       ModiData: dataSource2,
@@ -290,6 +291,7 @@ const Components = ({ personScheduling, dispatch }) => {
   };
 
   const handModal = async (val) => {
+    formModel.resetFields();
     setPeoName(val);
     //打开弹窗获取线体
     let dataLine = await LineInfo({
@@ -327,34 +329,32 @@ const Components = ({ personScheduling, dispatch }) => {
   var arr = [];
   const isOk = (value) => {
     if (value == "2") {
+   
       newJson.push({
         EmployeeName: peoName,
-        lineName: document.getElementsByClassName(
+        lineName: lineId == undefined ? '' : document.getElementsByClassName(
           "ant-select-item-option-active"
         )[0]?.title,
-        shiftName: document.getElementsByClassName(
+        shiftName: shiftId == undefined ? '' : document.getElementsByClassName(
           "ant-select-item-option-active"
         )[1]?.title,
         Time: document.getElementById("DatePicker2").value,
-        ShiftId: shiftId,
-        LineId: lineId,
-        ClassState:'排班',
+        ClassState: '排班',
       });
       arr = [...dataSource2, newJson];
       setDataSource2(arr.flat());
     } else {
       // setDataSource2([]);
+
       newJson.push({
         EmployeeName: peoName,
-        lineName: document.getElementsByClassName(
+        lineName: lineId == undefined ? '' : document.getElementsByClassName(
           "ant-select-item-option-active"
         )[0]?.title,
-        shiftName: document.getElementsByClassName(
+        shiftName: shiftId == undefined ? '' : document.getElementsByClassName(
           "ant-select-item-option-active"
         )[1]?.title,
         Time: document.getElementById("DatePicker2").value,
-        ShiftId: shiftId,
-        LineId: lineId,
         ClassState: '撤销',
       });
       arr = [...dataSource2, newJson];
@@ -364,27 +364,33 @@ const Components = ({ personScheduling, dispatch }) => {
 
   //线体下拉
   const handLine = (value) => {
-    setLineId(value);
+     setLineId(value);
   };
 
   //班次下拉
   const handShift = (value) => {
-    if (value == "早班") {
-      value = 1;
-    } else if (value == "中班") {
-      value = 2;
-    } else {
-      value = 3;
+    // if (value == "早班") {
+    //   value = 1;
+    // } else if (value == "中班") {
+    //   value = 2;
+    // } else {
+    //   value = 3;
+    // }
+   
+    if (value == undefined) {
+      setShiftId(value);
+    }else{
+      setShiftId(value);
     }
-    setShiftId(value);
   };
+
 
   return (
     <PageContainer>
       <div className="homeBox">
         <div className="handBox handBoxNo">
           <Row gutter={16}>
-            <Col span={8}>
+            <Col span={12}>
               <Card
                 title={
                   <>
@@ -403,14 +409,15 @@ const Components = ({ personScheduling, dispatch }) => {
                   morningPeo?.split(",").map((item) => (
                     <Tag color="success">
                       <Space size="middle">
-                        {item}
+                        {/* {item} */}
+                        <a onClick={() => handModal(item)}>{item}</a>
                       </Space>
                     </Tag>
                   ))
                 }
               </Card>
             </Col>
-            <Col span={8}>
+            <Col span={12}>
               <Card
                 title={
                   <>
@@ -429,53 +436,13 @@ const Components = ({ personScheduling, dispatch }) => {
                   noonPeo?.split(",").map((item) => (
                     <Tag color="success">
                       <Space size="middle">
-                        {item}
+                        <a onClick={() => handModal(item)}>{item}</a>
                       </Space>
                     </Tag>
                   ))
                 }
               </Card>
             </Col>
-            <Col span={8}>
-              <Card
-                title={
-                  <>
-                    <span>晚班可用人员</span>
-                    <span style={{
-                      fontSize: "20px",
-                      fontWeight: "bold",
-                      marginLeft: "10px",
-                    }}
-                    >（{night}）</span>人
-                  </>
-                }
-                bordered={false}
-              >
-                {
-                  nightPeo?.split(",").map((item) => (
-                    <Tag color="success">
-                      <Space size="middle">
-                        {item}
-                      </Space>
-                    </Tag>
-                  ))
-                }
-              </Card>
-            </Col>
-            {/* <Col span={6}>
-              <Card
-                extra={<a href="#">重置</a>}
-                title={
-                  <>
-                    <span>待撤离人员</span>
-                    <span>（0）人</span>
-                  </>
-                }
-                bordered={false}
-              >
-                Card content
-              </Card>
-            </Col> */}
           </Row>
         </div>
 
@@ -534,7 +501,7 @@ const Components = ({ personScheduling, dispatch }) => {
                   <Select allowClear showSearch>
                     {newList.map(function (item, index) {
                       return (
-                        <Select.Option key={index} value={item.LineId}>
+                        <Select.Option key={index} value={item.LineId} >
                           {item.LineName}
                         </Select.Option>
                       );
@@ -632,12 +599,16 @@ const Components = ({ personScheduling, dispatch }) => {
                   name="LineName"
                   label="产线"
                   {...formItemLayout}
-                  rules={[
-                    {
-                      required: true,
-                      message: "请选择产线",
-                    },
-                  ]}
+                  rules={
+                    dataSource2.length == 0 ? [
+                      {
+                        type: "string",
+                        required: true,
+                        message: "请选择产线",
+                      },
+                    ] : null
+                  }
+
                 >
                   <Select
                     allowClear
@@ -661,13 +632,15 @@ const Components = ({ personScheduling, dispatch }) => {
                   label="班次"
                   hasFeedback
                   {...formItemLayout}
-                  rules={[
-                    {
-                      type: "string",
-                      required: true,
-                      message: "请选择班次",
-                    },
-                  ]}
+                  rules={
+                    dataSource2.length == 0 ? [
+                      {
+                        type: "string",
+                        required: true,
+                        message: "请选择班次",
+                      },
+                    ] : null
+                  }
                 >
                   <Select allowClear showSearch onChange={handShift}>
                     {shiftList.map(function (item, index) {
@@ -708,27 +681,6 @@ const Components = ({ personScheduling, dispatch }) => {
                   pagination={false}
                 />
               </Col>
-              {/* <Col span={24} style={{ display: "none" }}>
-                <Form.Item
-                  name="ShiftId"
-                  label="ShiftId"
-                  hasFeedback
-                  {...formItemLayout}
-                >
-                  <Input />;
-                </Form.Item>
-              </Col>
-
-              <Col span={24} style={{ display: "none" }}>
-                <Form.Item
-                  name="LineId"
-                  label="LineId"
-                  hasFeedback
-                  {...formItemLayout}
-                >
-                  <Input />;
-                </Form.Item>
-              </Col> */}
             </Row>
           </Form>
         </Modal>

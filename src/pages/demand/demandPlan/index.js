@@ -33,6 +33,16 @@ const columns = [
     key: "ShiftNums",
   },
   {
+    title: "最优产能",
+    dataIndex: "OptimalProduce",
+    key: "OptimalProduce",
+  },
+  {
+    title: "CAMA",
+    dataIndex: "cama",
+    key: "cama",
+  },
+  {
     title: "班次详情",
     dataIndex: "ShiftDetails",
     key: "ShiftDetails",
