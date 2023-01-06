@@ -38,7 +38,7 @@ const columns = [
     key: "OptimalProduce",
   },
   {
-    title: "CAMA",
+    title: "cama",
     dataIndex: "cama",
     key: "cama",
   },

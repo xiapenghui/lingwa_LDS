@@ -16,13 +16,10 @@ const proSettings = {
   pwa: false,
   iconfontUrl: '',
   CORS: [],
-  ip: `http://192.168.1.18`,  
-  // ip: `http://192.168.1.126`,  
-  // ip:`http://localhost`,
-  // ip:`http://smartflow.diskstation.me`,
-  // 15是sspa
-  // ip: `http://10.177.34.15`,  
-  
+  // ip: `http://smartflow.diskstation.me:8107`,  
+  // ip: `http://192.168.1.216`, 
+  ip: `http://10.177.34.15`,  
+
   port: {
     yshyerp_crc: 8071,
     yshyerp_role: 8072,
@@ -38,8 +35,10 @@ const proSettings = {
     yshyerp_invoice: 8082,
     sspalds_role: 8072,
     // 23111是sspa
+    // yshyerp_sspa: 9100
     yshyerp_sspa: 23111
   },
+  
 
 
   table: {
@@ -67,6 +66,8 @@ const proSettings = {
   form: {
     dateFormat: 'YYYY-MM-DD HH:mm:ss',
     onlyDateFormat: 'YYYY-MM-DD',
+    onlyYear: 'YYYY',
+    onlyMonth: 'MM',
   },
 };
 export default proSettings;

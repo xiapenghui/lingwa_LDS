@@ -346,6 +346,48 @@ export default defineConfig({
               ],
             },
 
+
+            {
+              path: '/demand',
+              name: '排班管理',
+              icon: 'SearchOutlined',
+              routes: [
+                {
+                  path: '/demand/demandSpillover',
+                  name: '需求溢出',
+                  icon: 'smile',
+                  component: '../pages/demand/demandSpillover',
+                },
+                {
+                  path: '/demand/demandPlan',
+                  name: '需求安排',
+                  icon: 'smile',
+                  component: '../pages/demand/demandPlan',
+                },
+
+                {
+                  path: '/demand/classPlan',
+                  name: '排版计划',
+                  icon: 'smile',
+                  component: '../pages/demand/classPlan',
+                },
+
+                {
+                  path: '/demand/personScheduling',
+                  name: '人员调度',
+                  icon: 'smile',
+                  component: '../pages/demand/personScheduling',
+                },
+                {
+                  path: '/demand/processClass',
+                  name: '工艺参数',
+                  icon: 'smile',
+                  component: '../pages/demand/processClass',
+                },
+                 
+              ],
+            },
+
             {
               path: '/authorityManagement',
               name: '角色管理',

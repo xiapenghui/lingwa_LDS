@@ -39,3 +39,11 @@ export async function Modify(params) {
     data: { ...params },
   });
 }
+
+//修改排班计划
+export async function ModifyOutWork(params) {
+  return request(`${ip}/WebAPI/api/AutoClassPlanShow/ModifyOutWork`, {
+    method: "POST",
+    data: { ...params },
+  });
+}

@@ -79,7 +79,7 @@ const Components = ({ personScheduling, dispatch }) => {
     },
 
     {
-      title: "CAMA",
+      title: "cama",
       dataIndex: "cama",
       key: "cama",
     },
@@ -91,10 +91,11 @@ const Components = ({ personScheduling, dispatch }) => {
       key: "Requirement",
     },
 
+
     {
       title: "最优产能",
-      dataIndex: "OptimalWorker", 
-      key: "OptimalWorker",
+      dataIndex: "OptiamlProduce", 
+      key: "OptiamlProduce",
     },
 
     {
@@ -118,6 +119,14 @@ const Components = ({ personScheduling, dispatch }) => {
       dataIndex: "CurrentWorker",
       key: "CurrentWorker",
     },
+
+    
+    {
+      title: "需求人数",
+      dataIndex: "RequireWorker",
+      key: "RequireWorker",
+    },
+    
     {
       title: "最优人数",
       width: 120,
@@ -345,7 +354,7 @@ const Components = ({ personScheduling, dispatch }) => {
       setDataSource2(arr.flat());
     } else {
       // setDataSource2([]);
-
+       debugger
       newJson.push({
         EmployeeName: peoName,
         lineName: lineId == undefined ? '' : document.getElementsByClassName(
@@ -381,6 +390,15 @@ const Components = ({ personScheduling, dispatch }) => {
       setShiftId(value);
     }else{
       setShiftId(value);
+    }
+  };
+
+  
+  const disStyle = (record) => {
+    if (record.OutFlag == 1) {
+      return "diffRow";
+    } else {
+      return "";
     }
   };
 
@@ -524,6 +542,7 @@ const Components = ({ personScheduling, dispatch }) => {
           <Table
             dataSource={dataSourceInfo}
             columns={columns}
+            rowClassName={disStyle}
             onRow={(record) => {
               return {
                 onClick: (event) => {

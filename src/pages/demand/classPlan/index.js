@@ -19,7 +19,7 @@ import globalConfig from "../../../../config/defaultSettings";
 import { SearchOutlined } from "@ant-design/icons";
 import moment from "moment";
 const formItemLayout = globalConfig.table.formItemLayout;
-import { echartsInit, tableShow, ListLine ,Modify } from "@/services/demand/classPlan"
+import { echartsInit, tableShow, ListLine, Modify, ModifyOutWork } from "@/services/demand/classPlan"
 import Highcharts from 'highcharts';
 import BarChart from '../../../../src/components/Chart/BarChart'
 import "../index.less";
@@ -208,11 +208,11 @@ const Components = ({ classPlan, dispatch }) => {
       }
     },
     series: [{
-      name: '月份',
+      name: '人力共给',
       data: dataSourceInfo
     },
     {
-      name: '',
+      name: '人力需求',
       type: 'line',
       data: dataSourceLine,
       color: '#67be8e',
@@ -287,13 +287,25 @@ const Components = ({ classPlan, dispatch }) => {
     }
   };
 
+  //修改排版计划
+  const handOutWork = async () => {
+    let data = await ModifyOutWork({
+      Time: document.getElementById('timeData').value,
+      tsvalue: document.getElementById('tsvalue').value,
+    });
+    if (data.status == "200") {
+      handSearch();
+      message.success(data.message);
+    } else {
+      message.error(data.message);
+    }
+  };
+
+
   //关闭弹出框
   const handleCancel = () => {
     setIsModalOpen(false);
   };
-
-
-
 
   return (
     <PageContainer>
@@ -337,7 +349,32 @@ const Components = ({ classPlan, dispatch }) => {
       </div>
 
 
-      <div style={{ width: "100%", height: '330px', background: "#fff" }}>
+      <div style={{ width: "100%", height: '330px', background: "#fff", padding: '20px' }}>
+        <Row>
+          <Col span={4}>
+            <Form.Item
+              label="日期"
+              name="Time"
+            >
+              <DatePicker format={globalConfig.form.onlyDateFormat} id="timeData" />
+            </Form.Item>
+          </Col>
+          <Col span={4} offset={1}>
+            <Form.Item
+              label="离职率"
+              name="tsvalue"
+            >
+              <Input type="number" id="tsvalue" />
+            </Form.Item>
+          </Col>
+          <Col span={1}>
+            &nbsp;<b style={{ 'lineHeight': '2.5' }}>%</b>
+          </Col>
+          <Col span={2} offset={1}>
+            <Button type="primary" htmlType="submit" onClick={() => handOutWork()}>
+              确定
+            </Button></Col>
+        </Row>
         <Table dataSource={dataSourceList} columns={columns} scroll={{
           y: 200,
         }} pagination={false} />
@@ -373,9 +410,9 @@ const Components = ({ classPlan, dispatch }) => {
           form={formModel}
           name="ModalValueForm"
           initialValues={{
-          title: '可安排加班天数',
-          tsyear: moment()
-        }}
+            title: '可安排加班天数',
+            tsyear: moment()
+          }}
         >
           <Row gutter={40}>
             <Col span={24} style={{ display: "block" }}>
@@ -395,7 +432,7 @@ const Components = ({ classPlan, dispatch }) => {
                   style={{ width: "100%" }}
                   format={globalConfig.form.onlyYear}
                   picker="year"
-                  // defaultValue={moment()}
+                // defaultValue={moment()}
                 />
               </Form.Item>
             </Col>
@@ -427,7 +464,7 @@ const Components = ({ classPlan, dispatch }) => {
                 hasFeedback
                 {...formItemLayout}
               >
-                <Input  />
+                <Input />
               </Form.Item>
 
             </Col>
