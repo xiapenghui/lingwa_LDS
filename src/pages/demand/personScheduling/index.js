@@ -439,7 +439,7 @@ const Components = ({ personScheduling, dispatch }) => {
               <Card
                 title={
                   <>
-                    <span>中班班可用人员</span>
+                    <span>中班可用人员</span>
                     <span style={{
                       fontSize: "20px",
                       fontWeight: "bold",

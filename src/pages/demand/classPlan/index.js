@@ -188,7 +188,8 @@ const Components = ({ classPlan, dispatch }) => {
       crosshair: true
     },
     yAxis: {
-      min: 0,
+      min: 180,
+      max:250,
       title: {
         text: '人数 (个)'
       }
