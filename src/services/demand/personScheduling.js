@@ -74,3 +74,10 @@ export async function ClassCUseWorker(params) {
 }
 
  
+//  增加班次弹窗
+export async function AddClass(params) {
+  return request(`${ip}/WebAPI/api/AutoClassDisPatch/AddClass`, {
+    method: "POST",
+    data: { ...params },
+  });
+}

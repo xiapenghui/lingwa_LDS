@@ -179,8 +179,16 @@ const Components = ({ classPlan, dispatch }) => {
     title: {
       text: '人力需求',
       // y: 20,
-
     },
+    legend: {
+      align: 'left',
+      x:500,
+      verticalAlign: 'top',
+      y: 10,
+      floating: true,
+      borderColor: '#CCC',
+      borderWidth: 1,
+  },
     xAxis: {
       categories: [
         '一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'
@@ -339,19 +347,46 @@ const Components = ({ classPlan, dispatch }) => {
             </Col>
 
 
-            <Col span={18} style={{ textAlign: "right" }}>
+            <Col span={3}>
               <Button type="primary" htmlType="submit">
                 <SearchOutlined />
                 查询
               </Button>
             </Col>
+
+            <Col span={4}  offset={4}>
+            <Form.Item
+              label="日期"
+              name="Time"
+            >
+              <DatePicker format={globalConfig.form.onlyDateFormat} id="timeData" />
+            </Form.Item>
+          </Col>
+
+          <Col span={4}>
+            <Form.Item
+              label="缺勤率"
+              name="tsvalue"
+            >
+              <Input type="number" id="tsvalue" />
+            </Form.Item>
+          </Col>
+          <Col span={1} style={{"paddingLeft":'0px'}}>
+            <b style={{ 'lineHeight': '2.5' }}>%</b>
+          </Col>
+          <Col span={2}>
+            <Button type="primary" htmlType="submit" onClick={() => handOutWork()}>
+              确定
+            </Button>
+          </Col>
+
           </Row>
         </Form>
       </div>
 
 
-      <div style={{ width: "100%", height: '330px', background: "#fff", padding: '20px' }}>
-        <Row>
+     
+        {/* <Row>
           <Col span={4}>
             <Form.Item
               label="日期"
@@ -362,7 +397,7 @@ const Components = ({ classPlan, dispatch }) => {
           </Col>
           <Col span={4} offset={1}>
             <Form.Item
-              label="离职率"
+              label="缺勤率"
               name="tsvalue"
             >
               <Input type="number" id="tsvalue" />
@@ -374,12 +409,13 @@ const Components = ({ classPlan, dispatch }) => {
           <Col span={2} offset={1}>
             <Button type="primary" htmlType="submit" onClick={() => handOutWork()}>
               确定
-            </Button></Col>
-        </Row>
+            </Button>
+          </Col>
+        </Row> */}
         <Table dataSource={dataSourceList} columns={columns} scroll={{
-          y: 200,
+          y: 370,
         }} pagination={false} />
-      </div>
+      
 
       <div style={{ width: "100%", height: '300px', background: "#fff", marginTop: '20px' }}>
         <BarChart

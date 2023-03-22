@@ -70,7 +70,7 @@ const Components = ({ demandPlan, dispatch }) => {
     handSearch();
     setTimeout(()=>{
       numList()
-    },1000)
+    },2000)
   }, []);
 
   const handSearch = (e) => {
@@ -93,6 +93,7 @@ const Components = ({ demandPlan, dispatch }) => {
     let data = await ParamShow({
       Time: document.getElementById("DatePicker3").value,
     });
+    debugger
     if (data.status === "200") {
       setnewHopeNum(data.list[0]?.Requirement)
       setnewPeopleRequire(data.list[0]?.PeopleRequire)

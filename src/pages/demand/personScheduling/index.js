@@ -15,7 +15,7 @@ import {
   Input,
   Radio,
 } from "antd";
-import { SearchOutlined } from "@ant-design/icons";
+import { SearchOutlined ,PlusOutlined } from "@ant-design/icons";
 import { Link, connect } from "umi";
 import { PageContainer, FooterToolbar } from "@ant-design/pro-layout";
 import globalConfig from "../../../../config/defaultSettings";
@@ -29,6 +29,7 @@ import {
   Modify,
   LineInfo,
   ClassCUseWorker,
+  AddClass
 } from "@/services/demand/personScheduling";
 import number from "@/pages/product/number";
 import { set } from "lodash";
@@ -37,9 +38,12 @@ const formItemLayout = globalConfig.table.formItemLayout;
 const Components = ({ personScheduling, dispatch }) => {
   const [form] = Form.useForm();
   const [formModel] = Form.useForm();
+  const [formModel2] = Form.useForm();
   const { TableList } = personScheduling;
   const [dataSourceInfo, setDataSourceInfo] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isClassOpen, setIsClassOpen] = useState(false);
+  
   const [newList, setNewList] = useState([]);
   const [peopleData, setPeopleData] = useState([]);
   const [morning, setMorning] = useState(0);
@@ -82,6 +86,7 @@ const Components = ({ personScheduling, dispatch }) => {
       title: "cama",
       dataIndex: "cama",
       key: "cama",
+      width: 100,
     },
 
 
@@ -89,6 +94,7 @@ const Components = ({ personScheduling, dispatch }) => {
       title: "需求数量",
       dataIndex: "Requirement",
       key: "Requirement",
+      width: 100,
     },
 
 
@@ -96,6 +102,7 @@ const Components = ({ personScheduling, dispatch }) => {
       title: "最优产能",
       dataIndex: "OptiamlProduce", 
       key: "OptiamlProduce",
+      width: 100,
     },
 
     {
@@ -125,6 +132,7 @@ const Components = ({ personScheduling, dispatch }) => {
       title: "需求人数",
       dataIndex: "RequireWorker",
       key: "RequireWorker",
+      width: 100,
     },
     
     {
@@ -150,12 +158,12 @@ const Components = ({ personScheduling, dispatch }) => {
     },
     // {
     //   title: "操作",
-    //   width: 80,
+    //   width: 150,
     //   dataIndex: "address",
     //   key: "address",
     //   render: (_, record) => (
     //     <Space size="middle">
-    //       <a onClick={() => handModal(record)}>调度</a>
+    //       <Button  type="primary"  onClick={() => handAddClass(record)}>增加班次</Button>
     //     </Space>
     //   ),
     // },
@@ -283,6 +291,11 @@ const Components = ({ personScheduling, dispatch }) => {
     setIsModalOpen(false);
   };
 
+  const handleCancelClass=()=>{
+    setIsClassOpen(false)
+  }
+
+
   //点击行获取数据
   const test = (val) => {
     setLineMeter(val.LineId);
@@ -354,7 +367,6 @@ const Components = ({ personScheduling, dispatch }) => {
       setDataSource2(arr.flat());
     } else {
       // setDataSource2([]);
-       debugger
       newJson.push({
         EmployeeName: peoName,
         lineName: lineId == undefined ? '' : document.getElementsByClassName(
@@ -370,6 +382,9 @@ const Components = ({ personScheduling, dispatch }) => {
       setDataSource2(arr.flat());
     }
   };
+
+
+
 
   //线体下拉
   const handLine = (value) => {
@@ -401,6 +416,43 @@ const Components = ({ personScheduling, dispatch }) => {
       return "";
     }
   };
+
+
+
+  //增加班次
+  const handAddClass = async () => {
+     //打开弹窗获取线体
+     formModel2.resetFields();
+     let dataLine = await LineInfo({
+      Time: document.getElementById("DatePicker").value,
+    });
+    if (dataLine.status === "200") {
+      if(dataLine.list.length==0){
+       return  message.error('当前日期没有对应的产线!');
+      }
+      setNewList(dataLine.list);
+    }
+    setIsClassOpen(true)
+  };
+
+  //保存班次弹窗
+  const onSave2 = async (values) => {
+    setIsClassOpen(false);
+    let data = await AddClass({
+      ModifyLineId: values.LineName,
+      ModifyShiftId: values.ShiftName,
+      Time: document.getElementById("DatePicker5").value + " " + "00:00:00",
+      requre: values.requre,
+       
+    });
+    if (data.status == "200") {
+      handSearch();
+      message.success(data.message);
+    } else {
+      message.error(data.message);
+    }
+  };
+  
 
 
   return (
@@ -475,7 +527,7 @@ const Components = ({ personScheduling, dispatch }) => {
             className="ant-advanced-search-form"
             form={form}
             name="form_in_modal"
-            onFinish={handSearch}
+            // onFinish={handSearch}
           >
             <Row gutter={40}>
               <Col span={6} style={{ display: "block" }}>
@@ -528,11 +580,17 @@ const Components = ({ personScheduling, dispatch }) => {
                 </Form.Item>
               </Col>
 
-              <Col span={4} style={{ textAlign: "right" }}>
-                <Button type="primary" htmlType="submit">
+              <Col span={6} style={{ textAlign: "right" }}>
+                <Button type="primary" htmlType="submit" onClick={()=>handSearch()}>
                   <SearchOutlined />
                   查询
                 </Button>
+
+                <Button type="primary" htmlType="submit" onClick={()=>handAddClass()} style={{'marginLeft':'15px'}}>
+                <PlusOutlined />
+                  新增班次
+                </Button>
+
               </Col>
             </Row>
           </Form>
@@ -618,15 +676,15 @@ const Components = ({ personScheduling, dispatch }) => {
                   name="LineName"
                   label="产线"
                   {...formItemLayout}
-                  rules={
-                    dataSource2.length == 0 ? [
-                      {
-                        type: "string",
-                        required: true,
-                        message: "请选择产线",
-                      },
-                    ] : null
-                  }
+                  // rules={
+                  //   dataSource2.length == 0 ? [
+                  //     {
+                  //       type: "string",
+                  //       required: true,
+                  //       message: "请选择产线",
+                  //     },
+                  //   ] : null
+                  // }
 
                 >
                   <Select
@@ -703,6 +761,144 @@ const Components = ({ personScheduling, dispatch }) => {
             </Row>
           </Form>
         </Modal>
+
+
+
+
+
+         {/* //增加班次弹出框 */}
+         <Modal
+          title="增加班次"
+          open={isClassOpen}
+          onOk={() => {
+            formModel2
+              .validateFields()
+              .then((values) => {
+                onSave2(values);
+              })
+              .catch((info) => {
+                console.log("CreateForm Failed:", info);
+              });
+          }}
+          onCancel={handleCancelClass}
+          okText={"提交"}
+        >
+          <Form
+            form={formModel2}
+            name="ModalValueForm2"
+          // initialValues={{
+          //   LineName: LineNamedata,
+          //   ShiftName: shiftData,
+          // }}
+          >
+            <Row gutter={40}>
+            
+            
+
+              <Col span={24} style={{ display: "block" }}>
+                <Form.Item
+                  name="LineName"
+                  label="产线"
+                  {...formItemLayout}
+                  // rules={
+                  //   dataSource2.length == 0 ? [
+                  //     {
+                  //       type: "string",
+                  //       required: true,
+                  //       message: "请选择产线",
+                  //     },
+                  //   ] : null
+                  // }
+
+                >
+                  <Select
+                    allowClear
+                    showSearch
+                    optionFilterProp="children"
+                    onChange={handLine}
+                  >
+                    {newList.map(function (item, index) {
+                      return (
+                        <Select.Option key={index} value={item.LineId}>
+                          {item.LineName}
+                        </Select.Option>
+                      );
+                    })}
+                  </Select>
+                </Form.Item>
+              </Col>
+
+              <Col span={24} style={{ display: "block" }}>
+                <Form.Item
+                  name="Time"
+                  label="日期"
+                  hasFeedback
+                  {...formItemLayout}
+                  // rules={[
+                  //   {
+                  //     required: true,
+                  //     message: "请选择日期",
+                  //   },
+                  // ]}
+                >
+                  <DatePicker
+                    style={{ width: "100%" }}
+                    format={globalConfig.form.onlyDateFormat}
+                    // defaultValue={moment()}
+                    id="DatePicker5"
+                  />
+                </Form.Item>
+              </Col>
+
+              <Col span={24} style={{ display: "block" }}>
+                <Form.Item
+                  name="ShiftName"
+                  label="班次"
+                  hasFeedback
+                  {...formItemLayout}
+                  // rules={
+                  //   dataSource2.length == 0 ? [
+                  //     {
+                  //       type: "string",
+                  //       required: true,
+                  //       message: "请选择班次",
+                  //     },
+                  //   ] : null
+                  // }
+                >
+                  <Select allowClear showSearch onChange={handShift}>
+                    {shiftList.map(function (item, index) {
+                      return (
+                        <Select.Option key={index} value={item.value}>
+                          {item.label}
+                        </Select.Option>
+                      );
+                    })}
+                  </Select>
+                </Form.Item>
+              </Col>
+
+              <Col span={24} style={{ display: "block" }}>
+                <Form.Item
+                  name="requre"
+                  label="需求量"
+                  hasFeedback
+                  {...formItemLayout}
+                >
+                  <Input />
+                </Form.Item>
+              </Col>
+
+
+            </Row>
+          </Form>
+        </Modal>
+
+
+
+
+
+
       </div>
     </PageContainer>
   );
