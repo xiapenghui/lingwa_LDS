@@ -31,6 +31,10 @@ const Components = ({ classPlan, dispatch }) => {
   const [dataSourceInfo, setDataSourceInfo] = useState([]);
   const [dataSourceLine, setDataSourceLine] = useState([]);
   const [dataSourceList, setDataSourceList] = useState([]);
+  
+ 
+
+
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
@@ -217,11 +221,11 @@ const Components = ({ classPlan, dispatch }) => {
       }
     },
     series: [{
-      name: '人力共给',
+      name: '人力供给',
       data: dataSourceInfo
     },
     {
-      name: '人力需求',
+      name: '人力需求（3个月平均）',
       type: 'line',
       data: dataSourceLine,
       color: '#67be8e',
@@ -263,6 +267,8 @@ const Components = ({ classPlan, dispatch }) => {
       });
       if (dataTbale.status === "200") {
         setDataSourceList(dataTbale.list);
+        // setDataSourceLine(Object.values(dataTbale.list[4]).splice(1, 12));
+
         message.success("查询成功!");
       } else {
         setDataSourceList([]);

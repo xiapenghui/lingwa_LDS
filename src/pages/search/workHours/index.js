@@ -50,7 +50,7 @@ const workHoursComponent = ({ workHours, dispatch }) => {
   const [dataList, setDataList] = useState([]);
   const [hours, setHours] = useState(0);
   const [average, setAverage] = useState(0);
-  const [numCol, setNumCol] = useState(0);
+  const [manhour, setManhour] = useState(0);
   const [cvalue, setCvalue] = useState(0);
 
   const { Option } = Select;
@@ -671,6 +671,7 @@ const workHoursComponent = ({ workHours, dispatch }) => {
           : (value.list[0].sumoverwork / value.list.length).toFixed(2)
       );
       setCvalue(value.list.length == 0 ? 0 : value.list[0].cvalue);
+      setManhour(value.list.length == 0 ? 0 : value.list[0].manhour);
 
       return {
         data: value.list,
@@ -834,7 +835,7 @@ const workHoursComponent = ({ workHours, dispatch }) => {
               style={{ color: "red", fontSize: "16px", marginLeft: "10px" }}
             >
               {/* *列表行数&nbsp;{numCol}&nbsp;行，加班总时长&nbsp;{hours}&nbsp;小时,平均加班工时&nbsp;{average}&nbsp;小时 */}
-              *加班总时长&nbsp;{hours}&nbsp;小时, 薪资系数&nbsp;{cvalue}
+              *加班总时长&nbsp;{hours}&nbsp;小时, 薪资系数&nbsp;{cvalue},休息时间&nbsp;{manhour}&nbsp;分钟
             </span>
           </>
         }

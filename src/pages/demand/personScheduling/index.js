@@ -246,12 +246,12 @@ const Components = ({ personScheduling, dispatch }) => {
         Time: document.getElementById("DatePicker").value,
       });
       if (dataPeople.status === "200") {
-        setMorning(dataPeople.list.length == 0 ? 0 : dataPeople.list[0]?.ClassCUseWorker);
-        setMorningPeo(dataPeople.list[0]?.ClassCUseWorkerInfo);
-        setNoon(dataPeople.list.length == 0 ? 0 : dataPeople.list[1]?.ClassCUseWorker);
-        setNoonPeo(dataPeople.list[1]?.ClassCUseWorkerInfo);
-        // setNight(dataPeople.list.length == 0 ? 0 : dataPeople.list[0]?.ClassCUseWorker);
-        // setNightPeo(dataPeople.list[0]?.ClassCUseWorkerInfo);
+        setMorning(dataPeople.list.length == 0 ? 0 : dataPeople.list[1]?.ClassCUseWorker);
+        setMorningPeo(dataPeople.list[1]?.ClassCUseWorkerInfo);
+        setNoon(dataPeople.list.length == 0 ? 0 : dataPeople.list[2]?.ClassCUseWorker);
+        setNoonPeo(dataPeople.list[2]?.ClassCUseWorkerInfo);
+        setNight(dataPeople.list.length == 0 ? 0 : dataPeople.list[0]?.ClassCUseWorker);
+        setNightPeo(dataPeople.list[0]?.ClassCUseWorkerInfo);
 
       }
     });
@@ -460,7 +460,7 @@ const Components = ({ personScheduling, dispatch }) => {
       <div className="homeBox">
         <div className="handBox handBoxNo">
           <Row gutter={16}>
-            <Col span={12}>
+            <Col span={8}>
               <Card
                 title={
                   <>
@@ -487,7 +487,7 @@ const Components = ({ personScheduling, dispatch }) => {
                 }
               </Card>
             </Col>
-            <Col span={12}>
+            <Col span={8}>
               <Card
                 title={
                   <>
@@ -513,6 +513,35 @@ const Components = ({ personScheduling, dispatch }) => {
                 }
               </Card>
             </Col>
+
+            <Col span={8}>
+              <Card
+                title={
+                  <>
+                    <span>晚班可用人员</span>
+                    <span style={{
+                      fontSize: "20px",
+                      fontWeight: "bold",
+                      marginLeft: "10px",
+                    }}
+                    >（{night}）</span>人
+                  </>
+                }
+                bordered={false}
+              >
+                {
+                  nightPeo?.split(",").map((item) => (
+                    <Tag color="success">
+                      <Space size="middle">
+                        <a onClick={() => handModal(item)}>{item}</a>
+                      </Space>
+                    </Tag>
+                  ))
+                }
+              </Card>
+            </Col>
+
+
           </Row>
         </div>
 
