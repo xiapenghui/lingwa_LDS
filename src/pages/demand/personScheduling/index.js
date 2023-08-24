@@ -442,7 +442,7 @@ const Components = ({ personScheduling, dispatch }) => {
       ModifyLineId: values.LineName,
       ModifyShiftId: values.ShiftName,
       Time: document.getElementById("DatePicker5").value + " " + "00:00:00",
-      requre: values.requre,
+      require: values.require,
        
     });
     if (data.status == "200") {
@@ -909,7 +909,7 @@ const Components = ({ personScheduling, dispatch }) => {
 
               <Col span={24} style={{ display: "block" }}>
                 <Form.Item
-                  name="requre"
+                  name="require"
                   label="需求量"
                   hasFeedback
                   {...formItemLayout}

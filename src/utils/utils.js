@@ -20,4 +20,7 @@ export const isAntDesignProOrDev = () => {
 
   return isAntDesignPro();
 };
+
+history: { type: 'hash' };
+
 export const getPageQuery = () => parse(window.location.href.split('?')[1]);
